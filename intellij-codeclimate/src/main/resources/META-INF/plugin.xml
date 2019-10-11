@@ -1,0 +1,29 @@
+<idea-plugin>
+    <id>com.github.nhat-phan.intellij-codeclimate</id>
+    <name>Code Climate</name>
+    <vendor email="nhat.phan@ntworld.net" url="https://github.com/nhat-phan">Nhat Phan</vendor>
+
+    <description><![CDATA[
+Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah
+
+]]></description>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <action id="net.ntworld.intellijCodeClimate.HelloAction"
+                class="net.ntworld.intellijCodeClimate.HelloAction"
+                text="New Hello Action"
+                description="Hello Action">
+            <add-to-group group-id="RunMenu" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
