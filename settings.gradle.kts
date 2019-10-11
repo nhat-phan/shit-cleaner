@@ -21,4 +21,6 @@ pluginManagement {
 
 rootProject.name = "intellij-codeclimate-workspace"
 
+include("contracts")
+include("core")
 include("intellij-codeclimate")
