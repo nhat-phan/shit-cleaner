@@ -4,6 +4,7 @@ val artifactGroup: String by project
 val artifactVersion: String by project
 val intellijVersion: String by project
 val jvmTarget: String by project
+val foundationVersion: String by project
 
 group = artifactGroup
 version = artifactVersion
@@ -16,6 +17,7 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation("com.github.nhat-phan.foundation:foundation-jvm:$foundationVersion")
     implementation(project(":contracts"))
     implementation(project(":core"))
 }

@@ -19,11 +19,11 @@ Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah
     </extensions>
 
     <actions>
-        <action id="net.ntworld.intellijCodeClimate.HelloAction"
-                class="net.ntworld.intellijCodeClimate.HelloAction"
+        <action id="net.ntworld.intellijCodeClimate.action.HelloAction"
+                class="net.ntworld.intellijCodeClimate.action.HelloAction"
                 text="New Hello Action"
                 description="Hello Action">
-            <add-to-group group-id="RunMenu" anchor="first"/>
+            <add-to-group group-id="BuildMenu" anchor="first"/>
         </action>
     </actions>
 </idea-plugin>

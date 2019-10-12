@@ -23,3 +23,10 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation(kotlin("test-junit"))
 }
+
+kapt {
+    arguments {
+        arg("foundation.processor.mode", "contractOnly")
+        arg("foundation.processor.settingsClass", "net.ntworld.codeClimate.ideIntegration.ContractData")
+    }
+}
