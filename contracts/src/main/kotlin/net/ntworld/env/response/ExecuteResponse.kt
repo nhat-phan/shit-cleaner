@@ -6,5 +6,7 @@ import net.ntworld.foundation.Response
 interface ExecuteResponse : Response {
     override val error: ExecuteError?
 
+    val output: String
+
     companion object
 }
