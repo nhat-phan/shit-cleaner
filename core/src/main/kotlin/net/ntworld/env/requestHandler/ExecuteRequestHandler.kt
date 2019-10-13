@@ -10,14 +10,15 @@ import net.ntworld.foundation.RequestHandler
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.nio.file.Paths
 
 @Handler
 class ExecuteRequestHandler : RequestHandler<ExecuteRequest, ExecuteResponse> {
 
     override fun handle(request: ExecuteRequest): ExecuteResponse {
         val process = makeProcess(request)
-        process.waitFor()
-        val code = process.exitValue()
+
+        val code = process.waitFor()
 
         return if (0 != code) {
             ExecuteResponse.make(
@@ -37,6 +38,7 @@ class ExecuteRequestHandler : RequestHandler<ExecuteRequest, ExecuteResponse> {
 
     private fun makeProcess(request: ExecuteRequest): Process {
         val builder = ProcessBuilder()
+        builder.directory(Paths.get(request.workingDirectory).toFile())
 
         val command = StringBuffer()
 
@@ -53,7 +55,7 @@ class ExecuteRequestHandler : RequestHandler<ExecuteRequest, ExecuteResponse> {
         return if (Env.isWindows()) {
             builder.command("cmd", "/c", command.toString()).start()
         } else {
-            builder.command("bash", "-c", command.toString()).start()
+            builder.command("bash", "-c", "$command").start()
         }
     }
 

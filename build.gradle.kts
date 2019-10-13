@@ -23,7 +23,7 @@ subprojects {
         apply(plugin = "kotlinx-serialization")
     }
 
-    if (name == "intellij-codeclimate") {
+    if (name == "intellij-shit-cleaner") {
         apply(plugin = "org.jetbrains.intellij")
         apply(plugin = "org.jetbrains.kotlin.jvm")
     }

@@ -13,15 +13,20 @@ class AnalyzeCommandHandler(
 ) : CommandHandler<AnalyzeCommand> {
 
     override fun handle(command: AnalyzeCommand) {
-        println(System.getProperty("os.name"))
-
         val response = infrastructure.serviceBus().process(
-            ExecuteRequest.make("ls -al /", mapOf())
+            ExecuteRequest.make(command.basePath, CLI_COMMAND, mapOf())
         ) {
-            println("Error: ${it.error}" )
+            println("Error: ${it.error}")
         }
 
         println(response)
     }
 
+    companion object {
+        // const val CLI_COMMAND = "\"codeclimate analyze -f json > tmp.json\""
+        // const val CLI_COMMAND = "ls -al /usr/local/bin"
+        // const val CLI_COMMAND = "env"
+        // const val CLI_COMMAND = "codeclimate analyze"
+        const val CLI_COMMAND = "codeclimate analyze -f json > ./tmp.json"
+    }
 }

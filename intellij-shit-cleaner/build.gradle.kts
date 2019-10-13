@@ -20,6 +20,7 @@ dependencies {
     implementation("com.github.nhat-phan.foundation:foundation-jvm:$foundationVersion")
     implementation(project(":contracts"))
     implementation(project(":core"))
+    compile("org.apache.commons:commons-exec:1.3")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

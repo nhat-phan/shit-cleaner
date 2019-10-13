@@ -19,8 +19,8 @@ pluginManagement {
     }
 }
 
-rootProject.name = "intellij-codeclimate-workspace"
+rootProject.name = "shit-cleaner"
 
 include("contracts")
 include("core")
-include("intellij-codeclimate")
+include("intellij-shit-cleaner")
