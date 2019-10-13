@@ -7,62 +7,68 @@ import net.ntworld.env.request.ExecuteRequest
 import net.ntworld.env.response.ExecuteResponse
 import net.ntworld.foundation.Handler
 import net.ntworld.foundation.RequestHandler
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
+import org.apache.commons.exec.CommandLine
+import org.apache.commons.exec.DefaultExecutor
+import org.apache.commons.exec.ExecuteWatchdog
+import org.apache.commons.exec.PumpStreamHandler
+import java.io.ByteArrayOutputStream
 import java.nio.file.Paths
 
 @Handler
 class ExecuteRequestHandler : RequestHandler<ExecuteRequest, ExecuteResponse> {
 
     override fun handle(request: ExecuteRequest): ExecuteResponse {
-        val process = makeProcess(request)
+        val stdout = ByteArrayOutputStream()
+        val stderr = ByteArrayOutputStream()
+        val pumpStreamHandler = PumpStreamHandler(stdout, stderr)
 
-        val code = process.waitFor()
+        val executor = DefaultExecutor()
+        executor.workingDirectory = Paths.get(request.workingDirectory).toFile()
+        executor.streamHandler = pumpStreamHandler
 
-        return if (0 != code) {
-            ExecuteResponse.make(
-                error = ExecuteError.make(
-                    message = readStream(process.errorStream),
-                    code = code
-                ),
-                output = readStream(process.inputStream)
-            )
-        } else {
-            ExecuteResponse.make(
-                error = null,
-                output = readStream(process.inputStream)
-            )
+        if (request.timeout > 0) {
+            val watchdog = ExecuteWatchdog((request.timeout * 1000).toLong())
+            executor.watchdog = watchdog
+        }
+
+        try {
+            val code = executor.execute(makeCommandLine(request))
+
+            if (0 != code) {
+                return this.error(stderr.toString(), code)
+            }
+            return this.success(stdout.toString())
+        } catch (e: Exception) {
+            return this.error(e.message.toString(), -1)
         }
     }
 
-    private fun makeProcess(request: ExecuteRequest): Process {
-        val builder = ProcessBuilder()
-        builder.directory(Paths.get(request.workingDirectory).toFile())
+    private fun makeCommandLine(request: ExecuteRequest): CommandLine {
+        val commandLine = CommandLine(if (Env.isWindows()) "cmd" else "bash")
+        commandLine.addArgument(if (Env.isWindows()) "/C" else "-c")
 
-        val command = StringBuffer()
-
-        command.append(request.command)
+        commandLine.addArgument(request.command, false)
         if (request.arguments.isNotEmpty()) {
             request.arguments.forEach { (key, value) ->
-                command.append(' ')
-                command.append(key)
-                command.append(' ')
-                command.append(value)
+                commandLine.addArgument(key)
+                commandLine.addArgument(value)
             }
         }
-
-        return if (Env.isWindows()) {
-            builder.command("cmd", "/c", command.toString()).start()
-        } else {
-            builder.command("bash", "-c", "$command").start()
-        }
+        return commandLine
     }
 
-    private fun readStream(stream: InputStream): String {
-        val reader = BufferedReader(InputStreamReader(stream))
+    private fun error(message: String, code: Int): ExecuteResponse {
+        return ExecuteResponse.make(
+            error = ExecuteError.make(message = message, code = code),
+            output = ""
+        )
+    }
 
-        return reader.readText()
+    private fun success(output: String): ExecuteResponse {
+        return ExecuteResponse.make(
+            error = null,
+            output = output
+        )
     }
 
 }

@@ -10,5 +10,7 @@ interface ExecuteRequest: Request<ExecuteResponse> {
 
     val arguments: Map<String, String>
 
+    val timeout: Int
+
     companion object
 }
