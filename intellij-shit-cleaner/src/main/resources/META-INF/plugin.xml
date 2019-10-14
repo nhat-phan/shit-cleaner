@@ -25,5 +25,10 @@ Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah
                 description="Hello Action">
             <add-to-group group-id="BuildMenu" anchor="first"/>
         </action>
+        <action id="net.ntworld.intellijCodeClimate.action.HighlightAction"
+                class="net.ntworld.intellijCodeClimate.action.HighlightAction" text="Show shits"
+                description="Show shits in the file">
+            <add-to-group group-id="EditorGutterPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
