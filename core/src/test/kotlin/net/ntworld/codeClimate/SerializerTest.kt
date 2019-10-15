@@ -13,4 +13,12 @@ class SerializerTest {
         assertEquals(315, result.size)
     }
 
+    @Test
+    fun `test parseIssues`() {
+        val input = SerializerTest::class.java.getResource("/analyzed-results/foundation-v0.5.1.json").readText()
+        val result = Serializer.parseIssues(input)
+
+        println(result)
+        assertEquals(311, result.size)
+    }
 }
