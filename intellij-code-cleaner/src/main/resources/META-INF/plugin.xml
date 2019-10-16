@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.github.nhat-phan.intellij-codeclimate</id>
-    <name>Code Climate</name>
+    <name>Code Cleaner</name>
     <vendor email="nhat.phan@ntworld.net" url="https://github.com/nhat-phan">Nhat Phan</vendor>
 
     <description><![CDATA[
@@ -19,11 +19,13 @@ Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah
     </extensions>
 
     <actions>
-        <action id="net.ntworld.intellijCodeClimate.action.HelloAction"
-                class="net.ntworld.intellijCodeClimate.action.HelloAction"
-                text="New Hello Action"
-                description="Hello Action">
-            <add-to-group group-id="BuildMenu" anchor="first"/>
+        <action id="net.ntworld.intellijCodeClimate.action.AnalyzeAction"
+                class="net.ntworld.intellijCodeClimate.action.AnalyzeAction"
+                text="Analyze Code Smells and Duplications"
+                description="Analyze code smells and duplications"
+                icon="/icons/poo-storm.svg"
+        >
+            <add-to-group group-id="AnalyzeMenu" anchor="last"/>
         </action>
         <action id="net.ntworld.intellijCodeClimate.action.HighlightAction"
                 class="net.ntworld.intellijCodeClimate.action.HighlightAction" text="Show shits"

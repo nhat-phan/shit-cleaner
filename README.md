@@ -1,1 +1,2 @@
-# intellij-codeclimate
+# Shit Cleaner
+
