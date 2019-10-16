@@ -1,4 +1,4 @@
-package net.ntworld.intellijCodeClimate.action
+package net.ntworld.intellijCodeCleaner.action
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

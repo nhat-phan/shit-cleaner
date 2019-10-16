@@ -1,11 +1,11 @@
-package net.ntworld.intellijCodeClimate
+package net.ntworld.intellijCodeCleaner
 
 import net.ntworld.codeClimate.CoreInfrastructure
 import net.ntworld.foundation.Infrastructure
 import net.ntworld.foundation.InfrastructureProvider
 import net.ntworld.foundation.MemorizedInfrastructure
 
-class IntellijCodeClimate private constructor() : InfrastructureProvider() {
+class IntellijCodeCleaner private constructor() : InfrastructureProvider() {
     private val included = listOf(
         CoreInfrastructure()
     )
@@ -16,7 +16,7 @@ class IntellijCodeClimate private constructor() : InfrastructureProvider() {
 
     companion object {
         operator fun invoke(): Infrastructure {
-            return MemorizedInfrastructure(IntellijCodeClimate())
+            return MemorizedInfrastructure(IntellijCodeCleaner())
         }
     }
 }
