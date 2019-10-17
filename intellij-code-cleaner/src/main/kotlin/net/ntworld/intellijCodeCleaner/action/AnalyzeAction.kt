@@ -3,6 +3,7 @@ package net.ntworld.intellijCodeCleaner.action
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.progress.ProgressManager
+import net.ntworld.intellijCodeCleaner.task.AnalyzeTask
 import javax.swing.Icon
 
 class AnalyzeAction(text: String?, description: String?, icon: Icon?) : AnAction(text, description, icon) {

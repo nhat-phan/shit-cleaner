@@ -2,6 +2,7 @@ package net.ntworld.env.requestHandler
 
 import net.ntworld.codeClimate.make
 import net.ntworld.env.Env
+import net.ntworld.env.ExecuteWatchdogManager
 import net.ntworld.env.error.ExecuteError
 import net.ntworld.env.request.ExecuteRequest
 import net.ntworld.env.response.ExecuteResponse
@@ -26,19 +27,16 @@ class ExecuteRequestHandler : RequestHandler<ExecuteRequest, ExecuteResponse> {
         executor.workingDirectory = Paths.get(request.workingDirectory).toFile()
         executor.streamHandler = pumpStreamHandler
 
-        if (request.timeout > 0) {
-            val watchdog = ExecuteWatchdog((request.timeout * 1000).toLong())
-            executor.watchdog = watchdog
-        }
-
+        ExecuteWatchdogManager.assignWatchdogToExecutor(executor, request.watchdogId)
         try {
             val code = executor.execute(makeCommandLine(request))
-
+            ExecuteWatchdogManager.removeWatchdogWhenProcessExecuted(request.watchdogId)
             if (0 != code) {
                 return this.error(stderr.toString(), code)
             }
             return this.success(stdout.toString())
         } catch (e: Exception) {
+            ExecuteWatchdogManager.removeWatchdogWhenProcessExecuted(request.watchdogId)
             return this.error(e.message.toString(), -1)
         }
     }

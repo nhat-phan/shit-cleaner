@@ -8,6 +8,7 @@ import com.intellij.openapi.editor.TextAnnotationGutterProvider
 import com.intellij.openapi.editor.colors.ColorKey
 import com.intellij.openapi.editor.colors.EditorFontType
 import com.intellij.openapi.progress.ProgressManager
+import net.ntworld.intellijCodeCleaner.task.AnalyzeTask
 import java.awt.Color
 
 class HelloAction : AnAction() {

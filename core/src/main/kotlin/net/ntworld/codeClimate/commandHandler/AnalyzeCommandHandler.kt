@@ -4,6 +4,7 @@ import net.ntworld.codeClimate.CLI
 import net.ntworld.codeClimate.CoreInfrastructure
 import net.ntworld.codeClimate.command.AnalyzeCommand
 import net.ntworld.codeClimate.make
+import net.ntworld.env.command.MakeExecuteWatchdogCommand
 import net.ntworld.env.request.ExecuteRequest
 import net.ntworld.foundation.Handler
 import net.ntworld.foundation.cqrs.CommandHandler
@@ -14,8 +15,16 @@ class AnalyzeCommandHandler(
 ) : CommandHandler<AnalyzeCommand> {
 
     override fun handle(command: AnalyzeCommand) {
+        if (null !== command.watchId) {
+            infrastructure.commandBus().process(
+                MakeExecuteWatchdogCommand.make(
+                    id = command.watchId!!, timeout = command.timeout
+                )
+            )
+        }
+
         val response = infrastructure.serviceBus().process(
-            ExecuteRequest.make(command.basePath, CLI.analyze, mapOf(), 0)
+            ExecuteRequest.make(command.cwd, command.watchId, CLI.analyze, mapOf())
         )
 
         println(response.hasError())

@@ -6,11 +6,11 @@ import net.ntworld.env.response.ExecuteResponse
 interface ExecuteRequest: Request<ExecuteResponse> {
     val workingDirectory: String
 
+    val watchdogId: String?
+
     val command: String
 
     val arguments: Map<String, String>
-
-    val timeout: Int
 
     companion object
 }

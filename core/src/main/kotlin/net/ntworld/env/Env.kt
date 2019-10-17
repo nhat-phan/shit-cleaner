@@ -1,6 +1,6 @@
 package net.ntworld.env
 
-object Env {
+internal object Env {
     private val osName = System.getProperty("os.name")
 
     fun isMac() = osName.contains("mac")
