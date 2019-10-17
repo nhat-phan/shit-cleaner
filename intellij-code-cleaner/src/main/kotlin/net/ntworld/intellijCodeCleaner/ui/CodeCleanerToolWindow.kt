@@ -1,50 +1,37 @@
 package net.ntworld.intellijCodeCleaner.ui
 
+import com.intellij.openapi.actionSystem.ActionManager
+import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.ui.SimpleToolWindowPanel
+import com.intellij.openapi.util.IconLoader
 import com.intellij.openapi.wm.ToolWindow
+import com.intellij.util.IconUtil
+import net.ntworld.intellijCodeCleaner.action.AnalyzeAction
 import javax.swing.JPanel
 import java.util.Calendar
+import javax.swing.Icon
 import javax.swing.JLabel
 import javax.swing.JButton
 
 open class CodeCleanerToolWindow(toolWindow: ToolWindow) {
-    private var refreshToolWindowButton: JButton? = null
-    private var hideToolWindowButton: JButton? = null
-    private var currentDate: JLabel? = null
-    private var currentTime: JLabel? = null
-    private var timeZone: JLabel? = null
-    private var myToolWindowContent: JPanel? = null
+    private var mainPanel: JPanel? = null
+    private var button1: JButton? = null
+    private var button2: JButton? = null
+    private val wrapper = SimpleToolWindowPanel(false)
 
     init {
-        hideToolWindowButton!!.addActionListener { e -> toolWindow.hide(null) }
-        refreshToolWindowButton!!.addActionListener { e -> currentDateTime() }
-
-        this.currentDateTime()
-    }
-
-    fun currentDateTime() {
-        // Get current date and time
-        val instance = Calendar.getInstance()
-        currentDate!!.text = (instance.get(Calendar.DAY_OF_MONTH).toString() + "/"
-            + (instance.get(Calendar.MONTH) + 1).toString() + "/" +
-            instance.get(Calendar.YEAR).toString())
-        val min = instance.get(Calendar.MINUTE)
-        val strMin: String
-        if (min < 10) {
-            strMin = "0$min"
-        } else {
-            strMin = min.toString()
-        }
-        currentTime!!.text = instance.get(Calendar.HOUR_OF_DAY).toString() + ":" + strMin
-        // Get time zone
-        val gmt_Offset = instance.get(Calendar.ZONE_OFFSET).toLong() // offset from GMT in milliseconds
-        var str_gmt_Offset = (gmt_Offset / 3600000).toString()
-        str_gmt_Offset = if (gmt_Offset > 0) "GMT + $str_gmt_Offset" else "GMT - $str_gmt_Offset"
-        timeZone!!.text = str_gmt_Offset
-
-
     }
 
     fun getContent(): JPanel? {
-        return myToolWindowContent
+        wrapper.setContent(mainPanel!!)
+        val toolbarGroup = DefaultActionGroup()
+        val action = AnalyzeAction(null, null, IconLoader.findIcon("/icons/analyze-action.svg"))
+
+        toolbarGroup.add(action)
+        toolbarGroup.addSeparator()
+        toolbarGroup.add(AnalyzeAction())
+
+        wrapper.toolbar = ActionManager.getInstance().createActionToolbar("CodeCleaner", toolbarGroup, false).component
+        return wrapper
     }
 }
