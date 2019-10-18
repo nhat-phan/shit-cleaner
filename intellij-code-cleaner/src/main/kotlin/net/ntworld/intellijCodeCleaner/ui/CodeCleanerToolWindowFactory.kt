@@ -12,10 +12,12 @@ import net.ntworld.intellijCodeCleaner.action.AnalyzeAction
 class CodeCleanerToolWindowFactory : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val myToolWindow = CodeCleanerToolWindow(toolWindow)
+        val codeSmellsTabContent = CodeSmellsTabContent(project)
+
         val contentFactory = ContentFactory.SERVICE.getInstance()
         // Content of Overview tab
         val content1 = contentFactory.createContent(myToolWindow.getContent(), "Overview", false)
-        val content2 = contentFactory.createContent(myToolWindow.getContent(), "Code Smells", false)
+        val content2 = contentFactory.createContent(codeSmellsTabContent.getContent(), "Code Smells", false)
         val content3 = contentFactory.createContent(myToolWindow.getContent(), "Duplications", false)
         toolWindow.contentManager.addContent(content1)
         toolWindow.contentManager.addContent(content2)
