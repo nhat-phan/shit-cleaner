@@ -20,8 +20,10 @@ class IntellijCodeCleaner private constructor() : InfrastructureProvider() {
     override fun <T : Any> idGeneratorOf(type: KClass<T>) = UUIDGenerator
 
     companion object {
+        private val instance = MemorizedInfrastructure(IntellijCodeCleaner())
+
         operator fun invoke(): Infrastructure {
-            return MemorizedInfrastructure(IntellijCodeCleaner())
+            return instance
         }
     }
 }
