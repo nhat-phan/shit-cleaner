@@ -21,6 +21,7 @@ import com.intellij.uiDesigner.core.GridConstraints
 import com.intellij.uiDesigner.core.GridLayoutManager
 import com.intellij.usageView.UsageInfo
 import com.intellij.usages.impl.UsagePreviewPanel
+import com.intellij.util.IconUtil
 import net.ntworld.intellijCodeCleaner.action.AnalyzeAction
 import javax.swing.JComponent
 import javax.swing.JLabel
@@ -32,7 +33,7 @@ class CodeSmellsTabContent(private val project: Project) {
     var issuesPanel: JPanel? = null
     var usagePreviewPanel: UsagePreviewPanel? = null
 
-    fun getContent(): JComponent? {
+    fun getContent(): JPanel? {
         val codePreviewPanel = JPanel()
         codePreviewPanel.layout = GridLayoutManager(1, 1)
         usagePreviewPanel = UsagePreviewPanel(
@@ -42,26 +43,36 @@ class CodeSmellsTabContent(private val project: Project) {
         val constraint = GridConstraints()
         constraint.row = 0
         constraint.column = 0
+        constraint.fill = GridConstraints.FILL_BOTH
 
         codePreviewPanel.add(usagePreviewPanel, constraint)
 
         val splitter = OnePixelSplitter(false, "code.cleaner.code-smells", 0.5f)
         splitter.firstComponent = issuesPanel
         splitter.secondComponent = codePreviewPanel
+        return splitter
 
-        val wrapper = SimpleToolWindowPanel(false)
-        wrapper.setContent(splitter)
-        val toolbarGroup = DefaultActionGroup()
-        val action = AnalyzeAction(null, null, IconLoader.findIcon("/icons/analyze-action.svg"))
-
-        val viewAction = ViewAction(this)
-
-        toolbarGroup.add(action)
-        toolbarGroup.addSeparator()
-        toolbarGroup.add(viewAction)
-
-        wrapper.toolbar = ActionManager.getInstance().createActionToolbar("CodeCleaner", toolbarGroup, false).component
-        return wrapper
+//        val wrapper = SimpleToolWindowPanel(false)
+//        wrapper.setContent(splitter)
+//        val toolbarGroup = DefaultActionGroup()
+////        val viewAction = ViewAction(this)
+////        val helpAction = ViewAction(this)
+////        val filterA = AnalyzeAction(null, null, IconLoader.findIcon("/icons/issue-file-filter-a.svg"))
+////        val filterB = AnalyzeAction(null, null, IconLoader.findIcon("/icons/issue-file-filter-c.svg"))
+////        val filterC = AnalyzeAction(null, null, IconLoader.findIcon("/icons/issue-file-filter-f.svg"))
+////
+//        toolbarGroup.add(AnalyzeAction)
+//        toolbarGroup.addSeparator()
+////        toolbarGroup.add(filterC)
+////        toolbarGroup.add(filterB)
+////        toolbarGroup.add(filterA)
+////        toolbarGroup.addSeparator()
+////        toolbarGroup.add(viewAction)
+////        toolbarGroup.addSeparator()
+////        toolbarGroup.add(helpAction)
+////
+//        wrapper.toolbar = ActionManager.getInstance().createActionToolbar("CodeCleaner", toolbarGroup, false).component
+//        return wrapper
     }
 
 

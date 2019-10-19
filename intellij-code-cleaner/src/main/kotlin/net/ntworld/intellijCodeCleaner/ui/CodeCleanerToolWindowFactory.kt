@@ -16,9 +16,15 @@ class CodeCleanerToolWindowFactory : ToolWindowFactory {
 
         val contentFactory = ContentFactory.SERVICE.getInstance()
         // Content of Overview tab
-        val content1 = contentFactory.createContent(myToolWindow.getContent(), "Overview", false)
-        val content2 = contentFactory.createContent(codeSmellsTabContent.getContent(), "Code Smells", false)
-        val content3 = contentFactory.createContent(myToolWindow.getContent(), "Duplications", false)
+        val content1 = contentFactory.createContent(
+            MainToolbar.apply(myToolWindow.getContent()!!), "Overview", false
+        )
+        val content2 = contentFactory.createContent(
+            MainToolbar.apply(codeSmellsTabContent.getContent()!!), "Code Smells", false
+        )
+        val content3 = contentFactory.createContent(
+            MainToolbar.apply(myToolWindow.getContent()!!), "Duplications", false
+        )
         toolWindow.contentManager.addContent(content1)
         toolWindow.contentManager.addContent(content2)
         toolWindow.contentManager.addContent(content3)

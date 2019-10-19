@@ -13,6 +13,7 @@ class AnalyzeTask(
     currentProject: Project
 ) : Task.Backgroundable(currentProject, "Analyzing Code Smells and Duplications...", true) {
     private var watchId: String? = null
+    private var completedCb: (() -> Unit)? = null
     val indicator: ProgressIndicator = Indicator(this)
 
     override fun run(indicator: ProgressIndicator) {
@@ -25,6 +26,10 @@ class AnalyzeTask(
         }
     }
 
+    fun complete(cb: (() -> Unit)?) {
+        this.completedCb = cb
+    }
+
     private fun terminate() {
         val id = watchId
         if (null === id) {
@@ -33,6 +38,14 @@ class AnalyzeTask(
         IntellijCodeCleaner().commandBus().process(
             TerminateProcessCommand.make(watchId = id)
         )
+        watchId = null
+    }
+
+    private fun triggerCompleted() {
+        val cb = completedCb
+        if (null !== cb) {
+            cb()
+        }
     }
 
     private class Indicator(private val task: AnalyzeTask) : BackgroundableProcessIndicator(task) {
@@ -40,6 +53,9 @@ class AnalyzeTask(
         override fun onRunningChange() {
             if (this.isCanceled) {
                 task.terminate()
+            }
+            if (!this.isRunning) {
+                task.triggerCompleted()
             }
         }
 

@@ -23,17 +23,11 @@ Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah
     </extensions>
 
     <actions>
-        <action id="net.ntworld.intellijCodeCleaner.action.AnalyzeAction"
-                class="net.ntworld.intellijCodeCleaner.action.AnalyzeAction"
+        <action id="net.ntworld.intellijCodeCleaner.action.AnalyzeMenuAction"
+                class="net.ntworld.intellijCodeCleaner.action.AnalyzeMenuAction"
                 text="Analyze Code Smells and Duplications..."
-                description="Analyze code smells and duplications"
         >
             <add-to-group group-id="AnalyzeMenu" anchor="last"/>
-        </action>
-        <action id="net.ntworld.intellijCodeCleaner.action.HighlightAction"
-                class="net.ntworld.intellijCodeCleaner.action.HighlightAction" text="Show shits"
-                description="Show shits in the file">
-            <add-to-group group-id="EditorGutterPopupMenu" anchor="last"/>
         </action>
     </actions>
 
