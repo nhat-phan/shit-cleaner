@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import net.ntworld.intellijCodeCleaner.action.AnalyzeAction
+import net.ntworld.intellijCodeCleaner.action.StopAnalyzeAction
 import javax.swing.JPanel
 
 /**
@@ -28,6 +29,7 @@ object MainToolbar {
 
     init {
         toolbar.add(AnalyzeAction)
+        toolbar.add(StopAnalyzeAction)
         toolbar.addSeparator()
     }
 

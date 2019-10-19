@@ -9,10 +9,11 @@ import net.ntworld.intellijCodeCleaner.util.Icons
 
 object AnalyzeAction : AnAction(null, null, Icons.Analyze) {
 
-    private var isRunning: Boolean = false
+    private var running: Boolean = false
+    private var runningTask: AnalyzeTask? = null
 
     fun isRunning(): Boolean {
-        return isRunning
+        return running
     }
 
     override fun actionPerformed(e: AnActionEvent) {
@@ -23,20 +24,29 @@ object AnalyzeAction : AnAction(null, null, Icons.Analyze) {
     }
 
     fun perform(project: Project) {
-        if (isRunning) {
+        if (running) {
             return
         }
 
         val task = AnalyzeTask(project)
         ProgressManager.getInstance().runProcessWithProgressAsynchronously(task, task.indicator)
-        isRunning = true
+        running = true
+        runningTask = task
         task.complete {
-            isRunning = false
+            running = false
+            runningTask = null
+        }
+    }
+
+    fun stop() {
+        val task = runningTask
+        if (null !== task) {
+            task.indicator.cancel()
         }
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = null !== e.project && !isRunning
+        e.presentation.isEnabled = null !== e.project && !running
     }
 
 }
