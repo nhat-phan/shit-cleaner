@@ -38,8 +38,8 @@ object MainToolbar {
     }
 
     fun apply(content: JPanel): SimpleToolWindowPanel {
-        val wrapper = SimpleToolWindowPanel(false)
-        wrapper.toolbar = ActionManager.getInstance().createActionToolbar("CodeCleaner", toolbar, false).component
+        val wrapper = SimpleToolWindowPanel(false, true)
+        wrapper.toolbar = ActionManager.getInstance().createActionToolbar("toolbar", toolbar, false).component
         wrapper.setContent(content)
         return wrapper
     }
