@@ -3,8 +3,7 @@ package net.ntworld.intellijCodeCleaner.ui
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.ui.SimpleToolWindowPanel
-import net.ntworld.intellijCodeCleaner.action.AnalyzeAction
-import net.ntworld.intellijCodeCleaner.action.StopAnalyzeAction
+import net.ntworld.intellijCodeCleaner.action.*
 import javax.swing.JPanel
 
 /**
@@ -31,6 +30,11 @@ object MainToolbar {
         toolbar.add(AnalyzeAction)
         toolbar.add(StopAnalyzeAction)
         toolbar.addSeparator()
+        toolbar.add(IssueFilterFAction)
+        toolbar.add(IssueFilterCAction)
+        toolbar.add(IssueFilterAAction)
+        toolbar.addSeparator()
+        toolbar.add(ShowAnnotationAction)
     }
 
     fun apply(content: JPanel): SimpleToolWindowPanel {
