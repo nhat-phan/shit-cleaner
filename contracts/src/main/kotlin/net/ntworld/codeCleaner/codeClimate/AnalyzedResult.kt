@@ -1,0 +1,3 @@
+package net.ntworld.codeCleaner.codeClimate
+
+interface AnalyzedResult
