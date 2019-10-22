@@ -18,7 +18,6 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("com.github.nhat-phan.foundation:foundation-jvm:$foundationVersion")
-    implementation(project(":intellij-code-cleaner-components"))
     implementation(project(":contracts"))
     implementation(project(":core"))
 }
@@ -38,9 +37,3 @@ compileKotlin.kotlinOptions {
 compileTestKotlin.kotlinOptions {
     jvmTarget = jvmTarget
 }
-
-//patchPluginXml {
-//    changeNotes """
-//      Add change notes here.<br>
-//      <em>most HTML tags may be used</em>"""
-//}

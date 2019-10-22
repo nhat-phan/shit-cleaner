@@ -24,3 +24,4 @@ rootProject.name = "shit-cleaner"
 include("contracts")
 include("core")
 include("intellij-code-cleaner")
+include("intellij-code-cleaner-components")

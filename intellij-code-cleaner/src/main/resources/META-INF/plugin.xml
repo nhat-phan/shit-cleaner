@@ -19,12 +19,12 @@ Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah
                     secondary="false"
                     anchor="bottom"
                     icon="/icons/code-cleaner.svg"
-                    factoryClass="net.ntworld.intellijCodeCleaner.ui.CodeCleanerToolWindowFactory"/>
+                    factoryClass="net.ntworld.intellijCodeCleaner.CodeCleanerToolWindowFactory"/>
     </extensions>
 
     <actions>
-        <action id="net.ntworld.intellijCodeCleaner.action.AnalyzeMenuAction"
-                class="net.ntworld.intellijCodeCleaner.action.AnalyzeMenuAction"
+        <action id="net.ntworld.intellijCodeCleaner.AnalyzeMenuAction"
+                class="net.ntworld.intellijCodeCleaner.AnalyzeMenuAction"
                 text="Analyze Code Smells and Duplications..."
         >
             <add-to-group group-id="AnalyzeMenu" anchor="last"/>

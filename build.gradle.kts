@@ -27,4 +27,9 @@ subprojects {
         apply(plugin = "org.jetbrains.intellij")
         apply(plugin = "org.jetbrains.kotlin.jvm")
     }
+
+    if (name == "intellij-code-cleaner-components") {
+        apply(plugin = "org.jetbrains.intellij")
+        apply(plugin = "org.jetbrains.kotlin.jvm")
+    }
 }

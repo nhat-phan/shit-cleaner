@@ -1,0 +1,13 @@
+package net.ntworld.intellijCodeCleaner
+
+const val TOOL_WINDOW_NAME = "Code Cleaner"
+
+const val PROJECT_INITIALIZED = "PROJECT_INITIALIZED"
+
+const val TOGGLE_ANNOTATION = "TOGGLE_ANNOTATION"
+
+const val ANALYZE_PROJECT = "ANALYZE_PROJECT"
+
+const val STOP_ANALYZE_PROJECT = "STOP_ANALYZE_PROJECT"
+
+

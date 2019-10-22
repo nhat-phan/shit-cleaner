@@ -5,8 +5,6 @@ interface OverviewNode {
 
     val children: List<OverviewNode>
 
-    val icon: String
-
     val hasData: Boolean
 
     companion object
