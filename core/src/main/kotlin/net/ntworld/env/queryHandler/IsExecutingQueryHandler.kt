@@ -1,6 +1,6 @@
 package net.ntworld.env.queryHandler
 
-import net.ntworld.codeClimate.make
+import net.ntworld.codeCleaner.make
 import net.ntworld.env.ExecuteWatchdogManager
 import net.ntworld.env.query.IsExecutingQuery
 import net.ntworld.env.query.IsExecutingQueryResult

@@ -1,15 +1,14 @@
-package net.ntworld.codeClimate
+package net.ntworld.codeCleaner
 
 import kotlinx.serialization.PolymorphicSerializer
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import kotlinx.serialization.list
 import kotlinx.serialization.modules.SerializersModule
-import net.ntworld.codeClimate.structure.AnalyzedIssue
-import net.ntworld.codeClimate.structure.AnalyzedIssueImpl
-import net.ntworld.codeClimate.structure.AnalyzedMeasurementImpl
-import net.ntworld.codeClimate.structure.AnalyzedResult
+import net.ntworld.codeCleaner.codeClimate.AnalyzedIssue
+import net.ntworld.codeCleaner.codeClimate.AnalyzedIssueImpl
+import net.ntworld.codeCleaner.codeClimate.AnalyzedMeasurementImpl
+import net.ntworld.codeCleaner.codeClimate.AnalyzedResult
 
 object Serializer {
     private val analyzedResultModule = SerializersModule {
@@ -36,5 +35,6 @@ object Serializer {
         return items.filter { it is AnalyzedIssue } as List<AnalyzedIssue>
     }
 
-    fun parseIssues(input: String): List<AnalyzedIssue> = filterIssues(parse(input))
+    fun parseIssues(input: String): List<AnalyzedIssue> =
+        filterIssues(parse(input))
 }

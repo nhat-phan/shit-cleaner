@@ -1,7 +1,6 @@
 package net.ntworld.intellijCodeCleaner
 
-import net.ntworld.codeClimate.CoreInfrastructure
-import net.ntworld.foundation.IdGenerator
+import net.ntworld.codeCleaner.CoreInfrastructure
 import net.ntworld.foundation.Infrastructure
 import net.ntworld.foundation.InfrastructureProvider
 import net.ntworld.foundation.MemorizedInfrastructure

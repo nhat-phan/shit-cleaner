@@ -33,6 +33,6 @@ dependencies {
 
 kapt {
     arguments {
-        arg("foundation.processor.globalNamespace", "net.ntworld.codeClimate")
+        arg("foundation.processor.globalNamespace", "net.ntworld.codeCleaner")
     }
 }

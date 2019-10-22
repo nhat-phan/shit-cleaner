@@ -7,7 +7,5 @@ interface ProjectState: QueryResult {
 
     val isRunning: Boolean
 
-    val hasAnalyzeResults: Boolean
-
     companion object
 }
