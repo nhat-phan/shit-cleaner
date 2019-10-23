@@ -6,6 +6,7 @@ val intellijVersion: String by project
 val jvmTarget: String by project
 val foundationVersion: String by project
 val foundationProcessorVersion: String by project
+val jodaTimeVersion: String by project
 
 group = artifactGroup
 version = artifactVersion
@@ -21,6 +22,7 @@ dependencies {
     implementation("com.github.nhat-phan.foundation:foundation-jvm:$foundationVersion")
     implementation(project(":contracts"))
     implementation(project(":core"))
+    implementation("joda-time:joda-time:$jodaTimeVersion")
 
     kapt("com.github.nhat-phan.foundation:foundation-processor:$foundationProcessorVersion")
     kaptTest("com.github.nhat-phan.foundation:foundation-processor:$foundationProcessorVersion")

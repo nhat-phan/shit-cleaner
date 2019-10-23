@@ -28,7 +28,7 @@ abstract class ToolWindowFactoryBase : ToolWindowFactory {
                 )
             )
             componentFactory.makeDispatcher().dispatch(
-                ProjectInitializedAction.make(id)
+                ProjectInitializedAction(id)
             )
         }
     }

@@ -12,7 +12,7 @@ class AnalyzeProcessStartedEventHandler(
 ) : EventHandler<AnalyzeProcessStartedEvent> {
 
     override fun handle(event: AnalyzeProcessStartedEvent) {
-        plugin dispatch RequestAnalyzeSuccessAction.make(event.projectId)
+        plugin dispatch RequestAnalyzeSuccessAction(event.projectId)
     }
 
 }

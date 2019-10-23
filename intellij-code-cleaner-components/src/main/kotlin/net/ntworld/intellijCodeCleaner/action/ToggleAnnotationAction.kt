@@ -5,10 +5,4 @@ import net.ntworld.redux.Action
 
 open class ToggleAnnotationAction : Action.EmptyPayload {
     override val type: String = TOGGLE_ANNOTATION
-
-    companion object {
-        fun make(): ToggleAnnotationAction {
-            return ToggleAnnotationAction()
-        }
-    }
 }

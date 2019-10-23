@@ -12,7 +12,7 @@ open class AnnotationToggleButton(private val plugin: Plugin) : ToggleAction(nul
     }
 
     override fun setSelected(e: AnActionEvent, state: Boolean) {
-        plugin.dispatch(ToggleAnnotationAction.make())
+        plugin.dispatch(ToggleAnnotationAction())
     }
 
     override fun update(e: AnActionEvent) {

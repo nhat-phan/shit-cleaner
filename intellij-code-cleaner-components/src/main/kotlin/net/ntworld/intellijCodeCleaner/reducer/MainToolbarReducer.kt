@@ -1,5 +1,6 @@
 package net.ntworld.intellijCodeCleaner.reducer
 
+import net.ntworld.intellijCodeCleaner.CODE_ANALYZED
 import net.ntworld.intellijCodeCleaner.REQUEST_ANALYZE_SUCCESS
 import net.ntworld.intellijCodeCleaner.REQUEST_STOP_ANALYZE_SUCCESS
 import net.ntworld.intellijCodeCleaner.TOGGLE_ANNOTATION
@@ -13,6 +14,7 @@ class MainToolbarReducer : Reducer<MainToolbarState>(MainToolbarState.Default) {
         return when (action.type) {
             REQUEST_ANALYZE_SUCCESS -> state.copy(analyzing = true)
             REQUEST_STOP_ANALYZE_SUCCESS -> state.copy(analyzing = false)
+            CODE_ANALYZED -> state.copy(analyzing = false)
             TOGGLE_ANNOTATION -> state.copy(openingAnnotations = !state.openingAnnotations)
 
             else -> state
