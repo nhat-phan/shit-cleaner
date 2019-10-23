@@ -31,5 +31,7 @@ subprojects {
     if (name == "intellij-code-cleaner-components") {
         apply(plugin = "org.jetbrains.intellij")
         apply(plugin = "org.jetbrains.kotlin.jvm")
+        apply(plugin = "org.jetbrains.kotlin.kapt")
+        apply(plugin = "kotlinx-serialization")
     }
 }

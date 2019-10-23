@@ -9,7 +9,7 @@ import net.ntworld.codeCleaner.command.CreateAnalyzeProcessCommand
 import net.ntworld.codeCleaner.make
 import net.ntworld.intellijCodeCleaner.CodeCleaner
 import net.ntworld.intellijCodeCleaner.Plugin
-import net.ntworld.intellijCodeCleaner.action.StopAnalyzeAction
+import net.ntworld.intellijCodeCleaner.action.RequestStopAnalyzeAction
 
 class AnalyzeTask private constructor(
     private val plugin: Plugin,
@@ -26,7 +26,7 @@ class AnalyzeTask private constructor(
     }
 
     private fun terminate() {
-        plugin.dispatch(StopAnalyzeAction.make(projectId))
+        plugin.dispatch(RequestStopAnalyzeAction.make(projectId))
     }
 
     private class Indicator(private val task: AnalyzeTask) : BackgroundableProcessIndicator(task) {

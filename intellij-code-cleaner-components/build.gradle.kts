@@ -5,6 +5,7 @@ val artifactVersion: String by project
 val intellijVersion: String by project
 val jvmTarget: String by project
 val foundationVersion: String by project
+val foundationProcessorVersion: String by project
 
 group = artifactGroup
 version = artifactVersion
@@ -20,6 +21,15 @@ dependencies {
     implementation("com.github.nhat-phan.foundation:foundation-jvm:$foundationVersion")
     implementation(project(":contracts"))
     implementation(project(":core"))
+
+    kapt("com.github.nhat-phan.foundation:foundation-processor:$foundationProcessorVersion")
+    kaptTest("com.github.nhat-phan.foundation:foundation-processor:$foundationProcessorVersion")
+}
+
+kapt {
+    arguments {
+        arg("foundation.processor.globalNamespace", "net.ntworld.codeCleaner.components")
+    }
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

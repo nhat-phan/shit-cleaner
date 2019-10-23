@@ -16,7 +16,7 @@ open class AnalyzeMenuActionBase : AnAction() {
                     toolWindow.contentManager.getContent(0)!!,
                     true
                 )
-                // AnalyzeAction.perform(project)
+                // RequestAnalyzeAction.perform(project)
             }
         }
     }

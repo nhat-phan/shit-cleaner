@@ -1,12 +1,9 @@
 package net.ntworld.codeCleaner.event
 
-import net.ntworld.codeCleaner.structure.ProjectState
 import net.ntworld.foundation.Event
 
-interface ProjectStateUpdated : Event {
+interface AnalyzeProcessStartedEvent : Event {
     val projectId: String
-
-    val state: ProjectState
 
     companion object
 }

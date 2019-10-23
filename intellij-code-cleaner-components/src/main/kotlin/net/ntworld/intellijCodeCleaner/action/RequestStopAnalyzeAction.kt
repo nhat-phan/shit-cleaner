@@ -3,21 +3,20 @@ package net.ntworld.intellijCodeCleaner.action
 import net.ntworld.codeCleaner.command.DeleteAnalyzeProcessCommand
 import net.ntworld.codeCleaner.make
 import net.ntworld.intellijCodeCleaner.CodeCleaner
-import net.ntworld.intellijCodeCleaner.Plugin
-import net.ntworld.intellijCodeCleaner.STOP_ANALYZE_PROJECT
+import net.ntworld.intellijCodeCleaner.REQUEST_STOP_ANALYZE
 import net.ntworld.redux.Action
 
-open class StopAnalyzeAction : Action.EmptyPayload {
-    override val type: String = STOP_ANALYZE_PROJECT
+open class RequestStopAnalyzeAction : Action.EmptyPayload {
+    override val type: String = REQUEST_STOP_ANALYZE
 
     companion object {
-        fun make(projectId: String): StopAnalyzeAction {
+        fun make(projectId: String): RequestStopAnalyzeAction {
             val infrastructure = CodeCleaner()
             infrastructure {
                 commandBus().process(DeleteAnalyzeProcessCommand.make(projectId))
             }
 
-            return StopAnalyzeAction()
+            return RequestStopAnalyzeAction()
         }
     }
 }
