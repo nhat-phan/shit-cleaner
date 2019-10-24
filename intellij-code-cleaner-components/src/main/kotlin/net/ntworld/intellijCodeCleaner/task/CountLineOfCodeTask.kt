@@ -8,18 +8,30 @@ import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.vcs.changes.ChangeListManager
 import com.intellij.openapi.vfs.VirtualFile
 import net.ntworld.codeCleaner.codeClimate.SupportedLanguages
+import net.ntworld.codeCleaner.statistic.CodeStatistic
 import net.ntworld.intellijCodeCleaner.Plugin
+import net.ntworld.intellijCodeCleaner.action.CodeStatisticFinishedAction
+import net.ntworld.intellijCodeCleaner.action.CodeStatisticStartedAction
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class CountLineOfCodeTask(project: Project) : Task.Backgroundable(project, "Counting line of code...", false) {
+class CountLineOfCodeTask private constructor(
+    private val plugin: Plugin,
+    private val projectId: String,
+    project: Project
+) : Task.Backgroundable(project, "Counting line of code...", false) {
+    private val statistic = CodeStatistic()
 
     override fun run(indicator: ProgressIndicator) {
+        plugin dispatch CodeStatisticStartedAction(projectId)
+
         val rootManager = ProjectRootManager.getInstance(project)
         val changeListManager = ChangeListManager.getInstance(project)
         val roots = rootManager.contentRoots
 
         roots.forEach { count(it, rootManager, changeListManager) }
+
+        plugin dispatch CodeStatisticFinishedAction(projectId)
     }
 
     private fun skip(file: VirtualFile, rootManager: ProjectRootManager, changeList: ChangeListManager): Boolean {
@@ -41,7 +53,7 @@ class CountLineOfCodeTask(project: Project) : Task.Backgroundable(project, "Coun
             if (null !== extension && !skip(file, rootManager, changeListManager)) {
                 val language = SupportedLanguages.findLanguageByExtension(extension)
                 if (null !== language) {
-                    println("${file.path}: ${countLines(file)} ${language.name}")
+                    statistic.collect(file.path, countLines(file), language)
                 }
             }
         }
@@ -62,7 +74,7 @@ class CountLineOfCodeTask(project: Project) : Task.Backgroundable(project, "Coun
 
     companion object {
         fun start(plugin: Plugin, projectId: String, project: Project) {
-            ProgressManager.getInstance().run(CountLineOfCodeTask(project))
+            ProgressManager.getInstance().run(CountLineOfCodeTask(plugin, projectId, project))
         }
     }
 

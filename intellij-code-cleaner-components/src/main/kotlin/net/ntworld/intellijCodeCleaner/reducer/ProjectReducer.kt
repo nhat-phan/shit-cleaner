@@ -1,9 +1,6 @@
 package net.ntworld.intellijCodeCleaner.reducer
 
-import net.ntworld.intellijCodeCleaner.CODE_ANALYZED
-import net.ntworld.intellijCodeCleaner.PROJECT_INITIALIZED
-import net.ntworld.intellijCodeCleaner.REQUEST_ANALYZE_SUCCESS
-import net.ntworld.intellijCodeCleaner.REQUEST_STOP_ANALYZE_SUCCESS
+import net.ntworld.intellijCodeCleaner.*
 import net.ntworld.intellijCodeCleaner.state.ProjectState
 import net.ntworld.redux.Action
 import net.ntworld.redux.Reducer
@@ -17,17 +14,14 @@ class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
                 state.copy(id = action.payload!!["projectId"] as String, initialized = true)
             }
 
-            REQUEST_ANALYZE_SUCCESS -> {
-                state.copy(analyzing = true, lastRunAt = DateTime.now())
-            }
+            REQUEST_ANALYZE_SUCCESS -> state.copy(analyzing = true, lastRunAt = DateTime.now())
 
-            REQUEST_STOP_ANALYZE_SUCCESS -> {
-                state.copy(analyzing = false)
-            }
+            REQUEST_STOP_ANALYZE_SUCCESS -> state.copy(analyzing = false)
 
-            CODE_ANALYZED -> {
-                state.copy(analyzing = false, parsing = true)
-            }
+            CODE_ANALYZED -> state.copy(analyzing = false, parsing = true)
+
+            CODE_STATISTIC_STARTED -> state.copy(counting = true)
+            CODE_STATISTIC_FINISHED -> state.copy(counting = false)
 
             else -> state
         }
