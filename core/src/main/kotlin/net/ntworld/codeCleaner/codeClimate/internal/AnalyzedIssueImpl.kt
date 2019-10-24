@@ -1,7 +1,8 @@
-package net.ntworld.codeCleaner.codeClimate
+package net.ntworld.codeCleaner.codeClimate.internal
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import net.ntworld.codeCleaner.codeClimate.AnalyzedIssue
 
 @Serializable
 @SerialName("issue")

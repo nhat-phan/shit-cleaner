@@ -6,8 +6,8 @@ import kotlinx.serialization.json.JsonConfiguration
 import kotlinx.serialization.list
 import kotlinx.serialization.modules.SerializersModule
 import net.ntworld.codeCleaner.codeClimate.AnalyzedIssue
-import net.ntworld.codeCleaner.codeClimate.AnalyzedIssueImpl
-import net.ntworld.codeCleaner.codeClimate.AnalyzedMeasurementImpl
+import net.ntworld.codeCleaner.codeClimate.internal.AnalyzedIssueImpl
+import net.ntworld.codeCleaner.codeClimate.internal.AnalyzedMeasurementImpl
 import net.ntworld.codeCleaner.codeClimate.AnalyzedResult
 
 object Serializer {
