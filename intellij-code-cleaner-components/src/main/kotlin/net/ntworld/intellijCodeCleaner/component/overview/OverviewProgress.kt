@@ -9,7 +9,10 @@ import com.intellij.ui.treeStructure.Tree
 import com.intellij.util.ui.UIUtil
 import net.ntworld.intellijCodeCleaner.AppStore
 import net.ntworld.intellijCodeCleaner.ComponentFactory
+import net.ntworld.intellijCodeCleaner.component.overview.node.ProgressAnalyzeNode
+import net.ntworld.intellijCodeCleaner.component.overview.node.ProgressParseNode
 import net.ntworld.intellijCodeCleaner.component.overview.node.ProgressRootNode
+import net.ntworld.intellijCodeCleaner.component.overview.node.ProgressStatisticNode
 import java.awt.Component
 import javax.swing.JTree
 import javax.swing.tree.DefaultMutableTreeNode
@@ -23,29 +26,29 @@ class OverviewProgress(
 
     private val tree = Tree()
     private val renderer = NodeRenderer()
-    private val model = DefaultTreeModel(DefaultMutableTreeNode(ProgressRootNode(project, store.project)))
+    private val model = DefaultTreeModel(makeRootTreeNode())
 
     val component: Tree = tree
 
     init {
-        // val asyncTreeModel = AsyncTreeModel(model, project)
-        // val structureTreeModel = StructureTreeModel(asyncTreeModel)
-
         tree.model = model
         tree.cellRenderer = this
         UIUtil.putClientProperty(tree, ANIMATION_IN_RENDERER_ALLOWED, true)
         store.onChange("project", this::onStoreChanged)
     }
 
-    private fun makeRootTreeNode() {
-
+    private fun onStoreChanged() {
+        model.setRoot(makeRootTreeNode())
     }
 
-    private fun onStoreChanged() {
-        println("changed, add new one")
-        val root = model.root
-        (root as DefaultMutableTreeNode).add(DefaultMutableTreeNode(ProgressRootNode(project, store.project)))
-        model.setRoot(root)
+    private fun makeRootTreeNode(): DefaultMutableTreeNode {
+        val root = DefaultMutableTreeNode(ProgressRootNode(project, store.project))
+        if (null !== store.project.lastRunAt) {
+            root.add(DefaultMutableTreeNode(ProgressStatisticNode(project, store.project)))
+            root.add(DefaultMutableTreeNode(ProgressAnalyzeNode(project, store.project)))
+            root.add(DefaultMutableTreeNode(ProgressParseNode(project, store.project)))
+        }
+        return root
     }
 
     override fun getTreeCellRendererComponent(

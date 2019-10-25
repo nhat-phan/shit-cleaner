@@ -18,7 +18,7 @@ class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
 
             REQUEST_STOP_ANALYZE_SUCCESS -> state.copy(analyzing = false)
 
-            CODE_ANALYZED -> state.copy(analyzing = false, parsing = true)
+            CODE_ANALYZED -> state.copy(analyzing = false)
 
             CODE_STATISTIC_STARTED -> state.copy(counting = true)
             CODE_STATISTIC_FINISHED -> state.copy(counting = false)

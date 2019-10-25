@@ -24,7 +24,6 @@ open class StoreBase : Store {
         globalListeners.forEach { it.invoke() }
     }
 
-
     override fun onChange(key: String, block: () -> Unit) {
         val set = listeners[key]
         if (null === set) {
@@ -40,13 +39,13 @@ open class StoreBase : Store {
 
     override fun reduce(action: Action<*>): Boolean {
         var changed = false
-        reducers.forEach { key, reducer ->
+        reducers.forEach { (key, reducer) ->
             val state = states[key]
-            val newState = reducer.reduce(state!!, action)
+            val newState = reducer.doReduce(state!!, action)
             if (state !== newState) {
                 changed = true
-                triggerListeners(key)
                 states[key] = newState
+                triggerListeners(key)
             }
         }
         if (changed) {

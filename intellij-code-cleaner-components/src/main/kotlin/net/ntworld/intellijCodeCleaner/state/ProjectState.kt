@@ -9,7 +9,7 @@ data class ProjectState(
     val counting: Boolean,
     val parsing: Boolean,
     val hasResult: Boolean,
-    val lastRunAt: DateTime
+    val lastRunAt: DateTime?
 ) {
     companion object {
         val Default = ProjectState(
@@ -19,7 +19,7 @@ data class ProjectState(
             counting = false,
             parsing = false,
             hasResult = false,
-            lastRunAt = DateTime.now()
+            lastRunAt = null
         )
     }
 }
