@@ -40,15 +40,17 @@ abstract class ToolWindowFactoryBase : ToolWindowFactory {
 
         val mainToolbar = componentFactory.makeMainToolbar()
         val overviewTab = componentFactory.makeOverviewTab(project, toolWindow)
+        val codeSmellsTab = componentFactory.makeCodeSmellsTab(project, toolWindow)
+        val duplicationsTab = componentFactory.makeDuplicationsTab(project, toolWindow)
 
         toolWindow.contentManager.addContent(
             makeContent("Overview", mainToolbar, overviewTab.createPanel())
         )
         toolWindow.contentManager.addContent(
-            makeContent("Code Smells", mainToolbar, overviewTab.createPanel())
+            makeContent("Code Smells", mainToolbar, codeSmellsTab.createPanel())
         )
         toolWindow.contentManager.addContent(
-            makeContent("Duplications", mainToolbar, overviewTab.createPanel())
+            makeContent("Duplications", mainToolbar, duplicationsTab.createPanel())
         )
     }
 

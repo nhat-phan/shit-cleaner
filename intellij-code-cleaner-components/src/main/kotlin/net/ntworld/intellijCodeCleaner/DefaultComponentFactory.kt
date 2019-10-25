@@ -4,6 +4,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import net.ntworld.intellijCodeCleaner.component.button.*
+import net.ntworld.intellijCodeCleaner.component.codeSmells.CodeSmellsTab
+import net.ntworld.intellijCodeCleaner.component.duplications.DuplicationsTab
 import net.ntworld.intellijCodeCleaner.component.overview.OverviewTab
 import net.ntworld.intellijCodeCleaner.component.toolbar.MainToolbar
 import net.ntworld.intellijCodeCleaner.component.util.Icons
@@ -42,6 +44,14 @@ object DefaultComponentFactory : ComponentFactory {
 
     override fun makeOverviewTab(project: Project, toolWindow: ToolWindow): OverviewTab {
         return OverviewTab(project, toolWindow, this)
+    }
+
+    override fun makeCodeSmellsTab(project: Project, toolWindow: ToolWindow): CodeSmellsTab {
+        return CodeSmellsTab(project, toolWindow, this)
+    }
+
+    override fun makeDuplicationsTab(project: Project, toolWindow: ToolWindow): DuplicationsTab {
+        return DuplicationsTab(project, toolWindow, this)
     }
 
 }

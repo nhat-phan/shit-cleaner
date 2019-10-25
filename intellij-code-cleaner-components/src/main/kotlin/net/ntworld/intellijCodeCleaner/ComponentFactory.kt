@@ -8,6 +8,8 @@ import net.ntworld.intellijCodeCleaner.component.button.AbstractMaintainabilityF
 import net.ntworld.intellijCodeCleaner.component.button.AnalyzeButton
 import net.ntworld.intellijCodeCleaner.component.button.AnnotationToggleButton
 import net.ntworld.intellijCodeCleaner.component.button.StopButton
+import net.ntworld.intellijCodeCleaner.component.codeSmells.CodeSmellsTab
+import net.ntworld.intellijCodeCleaner.component.duplications.DuplicationsTab
 import net.ntworld.intellijCodeCleaner.component.overview.OverviewTab
 import net.ntworld.intellijCodeCleaner.component.toolbar.MainToolbar
 import net.ntworld.redux.Dispatcher
@@ -29,5 +31,9 @@ interface ComponentFactory {
     fun makeMainToolbar(): MainToolbar
 
     fun makeOverviewTab(project: Project, toolWindow: ToolWindow): OverviewTab
+
+    fun makeCodeSmellsTab(project: Project, toolWindow: ToolWindow): CodeSmellsTab
+
+    fun makeDuplicationsTab(project: Project, toolWindow: ToolWindow): DuplicationsTab
 
 }

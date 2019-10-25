@@ -5,10 +5,37 @@ import kotlin.reflect.KProperty
 open class StoreBase : Store {
     private val reducers = mutableMapOf<String, Reducer<Any>>()
     private val states = mutableMapOf<String, Any>()
+    private val listeners = mutableMapOf<String, MutableSet<() -> Unit>>()
+    private val globalListeners = mutableSetOf<() -> Unit>()
 
     @Suppress("UNCHECKED_CAST")
     fun <T : Any> reducer(reducer: Reducer<T>): Delegate<T> {
         return Delegate(reducer)
+    }
+
+    private fun triggerListeners(key: String) {
+        val set = listeners[key]
+        if (null !== set) {
+            set.forEach { it.invoke() }
+        }
+    }
+
+    private fun triggerGlobalListeners() {
+        globalListeners.forEach { it.invoke() }
+    }
+
+
+    override fun onChange(key: String, block: () -> Unit) {
+        val set = listeners[key]
+        if (null === set) {
+            listeners[key] = mutableSetOf(block)
+        } else {
+            set.add(block)
+        }
+    }
+
+    override fun onChange(block: () -> Unit) {
+        globalListeners.add(block)
     }
 
     override fun reduce(action: Action<*>): Boolean {
@@ -18,8 +45,12 @@ open class StoreBase : Store {
             val newState = reducer.reduce(state!!, action)
             if (state !== newState) {
                 changed = true
+                triggerListeners(key)
                 states[key] = newState
             }
+        }
+        if (changed) {
+            triggerGlobalListeners()
         }
         return changed
     }
