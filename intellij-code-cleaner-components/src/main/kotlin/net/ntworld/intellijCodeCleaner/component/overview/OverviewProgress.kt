@@ -3,16 +3,12 @@ package net.ntworld.intellijCodeCleaner.component.overview
 import com.intellij.ide.util.treeView.NodeRenderer
 import com.intellij.openapi.project.Project
 import com.intellij.ui.AnimatedIcon.ANIMATION_IN_RENDERER_ALLOWED
-import com.intellij.ui.tree.AsyncTreeModel
-import com.intellij.ui.tree.StructureTreeModel
 import com.intellij.ui.treeStructure.Tree
 import com.intellij.util.ui.UIUtil
-import net.ntworld.intellijCodeCleaner.AppStore
-import net.ntworld.intellijCodeCleaner.ComponentFactory
 import net.ntworld.intellijCodeCleaner.component.overview.node.ProgressAnalyzeNode
-import net.ntworld.intellijCodeCleaner.component.overview.node.ProgressParseNode
 import net.ntworld.intellijCodeCleaner.component.overview.node.ProgressRootNode
 import net.ntworld.intellijCodeCleaner.component.overview.node.ProgressStatisticNode
+import net.ntworld.intellijCodeCleaner.state.ProjectState
 import java.awt.Component
 import javax.swing.JTree
 import javax.swing.tree.DefaultMutableTreeNode
@@ -20,13 +16,13 @@ import javax.swing.tree.DefaultTreeModel
 import javax.swing.tree.TreeCellRenderer
 
 class OverviewProgress(
-    private val project: Project,
-    private val store: AppStore
+    private val ideaProject: Project,
+    prop: ProjectState
 ) : TreeCellRenderer {
 
     private val tree = Tree()
     private val renderer = NodeRenderer()
-    private val model = DefaultTreeModel(makeRootTreeNode())
+    private val model = DefaultTreeModel(makeRootTreeNode(prop))
 
     val component: Tree = tree
 
@@ -34,19 +30,17 @@ class OverviewProgress(
         tree.model = model
         tree.cellRenderer = this
         UIUtil.putClientProperty(tree, ANIMATION_IN_RENDERER_ALLOWED, true)
-        store.onChange("project", this::onStoreChanged)
     }
 
-    private fun onStoreChanged() {
-        model.setRoot(makeRootTreeNode())
+    fun updateBy(prop: ProjectState) {
+        model.setRoot(makeRootTreeNode(prop))
     }
 
-    private fun makeRootTreeNode(): DefaultMutableTreeNode {
-        val root = DefaultMutableTreeNode(ProgressRootNode(project, store.project))
-        if (null !== store.project.lastRunAt) {
-            root.add(DefaultMutableTreeNode(ProgressStatisticNode(project, store.project)))
-            root.add(DefaultMutableTreeNode(ProgressAnalyzeNode(project, store.project)))
-            root.add(DefaultMutableTreeNode(ProgressParseNode(project, store.project)))
+    private fun makeRootTreeNode(prop: ProjectState): DefaultMutableTreeNode {
+        val root = DefaultMutableTreeNode(ProgressRootNode(ideaProject, prop))
+        if (null !== prop.lastRunAt) {
+            root.add(DefaultMutableTreeNode(ProgressStatisticNode(ideaProject, prop)))
+            root.add(DefaultMutableTreeNode(ProgressAnalyzeNode(ideaProject, prop)))
         }
         return root
     }

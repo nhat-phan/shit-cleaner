@@ -14,8 +14,8 @@ import net.ntworld.intellijCodeCleaner.action.RequestStopAnalyzeAction
 class AnalyzeTask private constructor(
     private val plugin: Plugin,
     private val projectId: String,
-    currentProject: Project
-) : Task.Backgroundable(currentProject, "Analyzing Code Smells and Duplications...", true) {
+    ideaProject: Project
+) : Task.Backgroundable(ideaProject, "Analyzing Code Smells and Duplications...", true) {
     private val indicator: ProgressIndicator = Indicator(this)
 
     override fun run(indicator: ProgressIndicator) {
@@ -40,8 +40,8 @@ class AnalyzeTask private constructor(
     }
 
     companion object {
-        fun start(plugin: Plugin, projectId: String, project: Project) {
-            val task = AnalyzeTask(plugin, projectId, project)
+        fun start(plugin: Plugin, projectId: String, ideaProject: Project) {
+            val task = AnalyzeTask(plugin, projectId, ideaProject)
             ProgressManager.getInstance().runProcessWithProgressAsynchronously(task, task.indicator)
         }
     }

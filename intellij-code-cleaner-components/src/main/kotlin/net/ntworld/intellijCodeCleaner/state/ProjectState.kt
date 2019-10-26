@@ -7,7 +7,6 @@ data class ProjectState(
     val initialized: Boolean,
     val analyzing: Boolean,
     val counting: Boolean,
-    val parsing: Boolean,
     val hasResult: Boolean,
     val lastRunAt: DateTime?
 ) {
@@ -17,7 +16,6 @@ data class ProjectState(
             initialized = false,
             analyzing = false,
             counting = false,
-            parsing = false,
             hasResult = false,
             lastRunAt = null
         )

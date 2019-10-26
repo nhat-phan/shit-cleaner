@@ -26,7 +26,7 @@ class ProgressRootNode(
             )
         }
 
-        if (state.analyzing || state.counting || state.parsing) {
+        if (state.analyzing || state.counting) {
             presentation.setIcon(AnimatedIcon.FS())
         } else {
             presentation.setIcon(AllIcons.RunConfigurations.TestPassed)

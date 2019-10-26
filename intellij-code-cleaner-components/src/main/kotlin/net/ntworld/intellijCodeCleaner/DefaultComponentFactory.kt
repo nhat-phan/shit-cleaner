@@ -42,16 +42,16 @@ object DefaultComponentFactory : ComponentFactory {
         return MainToolbar(this)
     }
 
-    override fun makeOverviewTab(project: Project, toolWindow: ToolWindow): OverviewTab {
-        return OverviewTab(project, toolWindow, this)
+    override fun makeOverviewTab(ideaProject: Project, toolWindow: ToolWindow): OverviewTab {
+        return OverviewTab(ideaProject, toolWindow, this)
     }
 
-    override fun makeCodeSmellsTab(project: Project, toolWindow: ToolWindow): CodeSmellsTab {
-        return CodeSmellsTab(project, toolWindow, this)
+    override fun makeCodeSmellsTab(ideaProject: Project, toolWindow: ToolWindow): CodeSmellsTab {
+        return CodeSmellsTab(ideaProject, toolWindow, this)
     }
 
-    override fun makeDuplicationsTab(project: Project, toolWindow: ToolWindow): DuplicationsTab {
-        return DuplicationsTab(project, toolWindow, this)
+    override fun makeDuplicationsTab(ideaProject: Project, toolWindow: ToolWindow): DuplicationsTab {
+        return DuplicationsTab(ideaProject, toolWindow, this)
     }
 
 }

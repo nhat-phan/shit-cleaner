@@ -30,10 +30,10 @@ interface ComponentFactory {
 
     fun makeMainToolbar(): MainToolbar
 
-    fun makeOverviewTab(project: Project, toolWindow: ToolWindow): OverviewTab
+    fun makeOverviewTab(ideaProject: Project, toolWindow: ToolWindow): OverviewTab
 
-    fun makeCodeSmellsTab(project: Project, toolWindow: ToolWindow): CodeSmellsTab
+    fun makeCodeSmellsTab(ideaProject: Project, toolWindow: ToolWindow): CodeSmellsTab
 
-    fun makeDuplicationsTab(project: Project, toolWindow: ToolWindow): DuplicationsTab
+    fun makeDuplicationsTab(ideaProject: Project, toolWindow: ToolWindow): DuplicationsTab
 
 }

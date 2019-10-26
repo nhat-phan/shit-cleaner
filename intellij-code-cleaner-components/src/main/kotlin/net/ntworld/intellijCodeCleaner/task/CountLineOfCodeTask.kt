@@ -18,8 +18,8 @@ import java.io.InputStreamReader
 class CountLineOfCodeTask private constructor(
     private val plugin: Plugin,
     private val projectId: String,
-    project: Project
-) : Task.Backgroundable(project, "Counting line of code...", false) {
+    ideaProject: Project
+) : Task.Backgroundable(ideaProject, "Counting line of code...", false) {
     private val statistic = CodeStatistic()
 
     override fun run(indicator: ProgressIndicator) {
@@ -74,8 +74,8 @@ class CountLineOfCodeTask private constructor(
     }
 
     companion object {
-        fun start(plugin: Plugin, projectId: String, project: Project) {
-            ProgressManager.getInstance().run(CountLineOfCodeTask(plugin, projectId, project))
+        fun start(plugin: Plugin, projectId: String, ideaProject: Project) {
+            ProgressManager.getInstance().run(CountLineOfCodeTask(plugin, projectId, ideaProject))
         }
     }
 
