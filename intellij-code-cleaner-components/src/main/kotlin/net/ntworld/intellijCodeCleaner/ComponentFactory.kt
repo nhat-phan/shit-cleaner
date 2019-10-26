@@ -1,6 +1,6 @@
 package net.ntworld.intellijCodeCleaner
 
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.openapi.wm.ToolWindow
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import net.ntworld.foundation.Infrastructure
@@ -30,10 +30,10 @@ interface ComponentFactory {
 
     fun makeMainToolbar(): MainToolbar
 
-    fun makeOverviewTab(ideaProject: Project, toolWindow: ToolWindow): OverviewTab
+    fun makeOverviewTab(ideaProject: IdeaProject, toolWindow: ToolWindow): OverviewTab
 
-    fun makeCodeSmellsTab(ideaProject: Project, toolWindow: ToolWindow): CodeSmellsTab
+    fun makeCodeSmellsTab(ideaProject: IdeaProject, toolWindow: ToolWindow): CodeSmellsTab
 
-    fun makeDuplicationsTab(ideaProject: Project, toolWindow: ToolWindow): DuplicationsTab
+    fun makeDuplicationsTab(ideaProject: IdeaProject, toolWindow: ToolWindow): DuplicationsTab
 
 }

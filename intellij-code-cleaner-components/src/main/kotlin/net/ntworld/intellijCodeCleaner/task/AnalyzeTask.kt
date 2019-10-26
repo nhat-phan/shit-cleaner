@@ -4,7 +4,7 @@ import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.progress.impl.BackgroundableProcessIndicator
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.Project as IdeaProject
 import net.ntworld.codeCleaner.command.CreateAnalyzeProcessCommand
 import net.ntworld.codeCleaner.make
 import net.ntworld.intellijCodeCleaner.CodeCleaner
@@ -14,7 +14,7 @@ import net.ntworld.intellijCodeCleaner.action.RequestStopAnalyzeAction
 class AnalyzeTask private constructor(
     private val plugin: Plugin,
     private val projectId: String,
-    ideaProject: Project
+    ideaProject: IdeaProject
 ) : Task.Backgroundable(ideaProject, "Analyzing Code Smells and Duplications...", true) {
     private val indicator: ProgressIndicator = Indicator(this)
 
@@ -40,7 +40,7 @@ class AnalyzeTask private constructor(
     }
 
     companion object {
-        fun start(plugin: Plugin, projectId: String, ideaProject: Project) {
+        fun start(plugin: Plugin, projectId: String, ideaProject: IdeaProject) {
             val task = AnalyzeTask(plugin, projectId, ideaProject)
             ProgressManager.getInstance().runProcessWithProgressAsynchronously(task, task.indicator)
         }

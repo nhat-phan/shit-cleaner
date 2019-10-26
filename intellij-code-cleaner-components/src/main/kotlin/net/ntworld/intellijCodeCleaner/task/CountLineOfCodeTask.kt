@@ -3,7 +3,7 @@ package net.ntworld.intellijCodeCleaner.task
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.ProgressManager
 import com.intellij.openapi.progress.Task
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.vcs.changes.ChangeListManager
 import com.intellij.openapi.vfs.VirtualFile
@@ -18,7 +18,7 @@ import java.io.InputStreamReader
 class CountLineOfCodeTask private constructor(
     private val plugin: Plugin,
     private val projectId: String,
-    ideaProject: Project
+    ideaProject: IdeaProject
 ) : Task.Backgroundable(ideaProject, "Counting line of code...", false) {
     private val statistic = CodeStatistic()
 
@@ -74,7 +74,7 @@ class CountLineOfCodeTask private constructor(
     }
 
     companion object {
-        fun start(plugin: Plugin, projectId: String, ideaProject: Project) {
+        fun start(plugin: Plugin, projectId: String, ideaProject: IdeaProject) {
             ProgressManager.getInstance().run(CountLineOfCodeTask(plugin, projectId, ideaProject))
         }
     }

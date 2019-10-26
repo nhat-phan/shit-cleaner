@@ -1,7 +1,7 @@
 package net.ntworld.intellijCodeCleaner.component.overview
 
 import com.intellij.ide.util.treeView.NodeRenderer
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.ui.AnimatedIcon.ANIMATION_IN_RENDERER_ALLOWED
 import com.intellij.ui.treeStructure.Tree
 import com.intellij.util.ui.UIUtil
@@ -16,7 +16,7 @@ import javax.swing.tree.DefaultTreeModel
 import javax.swing.tree.TreeCellRenderer
 
 class OverviewProgress(
-    private val ideaProject: Project,
+    private val ideaProject: IdeaProject,
     prop: ProjectState
 ) : TreeCellRenderer {
 

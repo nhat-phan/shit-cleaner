@@ -1,6 +1,6 @@
 package net.ntworld.intellijCodeCleaner
 
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.openapi.wm.ToolWindow
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import net.ntworld.intellijCodeCleaner.component.button.*
@@ -42,15 +42,15 @@ object DefaultComponentFactory : ComponentFactory {
         return MainToolbar(this)
     }
 
-    override fun makeOverviewTab(ideaProject: Project, toolWindow: ToolWindow): OverviewTab {
+    override fun makeOverviewTab(ideaProject: IdeaProject, toolWindow: ToolWindow): OverviewTab {
         return OverviewTab(ideaProject, toolWindow, this)
     }
 
-    override fun makeCodeSmellsTab(ideaProject: Project, toolWindow: ToolWindow): CodeSmellsTab {
+    override fun makeCodeSmellsTab(ideaProject: IdeaProject, toolWindow: ToolWindow): CodeSmellsTab {
         return CodeSmellsTab(ideaProject, toolWindow, this)
     }
 
-    override fun makeDuplicationsTab(ideaProject: Project, toolWindow: ToolWindow): DuplicationsTab {
+    override fun makeDuplicationsTab(ideaProject: IdeaProject, toolWindow: ToolWindow): DuplicationsTab {
         return DuplicationsTab(ideaProject, toolWindow, this)
     }
 

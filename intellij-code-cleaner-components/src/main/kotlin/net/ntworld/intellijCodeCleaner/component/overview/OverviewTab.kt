@@ -1,6 +1,6 @@
 package net.ntworld.intellijCodeCleaner.component.overview
 
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.openapi.ui.ThreeComponentsSplitter
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.ui.ScrollPaneFactory
@@ -8,7 +8,7 @@ import net.ntworld.intellijCodeCleaner.ComponentFactory
 import javax.swing.JPanel
 
 open class OverviewTab(
-    private val ideaProject: Project,
+    private val ideaProject: IdeaProject,
     private val toolWindow: ToolWindow,
     private val componentFactory: ComponentFactory
 ) {
