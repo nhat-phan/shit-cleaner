@@ -17,13 +17,13 @@ open class OverviewTab(
         OverviewProgress(ideaProject, componentFactory.makeDispatcher().store.project)
     }
     private val overviewTable by lazy {
-        OverviewTable()
+        OverviewTable(componentFactory.makeDispatcher().store.project)
     }
 
     fun createPanel(): JPanel {
         val dispatcher = componentFactory.makeDispatcher()
         val store = dispatcher.store
-        store.onChange("project", this::updateOverviewProgress)
+        store.onChange("project", this::updateComponents)
 
         splitter.firstComponent = ScrollPaneFactory.createScrollPane(overviewProgress.component)
         splitter.innerComponent = ScrollPaneFactory.createScrollPane(overviewTable.component)
@@ -32,7 +32,8 @@ open class OverviewTab(
         return splitter
     }
 
-    private fun updateOverviewProgress() {
+    private fun updateComponents() {
+        overviewTable.updateBy(componentFactory.makeDispatcher().store.project)
         overviewProgress.updateBy(componentFactory.makeDispatcher().store.project)
     }
 
