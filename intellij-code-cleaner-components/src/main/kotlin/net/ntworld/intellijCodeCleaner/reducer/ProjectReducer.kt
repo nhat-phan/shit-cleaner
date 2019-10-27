@@ -1,13 +1,13 @@
 package net.ntworld.intellijCodeCleaner.reducer
 
 import net.ntworld.intellijCodeCleaner.*
+import net.ntworld.intellijCodeCleaner.action.CodeStatisticFinishedAction
 import net.ntworld.intellijCodeCleaner.state.ProjectState
 import net.ntworld.redux.Action
 import net.ntworld.redux.Reducer
 import org.joda.time.DateTime
 
 class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
-
     override fun reduce(state: ProjectState, action: Action<*>): ProjectState {
         return when (action.type) {
             PROJECT_INITIALIZED -> {
@@ -21,7 +21,12 @@ class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
             CODE_ANALYZED -> state.copy(analyzing = false)
 
             CODE_STATISTIC_STARTED -> state.copy(counting = true)
-            CODE_STATISTIC_FINISHED -> state.copy(counting = false)
+            CODE_STATISTIC_FINISHED -> {
+                state.copy(
+                    counting = false,
+                    codeStatisticData = (action as CodeStatisticFinishedAction).payload.data
+                )
+            }
 
             else -> state
         }

@@ -12,6 +12,7 @@ import net.ntworld.codeCleaner.statistic.CodeStatistic
 import net.ntworld.intellijCodeCleaner.Plugin
 import net.ntworld.intellijCodeCleaner.action.CodeStatisticFinishedAction
 import net.ntworld.intellijCodeCleaner.action.CodeStatisticStartedAction
+import net.ntworld.intellijCodeCleaner.util.IdeaProjectUtil
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -27,12 +28,12 @@ class CountLineOfCodeTask private constructor(
 
         val rootManager = ProjectRootManager.getInstance(project)
         val changeListManager = ChangeListManager.getInstance(project)
-        val roots = rootManager.contentRoots
-
-        roots.forEach { count(it, rootManager, changeListManager) }
+        IdeaProjectUtil.getAvailableContentRoots(project).forEach {
+            count(it, rootManager, changeListManager)
+        }
 
         Thread.sleep(2000)
-        plugin dispatch CodeStatisticFinishedAction(projectId)
+        plugin dispatch CodeStatisticFinishedAction(projectId, statistic.buildData())
     }
 
     private fun skip(file: VirtualFile, rootManager: ProjectRootManager, changeList: ChangeListManager): Boolean {

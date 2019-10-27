@@ -1,5 +1,6 @@
 package net.ntworld.intellijCodeCleaner.state
 
+import net.ntworld.codeCleaner.statistic.CodeStatisticData
 import org.joda.time.DateTime
 
 data class ProjectState(
@@ -8,6 +9,7 @@ data class ProjectState(
     val analyzing: Boolean,
     val counting: Boolean,
     val hasResult: Boolean,
+    val codeStatisticData: CodeStatisticData?,
     val lastRunAt: DateTime?
 ) {
     companion object {
@@ -17,6 +19,7 @@ data class ProjectState(
             analyzing = false,
             counting = false,
             hasResult = false,
+            codeStatisticData = null,
             lastRunAt = null
         )
     }
