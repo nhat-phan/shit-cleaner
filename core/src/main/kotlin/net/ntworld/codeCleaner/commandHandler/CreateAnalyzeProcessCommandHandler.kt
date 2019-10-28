@@ -5,7 +5,6 @@ import net.ntworld.codeCleaner.command.CreateAnalyzeProcessCommand
 import net.ntworld.codeCleaner.query.FindProjectByIdQuery
 import net.ntworld.codeCleaner.CoreInfrastructure
 import net.ntworld.codeCleaner.event.AnalyzeProcessStartedEvent
-import net.ntworld.codeCleaner.event.AnalyzeProcessStoppedEvent
 import net.ntworld.codeCleaner.event.CodeAnalyzedEvent
 import net.ntworld.codeCleaner.make
 import net.ntworld.env.command.MakeExecuteWatchdogCommand
@@ -42,10 +41,9 @@ class CreateAnalyzeProcessCommandHandler(
             eventBus().publish(
                 CodeAnalyzedEvent.make(
                     projectId = command.projectId,
-                    raw = response.getResponse().output
+                    codeQualityId = command.projectId
                 )
             )
         }
     }
-
 }

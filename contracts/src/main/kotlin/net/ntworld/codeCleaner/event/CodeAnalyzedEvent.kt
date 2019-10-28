@@ -1,11 +1,12 @@
 package net.ntworld.codeCleaner.event
 
+import net.ntworld.codeCleaner.structure.Issue
 import net.ntworld.foundation.Event
 
 interface CodeAnalyzedEvent: Event {
-    val projectId: String
+    val codeQualityId: String
 
-    val raw: String
+    val projectId: String
 
     companion object
 }
