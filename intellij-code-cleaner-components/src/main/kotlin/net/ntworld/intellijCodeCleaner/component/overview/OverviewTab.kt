@@ -13,14 +13,10 @@ open class OverviewTab(
     private val componentFactory: ComponentFactory
 ) {
     private val splitter = ThreeComponentsSplitter(false, true)
-    private val overviewProgress by lazy {
-        OverviewProgress(ideaProject, componentFactory.makeDispatcher().store.project)
-    }
-    private val overviewTable by lazy {
-        OverviewTable(componentFactory.makeDispatcher().store.project)
-    }
+    protected open val overviewProgress = OverviewProgress(ideaProject, componentFactory.makeDispatcher().store.project)
+    protected open val overviewTable = OverviewTable(componentFactory.makeDispatcher().store.project)
 
-    fun createPanel(): JPanel {
+    open fun createPanel(): JPanel {
         val dispatcher = componentFactory.makeDispatcher()
         val store = dispatcher.store
         store.onChange("project", this::updateComponents)
@@ -29,6 +25,7 @@ open class OverviewTab(
         splitter.innerComponent = ScrollPaneFactory.createScrollPane(overviewTable.component)
 
         splitter.firstSize = 400
+        splitter.lastSize = 300
         return splitter
     }
 
