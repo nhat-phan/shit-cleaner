@@ -20,5 +20,7 @@ interface Issue {
 
     val rate: MaintainabilityRate
 
+    val fileRate: MaintainabilityRate
+
     val severity: Severity
 }

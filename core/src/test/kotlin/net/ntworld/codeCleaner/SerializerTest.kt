@@ -1,6 +1,5 @@
-package net.ntworld.codeClimate
+package net.ntworld.codeCleaner
 
-import net.ntworld.codeCleaner.Serializer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

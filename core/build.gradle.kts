@@ -5,6 +5,7 @@ val foundationProcessorVersion: String by project
 val commonsExecVersion: String by project
 val kotlinxSerializationRuntimeVersion: String by project
 val javaFakerVersion: String by project
+val commonmarkVersion: String by project
 
 group = artifactGroup
 version = artifactVersion
@@ -23,6 +24,7 @@ dependencies {
     compile("org.apache.commons:commons-exec:$commonsExecVersion")
     compile("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinxSerializationRuntimeVersion")
     compile("com.github.javafaker:javafaker:$javaFakerVersion")
+    compile("com.atlassian.commonmark:commonmark:$commonmarkVersion")
 
     kapt("com.github.nhat-phan.foundation:foundation-processor:$foundationProcessorVersion")
     kaptTest("com.github.nhat-phan.foundation:foundation-processor:$foundationProcessorVersion")
