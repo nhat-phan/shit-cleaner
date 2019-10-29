@@ -17,11 +17,18 @@ class ProgressRootNode(
     override fun createPresentation(): PresentationData {
         val presentation = PresentationData()
         presentation.addText("Code Cleaner", SimpleTextAttributes.REGULAR_BOLD_ATTRIBUTES)
-        if (null !== state.lastRunAt) {
-            presentation.addText(
-                " runs on ${state.lastRunAt.toDateTimeString(" at ")}",
-                SimpleTextAttributes.GRAYED_ITALIC_ATTRIBUTES
-            )
+        if (null !== state.time) {
+            if (state.hasResult) {
+                presentation.addText(
+                    " ran on ${state.time.toDateTimeString(" at ")}",
+                    SimpleTextAttributes.GRAYED_ITALIC_ATTRIBUTES
+                )
+            } else {
+                presentation.addText(
+                    " running on ${state.time.toDateTimeString(" at ")}",
+                    SimpleTextAttributes.GRAYED_ITALIC_ATTRIBUTES
+                )
+            }
         }
 
         if (state.analyzing || state.counting) {

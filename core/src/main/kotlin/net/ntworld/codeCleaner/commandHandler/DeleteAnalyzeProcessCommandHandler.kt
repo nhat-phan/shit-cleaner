@@ -2,6 +2,7 @@ package net.ntworld.codeCleaner.commandHandler
 
 import net.ntworld.codeCleaner.command.DeleteAnalyzeProcessCommand
 import net.ntworld.codeCleaner.CoreInfrastructure
+import net.ntworld.codeCleaner.Util
 import net.ntworld.codeCleaner.event.AnalyzeProcessStoppedEvent
 import net.ntworld.codeCleaner.make
 import net.ntworld.env.command.DestroyProcessCommand
@@ -19,7 +20,7 @@ class DeleteAnalyzeProcessCommandHandler(
     override fun handle(command: DeleteAnalyzeProcessCommand) {
         // TODO
         infrastructure {
-            val isRunning = infrastructure.queryBus().process(IsExecutingQuery.make(command.projectId))
+            val isRunning = queryBus().process(IsExecutingQuery.make(command.projectId))
             if (!isRunning.value) {
                 return@infrastructure
             }
@@ -27,7 +28,7 @@ class DeleteAnalyzeProcessCommandHandler(
             commandBus().process(
                 DestroyProcessCommand.make(id = command.projectId)
             )
-            eventBus().publish(AnalyzeProcessStoppedEvent.make(projectId = command.projectId))
+            eventBus().publish(AnalyzeProcessStoppedEvent.make(projectId = command.projectId, datetime = Util.utcNow()))
         }
     }
 

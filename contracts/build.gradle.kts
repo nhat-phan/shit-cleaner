@@ -27,6 +27,6 @@ dependencies {
 kapt {
     arguments {
         arg("foundation.processor.mode", "contractOnly")
-        arg("foundation.processor.settingsClass", "net.ntworld.codeClimate.ideIntegration.ContractData")
+        arg("foundation.processor.settingsClass", "net.ntworld.codeCleaner.ContractData")
     }
 }

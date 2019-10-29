@@ -3,10 +3,10 @@ package net.ntworld.codeCleaner
 import net.ntworld.codeCleaner.structure.Project
 
 object ProjectManager {
-    private val data: MutableMap<String, Project> = mutableMapOf()
+    private var data: Project? = null
 
     fun create(id: String, name: String, path: String) {
-        data[id] = Project.make(
+        data = Project.make(
             id = id,
             name = name,
             path = path
@@ -14,6 +14,6 @@ object ProjectManager {
     }
 
     fun find(id: String): Project {
-        return data[id]!!
+        return data!!
     }
 }

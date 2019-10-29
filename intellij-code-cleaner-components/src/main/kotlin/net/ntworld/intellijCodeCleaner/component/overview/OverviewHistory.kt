@@ -15,7 +15,7 @@ class OverviewHistory {
         val text = JLabel("History is not supported.")
         text.foreground = Color.GRAY
 
-        val link = JLabel("Download Code Cleaner Pro now!")
+        val link = JLabel("Download Code Cleaner Pro utcNow!")
         link.foreground = Color.BLUE
 
         val textConstraint = GridConstraints()

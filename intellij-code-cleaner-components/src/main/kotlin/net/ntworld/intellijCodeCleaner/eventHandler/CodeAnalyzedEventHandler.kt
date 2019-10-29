@@ -10,7 +10,7 @@ import net.ntworld.intellijCodeCleaner.action.CodeAnalyzedAction
 class CodeAnalyzedEventHandler(private val plugin: Plugin) : EventHandler<CodeAnalyzedEvent> {
 
     override fun handle(event: CodeAnalyzedEvent) {
-        plugin dispatch CodeAnalyzedAction(event.projectId)
+        plugin dispatch CodeAnalyzedAction.make(event.projectId, event.codeQualityId)
     }
 
 }

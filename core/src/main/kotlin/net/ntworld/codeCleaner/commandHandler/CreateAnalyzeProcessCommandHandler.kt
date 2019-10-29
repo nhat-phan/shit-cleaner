@@ -4,10 +4,11 @@ import net.ntworld.codeCleaner.CLI
 import net.ntworld.codeCleaner.command.CreateAnalyzeProcessCommand
 import net.ntworld.codeCleaner.query.FindProjectByIdQuery
 import net.ntworld.codeCleaner.CoreInfrastructure
+import net.ntworld.codeCleaner.Util
+import net.ntworld.codeCleaner.command.CreateCodeQualityCommand
 import net.ntworld.codeCleaner.event.AnalyzeProcessStartedEvent
 import net.ntworld.codeCleaner.event.CodeAnalyzedEvent
 import net.ntworld.codeCleaner.make
-import net.ntworld.env.command.MakeExecuteWatchdogCommand
 import net.ntworld.env.query.IsExecutingQuery
 import net.ntworld.env.request.ExecuteRequest
 import net.ntworld.foundation.Handler
@@ -23,21 +24,33 @@ class CreateAnalyzeProcessCommandHandler(
     override fun handle(command: CreateAnalyzeProcessCommand) {
         // TODO
         infrastructure {
-            val isRunning = infrastructure.queryBus().process(IsExecutingQuery.make(command.projectId))
+            val isRunning = queryBus().process(IsExecutingQuery.make(command.projectId))
             if (isRunning.value) {
                 return@infrastructure
             }
 
             val project = queryBus().process(FindProjectByIdQuery.make(command.projectId))
 
-            commandBus().process(MakeExecuteWatchdogCommand.make(id = command.projectId, timeout = -1))
+            val start = Util.utcNow()
+            eventBus().publish(AnalyzeProcessStartedEvent.make(projectId = command.projectId, datetime = start))
 
-            eventBus().publish(AnalyzeProcessStartedEvent.make(projectId = command.projectId))
             val response = serviceBus().process(
-                ExecuteRequest.make(project.path, project.id, CLI.codeClimateAnalyze, mapOf())
+                ExecuteRequest.make(
+                    project.path, project.id, CLI.codeClimateAnalyze, mapOf()
+                )
             )
-
             // TODO check response error
+
+            val end = Util.utcNow()
+            commandBus().process(
+                CreateCodeQualityCommand.make(
+                    id = command.projectId,
+                    projectId = command.projectId,
+                    analyzeProcessStartAt = start,
+                    analyzeProcessEndAt = end,
+                    analyzeRawOutput = response.getResponse().output
+                )
+            )
             eventBus().publish(
                 CodeAnalyzedEvent.make(
                     projectId = command.projectId,

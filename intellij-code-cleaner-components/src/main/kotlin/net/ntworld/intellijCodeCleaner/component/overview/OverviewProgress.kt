@@ -38,7 +38,7 @@ class OverviewProgress(
 
     private fun makeRootTreeNode(prop: ProjectState): DefaultMutableTreeNode {
         val root = DefaultMutableTreeNode(ProgressRootNode(ideaProject, prop))
-        if (null !== prop.lastRunAt) {
+        if (null !== prop.time) {
             root.add(DefaultMutableTreeNode(ProgressStatisticNode(ideaProject, prop)))
             root.add(DefaultMutableTreeNode(ProgressAnalyzeNode(ideaProject, prop)))
         }
