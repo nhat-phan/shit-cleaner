@@ -24,9 +24,11 @@ object DefaultComponentFactory : ComponentFactory {
         return AnnotationToggleButton(makeDispatcher())
     }
 
-    override fun makeMaintainabilityFilterButton(maintainabilityRate: MaintainabilityRate): AbstractMaintainabilityFilterButton {
+    override fun makeMaintainabilityFilterButton(rate: MaintainabilityRate): MaintainabilityFilterButton {
         return MaintainabilityFilterButton(
-            maintainabilityRate, when (maintainabilityRate) {
+            makeDispatcher(),
+            rate,
+            when (rate) {
                 MaintainabilityRate.Good -> Icons.MaintainabilityFilterGood
                 MaintainabilityRate.Moderate -> Icons.MaintainabilityFilterModerate
                 MaintainabilityRate.Bad -> Icons.MaintainabilityFilterBad

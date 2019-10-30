@@ -29,16 +29,7 @@ class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
 
             REQUEST_STOP_ANALYZE_SUCCESS -> state.copy(analyzing = false)
 
-            CODE_ANALYZED -> {
-                val payload = (action as CodeAnalyzedAction).payload
-                state.copy(
-                    analyzing = false,
-                    hasResult = true,
-                    codeSmells = payload.codeSmells,
-                    duplications = payload.duplications,
-                    time = payload.createdAt
-                )
-            }
+            CODE_ANALYZED -> reduceWhenCodeAnalyzed(state, action as CodeAnalyzedAction)
 
             CODE_STATISTIC_STARTED -> state.copy(counting = true)
             CODE_STATISTIC_FINISHED -> {
@@ -50,6 +41,16 @@ class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
 
             else -> state
         }
+    }
+
+    private fun reduceWhenCodeAnalyzed(state: ProjectState, action: CodeAnalyzedAction): ProjectState {
+        return state.copy(
+            analyzing = false,
+            hasResult = true,
+            codeSmells = action.payload.codeSmells,
+            duplications = action.payload.duplications,
+            time = action.payload.createdAt
+        )
     }
 
 }

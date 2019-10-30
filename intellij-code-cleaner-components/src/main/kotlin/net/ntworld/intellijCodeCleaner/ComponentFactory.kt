@@ -4,7 +4,7 @@ import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.openapi.wm.ToolWindow
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import net.ntworld.foundation.Infrastructure
-import net.ntworld.intellijCodeCleaner.component.button.AbstractMaintainabilityFilterButton
+import net.ntworld.intellijCodeCleaner.component.button.MaintainabilityFilterButton
 import net.ntworld.intellijCodeCleaner.component.button.AnalyzeButton
 import net.ntworld.intellijCodeCleaner.component.button.AnnotationToggleButton
 import net.ntworld.intellijCodeCleaner.component.button.StopButton
@@ -24,7 +24,7 @@ interface ComponentFactory {
 
     fun makeAnnotationToggleButton(): AnnotationToggleButton
 
-    fun makeMaintainabilityFilterButton(maintainabilityRate: MaintainabilityRate): AbstractMaintainabilityFilterButton
+    fun makeMaintainabilityFilterButton(rate: MaintainabilityRate): MaintainabilityFilterButton
 
     fun makeStopButton(): StopButton
 

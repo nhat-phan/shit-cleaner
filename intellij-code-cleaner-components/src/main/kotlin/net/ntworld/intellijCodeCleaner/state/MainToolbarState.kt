@@ -19,10 +19,10 @@ data class MainToolbarState(
             hasBadIssues = false,
             hasModerateIssues = false,
             hasGoodIssues = false,
-            filteringByBadIssues = false,
-            filteringByModerateIssues = false,
-            filteringByGoodIssues = false,
-            openingAnnotations = false
+            filteringByBadIssues = true,
+            filteringByModerateIssues = true,
+            filteringByGoodIssues = true,
+            openingAnnotations = true
         )
     }
 }
