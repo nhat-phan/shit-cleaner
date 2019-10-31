@@ -20,12 +20,12 @@ class ProgressRootNode(
         if (null !== state.time) {
             if (state.hasResult) {
                 presentation.addText(
-                    " ran on ${state.time.toDateTimeString(" at ")}",
+                    " analyzed on ${state.time.toDateTimeString(" at ")}",
                     SimpleTextAttributes.GRAYED_ITALIC_ATTRIBUTES
                 )
             } else {
                 presentation.addText(
-                    " running on ${state.time.toDateTimeString(" at ")}",
+                    " is running on ${state.time.toDateTimeString(" at ")}",
                     SimpleTextAttributes.GRAYED_ITALIC_ATTRIBUTES
                 )
             }
