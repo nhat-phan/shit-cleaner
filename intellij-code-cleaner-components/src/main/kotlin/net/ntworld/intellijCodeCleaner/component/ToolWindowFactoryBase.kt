@@ -10,6 +10,7 @@ import net.ntworld.codeCleaner.make
 import net.ntworld.intellijCodeCleaner.ComponentFactory
 import net.ntworld.intellijCodeCleaner.action.ProjectInitializedAction
 import net.ntworld.intellijCodeCleaner.component.toolbar.MainToolbar
+import net.ntworld.intellijCodeCleaner.util.IdeaProjectUtil
 import javax.swing.JPanel
 
 abstract class ToolWindowFactoryBase : ToolWindowFactory {
@@ -18,15 +19,16 @@ abstract class ToolWindowFactoryBase : ToolWindowFactory {
         val infrastructure = componentFactory.makeInfrastructure()
         val id = infrastructure.idGeneratorOf().generate()
         infrastructure {
+            val path = ideaProject.basePath!!
             commandBus().process(
                 CreateProjectCommand.make(
                     id = id,
                     name = "default",
-                    path = ideaProject.basePath!!
+                    path = path
                 )
             )
             componentFactory.makeDispatcher().dispatch(
-                ProjectInitializedAction(id)
+                ProjectInitializedAction(id, path, IdeaProjectUtil.getContentRootInfos(ideaProject))
             )
         }
     }

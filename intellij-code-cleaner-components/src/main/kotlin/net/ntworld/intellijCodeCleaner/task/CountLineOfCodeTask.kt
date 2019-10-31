@@ -33,7 +33,11 @@ class CountLineOfCodeTask private constructor(
         }
 
         Thread.sleep(2000)
-        plugin dispatch CodeStatisticFinishedAction(projectId, statistic.buildData())
+        plugin dispatch CodeStatisticFinishedAction(
+            projectId,
+            statistic.buildData(),
+            IdeaProjectUtil.getContentRootInfos(project)
+        )
     }
 
     private fun skip(file: VirtualFile, rootManager: ProjectRootManager, changeList: ChangeListManager): Boolean {

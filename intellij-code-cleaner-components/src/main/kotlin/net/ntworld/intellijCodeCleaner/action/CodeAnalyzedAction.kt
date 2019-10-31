@@ -7,7 +7,6 @@ import net.ntworld.intellijCodeCleaner.CODE_ANALYZED
 import net.ntworld.intellijCodeCleaner.CodeCleaner
 import net.ntworld.redux.Action
 import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 
 class CodeAnalyzedAction private constructor(
     projectId: String,

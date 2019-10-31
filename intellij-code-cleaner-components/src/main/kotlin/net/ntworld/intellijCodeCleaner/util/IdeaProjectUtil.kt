@@ -14,10 +14,13 @@ object IdeaProjectUtil {
 
         return roots
             .map {
+
                 val path = it.path
                 val displayPath = path.replace(basePath, "~")
+                val relativePath = path.replace(basePath, "")
                 ContentRootInfo(
                     name = displayPath,
+                    path = if (relativePath.startsWith("/")) relativePath.substring(1) else relativePath,
                     displayPath = displayPath,
                     virtualFile = it
                 )
@@ -29,7 +32,7 @@ object IdeaProjectUtil {
         val rootManager = ProjectRootManager.getInstance(ideaProject)
         val changeListManager = ChangeListManager.getInstance(ideaProject)
 
-        return rootManager.contentRoots.filter {
+        return rootManager.contentSourceRoots.filter {
             !rootManager.fileIndex.isExcluded(it) && !changeListManager.isVcsIgnoredFile(it)
         }
     }
