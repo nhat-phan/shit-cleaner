@@ -2,10 +2,13 @@ package net.ntworld.intellijCodeCleaner.state
 
 data class MainToolbarState(
     val analyzing: Boolean,
+
+    // TODO: remove has... => use project state instead
     val hasData: Boolean,
     val hasBadIssues: Boolean,
     val hasModerateIssues: Boolean,
     val hasGoodIssues: Boolean,
+
     val filteringByBadIssues: Boolean,
     val filteringByModerateIssues: Boolean,
     val filteringByGoodIssues: Boolean,

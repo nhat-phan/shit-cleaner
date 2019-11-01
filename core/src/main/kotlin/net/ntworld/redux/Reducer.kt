@@ -19,12 +19,24 @@ abstract class Reducer<T : Any>(internal val initialState: T) {
 
     protected open fun logBegin(state: T, action: Action<*>) {
         log("------------------------")
-        log("State: $state")
+        logState(state, false)
+        logAction(action)
+    }
+
+    protected open fun logState(state: T, output: Boolean) {
+        if (output) {
+            log("Result: $state")
+        } else {
+            log("State: $state")
+        }
+    }
+
+    protected open fun logAction(action: Action<*>) {
         log("Action: $action")
     }
 
     protected open fun logEnd(out: T) {
-        log("Result $out")
+        logState(out, true)
         log("------------------------")
     }
 
