@@ -15,7 +15,7 @@ import javax.swing.JPanel
 
 abstract class ToolWindowFactoryBase : ToolWindowFactory {
 
-    protected fun init(ideaProject: IdeaProject) {
+    protected open fun init(ideaProject: IdeaProject) {
         val infrastructure = componentFactory.makeInfrastructure()
         val id = infrastructure.idGeneratorOf().generate()
         infrastructure {

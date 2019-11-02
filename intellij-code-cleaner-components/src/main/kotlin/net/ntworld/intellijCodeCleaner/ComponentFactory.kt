@@ -18,7 +18,7 @@ interface ComponentFactory {
 
     fun makeInfrastructure(): Infrastructure
 
-    fun makeDispatcher(): Dispatcher<out AppStore>
+    fun makeDispatcher(): Dispatcher<AppStore>
 
     fun makeAnalyzeButton(): AnalyzeButton
 

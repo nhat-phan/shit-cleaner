@@ -3,9 +3,13 @@ package net.ntworld.intellijCodeCleaner.component
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.wm.ToolWindowManager
+import net.ntworld.intellijCodeCleaner.ComponentFactory
 import net.ntworld.intellijCodeCleaner.TOOL_WINDOW_NAME
+import net.ntworld.intellijCodeCleaner.action.RequestAnalyzeAction
 
-open class AnalyzeMenuActionBase : AnAction() {
+abstract class AnalyzeMenuActionBase : AnAction() {
+
+    abstract val componentFactory: ComponentFactory
 
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project
@@ -16,7 +20,12 @@ open class AnalyzeMenuActionBase : AnAction() {
                     toolWindow.contentManager.getContent(0)!!,
                     true
                 )
-                // RequestAnalyzeAction.perform(project)
+                val dispatcher = componentFactory.makeDispatcher()
+                dispatcher dispatch RequestAnalyzeAction.make(
+                    dispatcher,
+                    dispatcher.store.project.id,
+                    project
+                )
             }
         }
     }
