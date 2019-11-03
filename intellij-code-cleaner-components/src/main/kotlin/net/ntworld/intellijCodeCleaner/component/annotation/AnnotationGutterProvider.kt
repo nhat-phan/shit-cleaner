@@ -14,9 +14,38 @@ import com.intellij.openapi.vfs.VirtualFile
 import net.ntworld.intellijCodeCleaner.Plugin
 import java.awt.Color
 
-class AnnotationGutterProvider(
-    private val plugin: Plugin
+open class AnnotationGutterProvider(
+    private val plugin: Plugin,
+    private val data: AnnotationData
 ) : TextAnnotationGutterProvider {
+    protected val issueByLines : Map<Int, List<AnnotationData.Item>> by lazy {
+        val result = mutableMapOf<Int, MutableList<AnnotationData.Item>>()
+        data.issues.forEach {
+            for (i in it.lines.begin..it.lines.end) {
+                if (null === result[i]) {
+                    result[i] = mutableListOf(it)
+                } else {
+                    result[i]!!.add(it)
+                }
+            }
+            for (location in it.locations) {
+                if (location.path != it.path) {
+                    continue
+                }
+
+                for (i in location.lines.begin..location.lines.end) {
+                    if (null === result[i]) {
+                        result[i] = mutableListOf(it)
+                    } else {
+                        result[i]!!.add(it)
+                    }
+                }
+            }
+
+        }
+        result
+    }
+
 
     override fun getPopupActions(line: Int, editor: Editor?): MutableList<AnAction> {
         return mutableListOf()
@@ -27,15 +56,25 @@ class AnnotationGutterProvider(
     }
 
     override fun getLineText(line: Int, editor: Editor?): String? {
-//        if (!this.plugin.store.mainToolbar.openingAnnotations) {
-//            return null
-//        }
-
+        if (!this.plugin.store.mainToolbar.openingAnnotations) {
+            return null
+        }
+        val issues = issueByLines[line]
+        if (null === issues || issues.isEmpty()) {
+            return null
+        }
         return "\uD83D\uDCA9"
     }
 
     override fun getToolTip(line: Int, editor: Editor?): String? {
-        return ""
+        if (!this.plugin.store.mainToolbar.openingAnnotations) {
+            return null
+        }
+        val issues = issueByLines[line]
+        if (null === issues || issues.isEmpty()) {
+            return ""
+        }
+        return issues.map { it.description }.joinToString("\n\n")
     }
 
     override fun getStyle(line: Int, editor: Editor?): EditorFontType {

@@ -5,6 +5,7 @@ import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.vcs.changes.ChangeListManager
 import com.intellij.openapi.vfs.VirtualFile
 import net.ntworld.intellijCodeCleaner.data.ContentRootInfo
+import java.io.File
 
 object IdeaProjectUtil {
 
@@ -20,7 +21,7 @@ object IdeaProjectUtil {
                 val relativePath = path.replace(basePath, "")
                 ContentRootInfo(
                     name = displayPath,
-                    path = if (relativePath.startsWith("/")) relativePath.substring(1) else relativePath,
+                    path = if (relativePath.startsWith(File.separator)) relativePath.substring(1) else relativePath,
                     displayPath = displayPath,
                     virtualFile = it
                 )

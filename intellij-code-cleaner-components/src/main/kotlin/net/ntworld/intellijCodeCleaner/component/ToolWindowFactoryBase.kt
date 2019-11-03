@@ -10,6 +10,7 @@ import net.ntworld.codeCleaner.make
 import net.ntworld.intellijCodeCleaner.ComponentFactory
 import net.ntworld.intellijCodeCleaner.action.ProjectInitializedAction
 import net.ntworld.intellijCodeCleaner.component.annotation.AnnotationManager
+import net.ntworld.intellijCodeCleaner.component.annotation.EditorListener
 import net.ntworld.intellijCodeCleaner.component.toolbar.MainToolbar
 import net.ntworld.intellijCodeCleaner.util.IdeaProjectUtil
 import javax.swing.JPanel
@@ -34,14 +35,9 @@ abstract class ToolWindowFactoryBase : ToolWindowFactory {
         }
     }
 
-
-
-
-
     abstract val componentFactory: ComponentFactory
 
     override  fun createToolWindowContent(ideaProject: IdeaProject, toolWindow: ToolWindow) {
-
         init(ideaProject)
 
         val mainToolbar = componentFactory.makeMainToolbar()
@@ -59,7 +55,7 @@ abstract class ToolWindowFactoryBase : ToolWindowFactory {
             makeContent("Duplications", mainToolbar, duplicationsTab.createPanel())
         )
 
-        AnnotationManager(ideaProject, componentFactory.makeDispatcher()).initialize()
+        EditorListener(ideaProject, componentFactory.makeAnnotationManager(ideaProject))
     }
 
     private fun makeContent(displayName: String, mainToolbar: MainToolbar, panel: JPanel): Content {

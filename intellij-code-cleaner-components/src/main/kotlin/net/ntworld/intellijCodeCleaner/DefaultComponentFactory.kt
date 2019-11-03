@@ -3,6 +3,8 @@ package net.ntworld.intellijCodeCleaner
 import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.openapi.wm.ToolWindow
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
+import net.ntworld.intellijCodeCleaner.component.annotation.AnnotationManager
+import net.ntworld.intellijCodeCleaner.component.annotation.DefaultAnnotationManager
 import net.ntworld.intellijCodeCleaner.component.button.*
 import net.ntworld.intellijCodeCleaner.component.codeSmells.CodeSmellsTab
 import net.ntworld.intellijCodeCleaner.component.duplications.DuplicationsTab
@@ -11,6 +13,7 @@ import net.ntworld.intellijCodeCleaner.component.toolbar.MainToolbar
 import net.ntworld.intellijCodeCleaner.component.util.Icons
 
 object DefaultComponentFactory : ComponentFactory {
+    private var annotationManager: AnnotationManager? = null
 
     override fun makeInfrastructure() = CodeCleaner()
 
@@ -56,4 +59,10 @@ object DefaultComponentFactory : ComponentFactory {
         return DuplicationsTab(ideaProject, toolWindow, this)
     }
 
+    override fun makeAnnotationManager(ideaProject: IdeaProject): AnnotationManager {
+        if (null === annotationManager) {
+            annotationManager = DefaultAnnotationManager(ideaProject, makeDispatcher())
+        }
+        return annotationManager!!
+    }
 }

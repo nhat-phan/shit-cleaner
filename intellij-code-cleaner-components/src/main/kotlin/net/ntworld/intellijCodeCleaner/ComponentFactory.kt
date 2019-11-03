@@ -4,6 +4,7 @@ import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.openapi.wm.ToolWindow
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import net.ntworld.foundation.Infrastructure
+import net.ntworld.intellijCodeCleaner.component.annotation.AnnotationManager
 import net.ntworld.intellijCodeCleaner.component.button.MaintainabilityFilterButton
 import net.ntworld.intellijCodeCleaner.component.button.AnalyzeButton
 import net.ntworld.intellijCodeCleaner.component.button.AnnotationToggleButton
@@ -35,5 +36,7 @@ interface ComponentFactory {
     fun makeCodeSmellsTab(ideaProject: IdeaProject, toolWindow: ToolWindow): CodeSmellsTab
 
     fun makeDuplicationsTab(ideaProject: IdeaProject, toolWindow: ToolWindow): DuplicationsTab
+
+    fun makeAnnotationManager(ideaProject: IdeaProject): AnnotationManager
 
 }
