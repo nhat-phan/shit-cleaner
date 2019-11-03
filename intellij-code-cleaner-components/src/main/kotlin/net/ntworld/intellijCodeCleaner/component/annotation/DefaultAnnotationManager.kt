@@ -49,6 +49,7 @@ open class DefaultAnnotationManager(
             return
         }
 
+        // TODO: allow build multiple gutter provider
         val gutter = editor.gutter
         if (gutter is EditorGutterComponentEx) {
             gutter.textAnnotations.forEach {

@@ -2,6 +2,8 @@ package net.ntworld.codeCleaner.quality
 
 import net.ntworld.codeCleaner.Serializer
 import net.ntworld.codeCleaner.codeClimate.AnalyzedIssue
+import net.ntworld.codeCleaner.codeClimate.Lines
+import net.ntworld.codeCleaner.codeClimate.Location
 import net.ntworld.codeCleaner.structure.Issue
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import net.ntworld.codeCleaner.structure.Severity
@@ -32,6 +34,7 @@ object CodeQualityParser {
                 path = item.location.path,
                 lines = item.location.lines,
                 locations = item.otherLocations,
+                numberOfLines = countNumberOfLines(item.location.path, item.location.lines, item.otherLocations),
                 description = item.description,
                 content = markdownToHtml(item.content.body),
                 point = item.remediationPoints,
@@ -48,6 +51,16 @@ object CodeQualityParser {
             }
         }
         return Pair(codeSmells, duplications)
+    }
+
+    internal fun countNumberOfLines(path: String, lines: Lines, locations: List<Location>): Int {
+        var total = lines.end - lines.begin + 1
+        for (location in locations) {
+            if (location.path == path) {
+                total += location.lines.end - location.lines.begin + 1
+            }
+        }
+        return total
     }
 
     internal fun rate(itemRemediationPoints: Int): MaintainabilityRate {

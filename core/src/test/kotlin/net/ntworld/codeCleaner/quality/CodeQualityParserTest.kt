@@ -1,20 +1,59 @@
 package net.ntworld.codeCleaner.quality
 
+import net.ntworld.codeCleaner.codeClimate.Lines
+import net.ntworld.codeCleaner.codeClimate.Location
+import net.ntworld.codeCleaner.codeClimate.internal.LinesImpl
+import net.ntworld.codeCleaner.codeClimate.internal.LocationImpl
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class CodeCleanerParserTest {
+class CodeQualityParserTest {
 
     @Test
     fun testParse() {
-        val raw = CodeCleanerParserTest::class.java.getResource(
+        val raw = CodeQualityParserTest::class.java.getResource(
             "/analyzed-results/foundation-v0.5.1.json"
         ).readText()
 
         val (codeSmells, duplications) = CodeQualityParser.parse(raw)
         assertEquals(55, codeSmells.size)
         assertEquals(256, duplications.size)
+    }
+
+    @Test
+    fun testCountNumberOfLines() {
+        data class Item(val path: String, val lines: Lines, val locations: List<Location>, val result: Int)
+
+        val dataset = listOf(
+            Item(
+                path = "test.kt",
+                lines = LinesImpl(begin = 10, end = 18),
+                locations = listOf(),
+                result = 9
+            ),
+            Item(
+                path = "test.kt",
+                lines = LinesImpl(begin = 10, end = 18),
+                locations = listOf(
+                    LocationImpl(path = "abc.kt", lines = LinesImpl(begin = 5, end = 10))
+                ),
+                result = 9
+            ),
+            Item(
+                path = "test.kt",
+                lines = LinesImpl(begin = 10, end = 18),
+                locations = listOf(
+                    LocationImpl(path = "abc.kt", lines = LinesImpl(begin = 1, end = 4)),
+                    LocationImpl(path = "test.kt", lines = LinesImpl(begin = 5, end = 7)),
+                    LocationImpl(path = "test.kt", lines = LinesImpl(begin = 25, end = 30))
+                ),
+                result = 18
+            )
+        )
+        for (item in dataset) {
+            assertEquals(item.result, CodeQualityParser.countNumberOfLines(item.path, item.lines, item.locations))
+        }
     }
 
     @Test

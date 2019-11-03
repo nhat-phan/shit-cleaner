@@ -3,6 +3,7 @@ package net.ntworld.intellijCodeCleaner
 import com.intellij.openapi.vfs.VirtualFile
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import java.io.BufferedReader
 import java.io.InputStreamReader
 
 internal val DateFormatter = DateTimeFormat.forPattern("yyyy-MM-dd")
@@ -17,4 +18,16 @@ fun VirtualFile.readContent(): String {
     reader.use {
         return reader.readText()
     }
+}
+
+fun VirtualFile.readLines(): List<String> {
+    val reader = BufferedReader(InputStreamReader(this.inputStream, this.charset))
+    val result = mutableListOf<String>()
+    reader.use {
+        val iterator = reader.lineSequence().iterator()
+        while (iterator.hasNext()) {
+            result.add(iterator.next())
+        }
+    }
+    return result
 }

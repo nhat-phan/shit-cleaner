@@ -12,6 +12,8 @@ interface Issue {
 
     val locations: List<Location>
 
+    val numberOfLines: Int
+
     val description: String
 
     val content: String
