@@ -32,7 +32,7 @@ class CountLineOfCodeTask private constructor(
             count(it, rootManager, changeListManager)
         }
 
-        Thread.sleep(2000)
+        Thread.sleep(1500)
         plugin dispatch CodeStatisticFinishedAction(
             projectId,
             statistic.buildData(),

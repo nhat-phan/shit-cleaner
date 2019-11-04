@@ -32,7 +32,7 @@ class CodeStatistic {
                 CodeStatisticLanguageDataImpl(
                     language = it.key.displayName,
                     lines = it.value,
-                    percent = (it.value / total) * 100f
+                    percent = (it.value.toFloat() / total) * 100f
                 )
             }
         )

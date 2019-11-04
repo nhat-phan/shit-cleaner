@@ -29,6 +29,17 @@ class OverviewTable(
         model.addColumn("")
 
         val codeStatisticData = prop.codeStatisticData
+        if (prop.hasResult) {
+            model.addRow(arrayOf(
+                "Number of issues", prop.codeSmells.size + prop.duplications.size
+            ))
+            model.addRow(arrayOf(
+                "${TAB}Code smells", prop.codeSmells.size
+            ))
+            model.addRow(arrayOf(
+                "${TAB}Duplications", prop.duplications.size
+            ))
+        }
 
         if (null !== codeStatisticData) {
             fillCodeStatisticData(model, codeStatisticData)
@@ -42,18 +53,23 @@ class OverviewTable(
         }
 
         if (data.languages.size == 1) {
-            model.addRow(arrayOf("Total line of ${data.languages.first().language} code", data.total.toString()))
+            model.addRow(arrayOf("Total lines of ${data.languages.first().language} code", data.total.toString()))
             return
         }
 
-        model.addRow(arrayOf("Total line of code", data.total.toString()))
+        model.addRow(arrayOf("Total lines of code", data.total.toString()))
         data.languages.forEach {
+            val percent = Math.round(it.percent * 100).toFloat() / 100
             model.addRow(
                 arrayOf(
-                    "    ${it.language}",
-                    "${it.lines} (${Math.round(it.percent * 100) / 100}%)"
+                    "$TAB${it.language}",
+                    "${it.lines} ($percent%)"
                 )
             )
         }
+    }
+
+    companion object {
+        const val TAB = "    "
     }
 }
