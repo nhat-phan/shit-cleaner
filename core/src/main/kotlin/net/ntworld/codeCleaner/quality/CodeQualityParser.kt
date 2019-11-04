@@ -34,7 +34,7 @@ object CodeQualityParser {
                 path = item.location.path,
                 lines = item.location.lines,
                 locations = item.otherLocations,
-                numberOfLines = countNumberOfLines(item.location.path, item.location.lines, item.otherLocations),
+                numberOfLines = item.location.lines.end - item.location.lines.begin + 1,
                 description = item.description,
                 content = markdownToHtml(item.content.body),
                 point = item.remediationPoints,

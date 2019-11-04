@@ -7,7 +7,7 @@ class SerializerTest {
 
     @Test
     fun `test parse`() {
-        val input = SerializerTest::class.java.getResource("/analyzed-results/foundation-v0.5.1.json").readText()
+        val input = SerializerTest::class.java.getResource("/analysis-results/foundation-v0.5.1.json").readText()
         val result = Serializer.parse(input)
 
         assertEquals(315, result.size)
@@ -15,10 +15,9 @@ class SerializerTest {
 
     @Test
     fun `test parseIssues`() {
-        val input = SerializerTest::class.java.getResource("/analyzed-results/foundation-v0.5.1.json").readText()
+        val input = SerializerTest::class.java.getResource("/analysis-results/foundation-v0.5.1.json").readText()
         val result = Serializer.parseIssues(input)
 
-        println(result)
         assertEquals(311, result.size)
     }
 }

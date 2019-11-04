@@ -9,20 +9,17 @@ import net.ntworld.foundation.Handler
 @Handler
 class AnalyzeProcessStartedEventHandler: EventHandler<AnalyzeProcessStartedEvent> {
     override fun handle(event: AnalyzeProcessStartedEvent) {
-        println("Start $event")
     }
 }
 
 @Handler
 class AnalyzeProcessStoppedEventHandler: EventHandler<AnalyzeProcessStoppedEvent> {
     override fun handle(event: AnalyzeProcessStoppedEvent) {
-        println("Stop $event")
     }
 }
 
 @Handler
 class CodeAnalyzedEventHandler: EventHandler<CodeAnalyzedEvent> {
     override fun handle(event: CodeAnalyzedEvent) {
-        println("Stop $event")
     }
 }

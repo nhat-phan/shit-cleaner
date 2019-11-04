@@ -40,6 +40,7 @@ class CreateAnalyzeProcessCommandHandler(
                 )
             )
             // TODO check response error
+            val output = response.getResponse().output
 
             val end = Util.utcNow()
             commandBus().process(
@@ -48,7 +49,7 @@ class CreateAnalyzeProcessCommandHandler(
                     projectId = command.projectId,
                     analyzeProcessStartAt = start,
                     analyzeProcessEndAt = end,
-                    analyzeRawOutput = response.getResponse().output
+                    analyzeRawOutput = output
                 )
             )
             eventBus().publish(

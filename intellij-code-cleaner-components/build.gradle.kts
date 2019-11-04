@@ -26,6 +26,9 @@ dependencies {
 
     kapt("com.github.nhat-phan.foundation:foundation-processor:$foundationProcessorVersion")
     kaptTest("com.github.nhat-phan.foundation:foundation-processor:$foundationProcessorVersion")
+
+    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit"))
 }
 
 kapt {

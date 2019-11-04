@@ -13,7 +13,7 @@ class CodeQualityParserTest {
     @Test
     fun testParse() {
         val raw = CodeQualityParserTest::class.java.getResource(
-            "/analyzed-results/foundation-v0.5.1.json"
+            "/analysis-results/foundation-v0.5.1.json"
         ).readText()
 
         val (codeSmells, duplications) = CodeQualityParser.parse(raw)

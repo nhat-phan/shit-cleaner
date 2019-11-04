@@ -13,7 +13,7 @@ import net.ntworld.redux.Reducer
 import org.joda.time.DateTime
 
 class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
-    override val log: Boolean = true
+    override val log: Boolean = false
 
     private fun logIssues(prefix: String, data: Map<String, Issue>) = data.forEach { (key, item) ->
         log("$prefix   $key => {")

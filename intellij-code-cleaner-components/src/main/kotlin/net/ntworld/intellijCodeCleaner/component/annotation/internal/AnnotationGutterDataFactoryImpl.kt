@@ -16,46 +16,30 @@ class AnnotationGutterDataFactoryImpl(
         val contents = file.readLines()
         val allIssues = mutableListOf<Issue>()
         val typeOfIssuesMap = mutableMapOf<String, AnnotationGutterData.ItemType>()
-        loopAndAssigns(
-            file,
+        val issueFilter: (String) -> Boolean = {
+            store.project.basePath + File.separator + it == file.path
+        }
+        AnnotationGutterDataUtil.loopAndAssigns(
+            issueFilter,
             allIssues,
             typeOfIssuesMap,
             store.project.codeSmells.values,
             AnnotationGutterData.ItemType.CODE_SMELL
         )
-        loopAndAssigns(
-            file,
+        AnnotationGutterDataUtil.loopAndAssigns(
+            issueFilter,
             allIssues,
             typeOfIssuesMap,
             store.project.duplications.values,
             AnnotationGutterData.ItemType.DUPLICATION
         )
-        allIssues.sortBy { it.numberOfLines }
+        allIssues.sortByDescending { it.numberOfLines }
 
         val pair = AnnotationGutterDataUtil.groupLinesAndIssues(store.project.id, allIssues, typeOfIssuesMap)
         return pair.first.mapIndexed { index, it ->
             AnnotationGutterData(
-                virtualFile = file,
-                content = contents,
-                issues = pair.second[index],
-                lines = it
+                virtualFile = file, content = contents, issues = pair.second[index], lines = it
             )
         }
     }
-
-    private fun loopAndAssigns(
-        file: VirtualFile,
-        allIssues: MutableList<Issue>,
-        typeOfIssuesMap: MutableMap<String, AnnotationGutterData.ItemType>,
-        issues: Collection<Issue>,
-        type: AnnotationGutterData.ItemType
-    ) {
-        issues
-            .filter { store.project.basePath + File.separator + it.path == file.path }
-            .forEach {
-                allIssues.add(it)
-                typeOfIssuesMap[it.id] = type
-            }
-    }
-
 }

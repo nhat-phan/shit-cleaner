@@ -3,8 +3,10 @@ package net.ntworld.intellijCodeCleaner
 import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.openapi.wm.ToolWindow
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
+import net.ntworld.intellijCodeCleaner.component.annotation.AnnotationGutterDataFactory
 import net.ntworld.intellijCodeCleaner.component.annotation.AnnotationManager
 import net.ntworld.intellijCodeCleaner.component.annotation.DefaultAnnotationManager
+import net.ntworld.intellijCodeCleaner.component.annotation.internal.AnnotationGutterDataFactoryImpl
 import net.ntworld.intellijCodeCleaner.component.button.*
 import net.ntworld.intellijCodeCleaner.component.codeSmells.CodeSmellsTab
 import net.ntworld.intellijCodeCleaner.component.duplications.DuplicationsTab
@@ -61,8 +63,12 @@ object DefaultComponentFactory : ComponentFactory {
 
     override fun makeAnnotationManager(ideaProject: IdeaProject): AnnotationManager {
         if (null === annotationManager) {
-            annotationManager = DefaultAnnotationManager(ideaProject, makeDispatcher())
+            annotationManager = DefaultAnnotationManager(ideaProject, makeDispatcher(), makeAnnotationGutterDataFactory())
         }
         return annotationManager!!
+    }
+
+    override fun makeAnnotationGutterDataFactory(): AnnotationGutterDataFactory {
+        return AnnotationGutterDataFactoryImpl(makeDispatcher().store)
     }
 }
