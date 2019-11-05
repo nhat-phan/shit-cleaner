@@ -22,7 +22,8 @@ open class DefaultAnnotationManager(
     }
 
     override fun hide() {
-        TODO("not implemented")
+        val fileManager = FileEditorManager.getInstance(ideaProject)
+        fileManager.selectedEditors.forEach { detach(it) }
     }
 
     override fun attach(editor: FileEditor?) {
@@ -36,7 +37,16 @@ open class DefaultAnnotationManager(
     }
 
     override fun detach(editor: FileEditor?) {
-        TODO()
+        if (null === editor) {
+            return
+        }
+
+        if (editor is TextEditor) {
+            val gutter = editor.editor.gutter
+            if (gutter is EditorGutterComponentEx) {
+                gutter.closeAllAnnotations()
+            }
+        }
     }
 
     protected open fun attachProvidersToEditor(editor: Editor, file: VirtualFile?) {

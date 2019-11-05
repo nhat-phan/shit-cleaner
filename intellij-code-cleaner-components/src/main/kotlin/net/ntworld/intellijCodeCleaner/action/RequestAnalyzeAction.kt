@@ -1,5 +1,6 @@
 package net.ntworld.intellijCodeCleaner.action
 
+import net.ntworld.intellijCodeCleaner.ComponentFactory
 import com.intellij.openapi.project.Project as IdeaProject
 import net.ntworld.intellijCodeCleaner.Plugin
 import net.ntworld.intellijCodeCleaner.REQUEST_ANALYZE
@@ -11,9 +12,9 @@ open class RequestAnalyzeAction : Action.EmptyPayload {
     override val type: String = REQUEST_ANALYZE
 
     companion object {
-        fun make(plugin: Plugin, projectId: String, ideaProject: IdeaProject): RequestAnalyzeAction {
-            AnalyzeTask.start(plugin, projectId, ideaProject)
-            CountLineOfCodeTask.start(plugin, projectId, ideaProject)
+        fun make(componentFactory: ComponentFactory, projectId: String, ideaProject: IdeaProject): RequestAnalyzeAction {
+            AnalyzeTask.start(componentFactory, projectId, ideaProject)
+            CountLineOfCodeTask.start(componentFactory.makeDispatcher(), projectId, ideaProject)
 
             return RequestAnalyzeAction()
         }

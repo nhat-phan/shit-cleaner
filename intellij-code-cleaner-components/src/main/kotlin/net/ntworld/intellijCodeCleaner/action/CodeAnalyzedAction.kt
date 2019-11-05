@@ -5,6 +5,7 @@ import net.ntworld.codeCleaner.query.FindCodeQualityByIdQuery
 import net.ntworld.codeCleaner.structure.Issue
 import net.ntworld.intellijCodeCleaner.CODE_ANALYZED
 import net.ntworld.intellijCodeCleaner.CodeCleaner
+import net.ntworld.intellijCodeCleaner.ComponentFactory
 import net.ntworld.redux.Action
 import org.joda.time.DateTime
 
@@ -42,8 +43,10 @@ class CodeAnalyzedAction private constructor(
     }
 
     companion object {
-        fun make(projectId: String, codeQualityId: String): CodeAnalyzedAction {
-            val result = CodeCleaner().queryBus().process(FindCodeQualityByIdQuery.make(codeQualityId))
+        fun make(componentFactory: ComponentFactory, projectId: String, codeQualityId: String): CodeAnalyzedAction {
+            val result = componentFactory.makeInfrastructure()
+                .queryBus()
+                .process(FindCodeQualityByIdQuery.make(codeQualityId))
             return CodeAnalyzedAction(
                 projectId = result.projectId,
                 codeQualityId = result.id,

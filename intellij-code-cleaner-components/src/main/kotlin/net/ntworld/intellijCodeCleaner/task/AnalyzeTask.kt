@@ -7,26 +7,28 @@ import com.intellij.openapi.progress.impl.BackgroundableProcessIndicator
 import com.intellij.openapi.project.Project as IdeaProject
 import net.ntworld.codeCleaner.command.CreateAnalyzeProcessCommand
 import net.ntworld.codeCleaner.make
-import net.ntworld.intellijCodeCleaner.CodeCleaner
-import net.ntworld.intellijCodeCleaner.Plugin
+import net.ntworld.intellijCodeCleaner.ComponentFactory
 import net.ntworld.intellijCodeCleaner.action.RequestStopAnalyzeAction
 
 class AnalyzeTask private constructor(
-    private val plugin: Plugin,
+    private val componentFactory: ComponentFactory,
     private val projectId: String,
     ideaProject: IdeaProject
 ) : Task.Backgroundable(ideaProject, "Analyzing Code Smells and Duplications...", true) {
     private val indicator: ProgressIndicator = Indicator(this)
 
     override fun run(indicator: ProgressIndicator) {
-        val infrastructure = CodeCleaner()
+        val infrastructure = componentFactory.makeInfrastructure()
         infrastructure {
             commandBus().process(CreateAnalyzeProcessCommand.make(projectId))
         }
     }
 
     private fun terminate() {
-        plugin.dispatch(RequestStopAnalyzeAction.make(projectId))
+        componentFactory.makeDispatcher() dispatch RequestStopAnalyzeAction.make(
+            componentFactory.makeInfrastructure(),
+            projectId
+        )
     }
 
     private class Indicator(private val task: AnalyzeTask) : BackgroundableProcessIndicator(task) {
@@ -40,8 +42,8 @@ class AnalyzeTask private constructor(
     }
 
     companion object {
-        fun start(plugin: Plugin, projectId: String, ideaProject: IdeaProject) {
-            val task = AnalyzeTask(plugin, projectId, ideaProject)
+        fun start(componentFactory: ComponentFactory, projectId: String, ideaProject: IdeaProject) {
+            val task = AnalyzeTask(componentFactory, projectId, ideaProject)
             ProgressManager.getInstance().runProcessWithProgressAsynchronously(task, task.indicator)
         }
     }

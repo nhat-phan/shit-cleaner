@@ -22,7 +22,7 @@ abstract class AnalyzeMenuActionBase : AnAction() {
                 )
                 val dispatcher = componentFactory.makeDispatcher()
                 dispatcher dispatch RequestAnalyzeAction.make(
-                    dispatcher,
+                    componentFactory,
                     dispatcher.store.project.id,
                     project
                 )
