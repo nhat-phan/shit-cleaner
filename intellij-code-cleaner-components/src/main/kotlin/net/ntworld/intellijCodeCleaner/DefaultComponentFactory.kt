@@ -16,7 +16,7 @@ import net.ntworld.intellijCodeCleaner.component.toolbar.MainToolbar
 import net.ntworld.intellijCodeCleaner.component.util.Icons
 
 object DefaultComponentFactory : ComponentFactory {
-    private var annotationManager: AnnotationManager? = null
+    private val annotationManagers = mutableMapOf<IdeaProject, AnnotationManager>()
     private val infrastructure = MemorizedInfrastructure(CodeCleaner(this))
 
     override fun makeInfrastructure() = infrastructure
@@ -28,7 +28,7 @@ object DefaultComponentFactory : ComponentFactory {
     }
 
     override fun makeAnnotationToggleButton(): AnnotationToggleButton {
-        return AnnotationToggleButton(makeDispatcher())
+        return AnnotationToggleButton(this)
     }
 
     override fun makeMaintainabilityFilterButton(rate: MaintainabilityRate): MaintainabilityFilterButton {
@@ -64,11 +64,12 @@ object DefaultComponentFactory : ComponentFactory {
     }
 
     override fun makeAnnotationManager(ideaProject: IdeaProject): AnnotationManager {
-        if (null === annotationManager) {
-            annotationManager =
-                DefaultAnnotationManager(ideaProject, makeDispatcher(), makeAnnotationGutterDataFactory())
+        if (null === annotationManagers[ideaProject]) {
+            annotationManagers[ideaProject] = DefaultAnnotationManager(
+                ideaProject, makeDispatcher(), makeAnnotationGutterDataFactory()
+            )
         }
-        return annotationManager!!
+        return annotationManagers[ideaProject]!!
     }
 
     override fun makeAnnotationGutterDataFactory(): AnnotationGutterDataFactory {
