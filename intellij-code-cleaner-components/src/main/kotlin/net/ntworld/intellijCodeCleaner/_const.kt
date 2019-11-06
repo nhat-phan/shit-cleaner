@@ -18,3 +18,9 @@ const val CODE_STATISTIC_FINISHED = "CODE_STATISTIC_FINISHED"
 
 const val CODE_ANALYZED = "CODE_ANALYZED"
 
+
+const val ISSUE_NODE_TYPE_DIRECTORY = "Directory"
+const val ISSUE_NODE_TYPE_FILE = "File"
+const val ISSUE_NODE_TYPE_ISSUE = "Issue"
+const val ISSUE_NODE_TYPE_RELATED_ISSUE = "RelatedIssue"
+const val ISSUE_NODE_TYPE_ROOT = "Root"
