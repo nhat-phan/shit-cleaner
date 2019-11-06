@@ -10,11 +10,11 @@ internal class IssueNodeImpl(
 ) : IssueNode {
     override val children: MutableList<IssueNode> = mutableListOf()
 
-    override fun add(node: IssueNode) {
+    override infix fun add(node: IssueNode) {
         children.add(node)
     }
 
-    override fun remove(node: IssueNode) {
+    override infix fun remove(node: IssueNode) {
         children.remove(node)
     }
 

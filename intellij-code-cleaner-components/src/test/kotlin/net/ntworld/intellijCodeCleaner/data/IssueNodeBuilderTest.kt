@@ -14,7 +14,7 @@ class IssueNodeBuilderTest {
     fun `test rootNote should be created automatically`() {
         val builder = IssueNodeBuilder()
         assertEquals(ISSUE_NODE_TYPE_ROOT, builder.rootNode.type)
-        assertEquals(File.separator, builder.rootNode.name)
+        assertEquals("", builder.rootNode.name)
     }
 
     @Test

@@ -29,7 +29,7 @@ open class OverviewTab(
         return splitter
     }
 
-    private fun updateComponents() {
+    protected open fun updateComponents() {
         overviewTable.updateBy(componentFactory.makeDispatcher().store.project)
         overviewProgress.updateBy(componentFactory.makeDispatcher().store.project)
     }

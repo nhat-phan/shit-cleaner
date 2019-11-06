@@ -11,9 +11,9 @@ interface IssueNode {
 
     val children: List<IssueNode>
 
-    fun add(node: IssueNode)
+    infix fun add(node: IssueNode)
 
-    fun remove(node: IssueNode)
+    infix fun remove(node: IssueNode)
 
     fun clear()
 }
