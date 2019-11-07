@@ -15,14 +15,13 @@ import javax.swing.tree.DefaultTreeModel
 import javax.swing.tree.TreeCellRenderer
 
 open class IssueTree(
-    private val ideaProject: Project,
-    data: List<Issue>
+    private val ideaProject: Project
 ) : TreeCellRenderer {
     private val tree = Tree()
     private val renderer = NodeRenderer()
 
     val component: Tree = tree
-    private val model = DefaultTreeModel(makeRootTreeNode(data))
+    private val model = DefaultTreeModel(DefaultMutableTreeNode())
 
     init {
         tree.model = model

@@ -28,7 +28,7 @@ class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
     override fun logState(state: ProjectState, output: Boolean) {
         val prefix = if (output) "OUT: " else "IN : "
 
-        log("$prefix id = ${state.id}")
+        log("$prefix issueId = ${state.id}")
         log("$prefix basePath = ${state.basePath}")
         log("$prefix contentRoots = [")
         for (i in 0..state.contentRoots.lastIndex) {

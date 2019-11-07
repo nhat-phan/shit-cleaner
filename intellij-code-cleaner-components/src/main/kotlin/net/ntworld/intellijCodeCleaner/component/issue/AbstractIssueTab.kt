@@ -24,7 +24,7 @@ abstract class AbstractIssueTab(
     private val splitter by lazy {
         OnePixelSplitter(false, dividerKey, 0.5f)
     }
-    protected open val issueTree = IssueTree(ideaProject, listOf())
+    protected open val issueTree = IssueTree(ideaProject)
 
     fun createPanel(): JPanel {
         val store = componentFactory.makeDispatcher().store

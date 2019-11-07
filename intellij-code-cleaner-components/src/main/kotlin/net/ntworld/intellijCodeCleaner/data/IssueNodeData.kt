@@ -1,7 +1,9 @@
 package net.ntworld.intellijCodeCleaner.data
 
 interface IssueNodeData {
-    val id: String
+    val issueId: String
+
+    val projectId: String
 
     val type: String
 

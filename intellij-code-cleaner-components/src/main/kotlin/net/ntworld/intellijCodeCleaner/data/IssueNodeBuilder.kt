@@ -13,8 +13,12 @@ open class IssueNodeBuilder(root: IssueNodeData? = null) {
         )
     }
 
-    open fun add(issue: Issue) {
-        val node = appendPathComponentsToTree(issue.path.split(File.separator))
+    open fun add(issue: Issue, projectId: String = "", basePath: String = "") {
+        val node = appendPathComponentsToTree(
+            issue.path.split(File.separator),
+            projectId,
+            basePath
+        )
         appendIssueToTree(node, issue)
     }
 
@@ -23,7 +27,7 @@ open class IssueNodeBuilder(root: IssueNodeData? = null) {
             type = ISSUE_NODE_TYPE_ISSUE,
             name = issue.description,
             value = makeLinesText(issue.lines.begin, issue.lines.end),
-            id = issue.id
+            issueId = issue.id
         )
 
         for (location in issue.locations) {
@@ -31,7 +35,7 @@ open class IssueNodeBuilder(root: IssueNodeData? = null) {
                 type = ISSUE_NODE_TYPE_RELATED_ISSUE,
                 name = location.path,
                 value = makeOnLinesText(location.lines.begin, location.lines.end),
-                id = issue.id
+                issueId = issue.id
             )
         }
 
@@ -50,13 +54,23 @@ open class IssueNodeBuilder(root: IssueNodeData? = null) {
         "on lines $begin..$end"
     }
 
-    open fun appendPathComponentsToTree(components: List<String>): IssueNodeData {
+    open fun appendPathComponentsToTree(
+        components: List<String>,
+        projectId: String,
+        basePath: String
+    ): IssueNodeData {
         var upper = rootNodeData
         components.forEachIndexed { index, name ->
             val node = if (index != components.lastIndex) {
-                IssueNodeDataImpl(type = ISSUE_NODE_TYPE_DIRECTORY, name = name)
+                IssueNodeDataImpl(
+                    type = ISSUE_NODE_TYPE_DIRECTORY,name = name, projectId = projectId,
+                    value = findValueOfDirectoryOrFile(basePath, components, index)
+                )
             } else {
-                IssueNodeDataImpl(type = ISSUE_NODE_TYPE_FILE, name = name)
+                IssueNodeDataImpl(
+                    type = ISSUE_NODE_TYPE_FILE, name = name, projectId = projectId,
+                    value = findValueOfDirectoryOrFile(basePath, components, index)
+                )
             }
 
             if (upper.children.isEmpty()) {
@@ -76,6 +90,23 @@ open class IssueNodeBuilder(root: IssueNodeData? = null) {
             upper = node
         }
         return upper
+    }
+
+    open fun findValueOfDirectoryOrFile(basePath: String, components: List<String>, index: Int): String {
+        val base = if (basePath.isNotEmpty() && !basePath.endsWith(File.separatorChar)) {
+            basePath + File.separatorChar
+        } else {
+            basePath
+        }
+        val buffer = StringBuffer()
+        buffer.append(base)
+        for (i in 0..index) {
+            buffer.append(components[i])
+            if (i != index) {
+                buffer.append(File.separatorChar)
+            }
+        }
+        return buffer.toString()
     }
 
     open fun build(): IssueNodeData {

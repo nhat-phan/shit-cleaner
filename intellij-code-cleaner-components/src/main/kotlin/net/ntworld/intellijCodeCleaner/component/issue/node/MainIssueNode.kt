@@ -13,7 +13,7 @@ class MainIssueNode(
 
     override fun createPresentation(): PresentationData {
         val presentation = PresentationData()
-        presentation.setIcon(AllIcons.Nodes.ErrorMark)
+        presentation.setIcon(AllIcons.Nodes.ErrorIntroduction)
         presentation.addText(data.value, SimpleTextAttributes.GRAYED_ATTRIBUTES)
         presentation.addText(": ", SimpleTextAttributes.GRAYED_ATTRIBUTES)
         presentation.addText(data.name, SimpleTextAttributes.REGULAR_ATTRIBUTES)

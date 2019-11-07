@@ -30,7 +30,7 @@ class IssueNodeDataBuilderTest {
     fun `test appendPathComponentsToTree can create leap in Tree`() {
         val components = listOf("first", "second", "third", "File.kt")
         val builder = IssueNodeBuilder()
-        builder.appendPathComponentsToTree(components)
+        builder.appendPathComponentsToTree(components, "", "")
 
         expectDirectoryNode(findByPath(builder, 0), "first")
         expectDirectoryNode(findByPath(builder, 0, 0), "second")
@@ -43,8 +43,8 @@ class IssueNodeDataBuilderTest {
         val componentsOne = listOf("first", "second", "third", "File.kt")
         val componentsTwo = listOf("first", "new", "Update.kt")
         val builder = IssueNodeBuilder()
-        builder.appendPathComponentsToTree(componentsOne)
-        builder.appendPathComponentsToTree(componentsTwo)
+        builder.appendPathComponentsToTree(componentsOne, "", "")
+        builder.appendPathComponentsToTree(componentsTwo, "", "")
 
         expectDirectoryNode(findByPath(builder, 0), "first")
 
@@ -62,8 +62,8 @@ class IssueNodeDataBuilderTest {
         val componentsOne = listOf("first", "second", "File.kt")
         val componentsTwo = listOf("first", "second")
         val builder = IssueNodeBuilder()
-        builder.appendPathComponentsToTree(componentsOne)
-        builder.appendPathComponentsToTree(componentsTwo)
+        builder.appendPathComponentsToTree(componentsOne, "", "")
+        builder.appendPathComponentsToTree(componentsTwo, "", "")
 
         expectDirectoryNode(findByPath(builder, 0), "first")
 
