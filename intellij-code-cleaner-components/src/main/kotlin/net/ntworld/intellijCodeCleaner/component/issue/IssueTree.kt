@@ -5,13 +5,9 @@ import com.intellij.openapi.project.Project
 import com.intellij.ui.treeStructure.Tree
 import net.ntworld.codeCleaner.structure.Issue
 import net.ntworld.intellijCodeCleaner.*
-import net.ntworld.intellijCodeCleaner.component.issue.node.DirectoryNode
-import net.ntworld.intellijCodeCleaner.component.issue.node.FileNode
-import net.ntworld.intellijCodeCleaner.component.issue.node.NodeBase
-import net.ntworld.intellijCodeCleaner.component.issue.node.RootNode
-import net.ntworld.intellijCodeCleaner.data.IssueNode
+import net.ntworld.intellijCodeCleaner.component.issue.node.*
+import net.ntworld.intellijCodeCleaner.data.IssueNodeData
 import net.ntworld.intellijCodeCleaner.data.IssueNodeBuilder
-import net.ntworld.intellijCodeCleaner.state.ProjectState
 import java.awt.Component
 import javax.swing.JTree
 import javax.swing.tree.DefaultMutableTreeNode
@@ -48,7 +44,7 @@ open class IssueTree(
         return buildDefaultMutableTreeNode(builder.build())
     }
 
-    protected open fun buildDefaultMutableTreeNode(nodeData: IssueNode): DefaultMutableTreeNode {
+    protected open fun buildDefaultMutableTreeNode(nodeData: IssueNodeData): DefaultMutableTreeNode {
         val node = DefaultMutableTreeNode(makeNode(nodeData))
         for (childNodeData in nodeData.children) {
             node.add(buildDefaultMutableTreeNode(childNodeData))
@@ -56,17 +52,13 @@ open class IssueTree(
         return node
     }
 
-    protected open fun makeNode(nodeData: IssueNode): NodeBase {
+    protected open fun makeNode(nodeData: IssueNodeData): NodeBase {
         return when (nodeData.type) {
             ISSUE_NODE_TYPE_ROOT -> RootNode(ideaProject, nodeData)
             ISSUE_NODE_TYPE_DIRECTORY -> DirectoryNode(ideaProject, nodeData)
             ISSUE_NODE_TYPE_FILE -> FileNode(ideaProject, nodeData)
-            ISSUE_NODE_TYPE_ISSUE, ISSUE_NODE_TYPE_RELATED_ISSUE -> {
-                net.ntworld.intellijCodeCleaner.component.issue.node.IssueNode(
-                    ideaProject,
-                    nodeData
-                )
-            }
+            ISSUE_NODE_TYPE_ISSUE -> MainIssueNode(ideaProject, nodeData)
+            ISSUE_NODE_TYPE_RELATED_ISSUE -> RelatedIssueNode(ideaProject, nodeData)
             else -> throw Exception("Node $nodeData is not supported")
         }
     }

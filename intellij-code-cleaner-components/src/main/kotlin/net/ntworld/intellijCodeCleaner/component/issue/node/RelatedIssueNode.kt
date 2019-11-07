@@ -2,15 +2,13 @@ package net.ntworld.intellijCodeCleaner.component.issue.node
 
 import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
-import com.intellij.openapi.util.Iconable
-import com.intellij.psi.PsiFile
 import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.ui.SimpleTextAttributes
-import net.ntworld.intellijCodeCleaner.data.IssueNode
+import net.ntworld.intellijCodeCleaner.data.IssueNodeData
 
-class IssueNode(
+class RelatedIssueNode(
     ideaProject: IdeaProject,
-    private val data: IssueNode
+    val data: IssueNodeData
 ) : NodeBase(ideaProject, data) {
 
     override fun createPresentation(): PresentationData {

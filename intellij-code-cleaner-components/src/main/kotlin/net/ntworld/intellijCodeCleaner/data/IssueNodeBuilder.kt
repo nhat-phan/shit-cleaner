@@ -2,12 +2,12 @@ package net.ntworld.intellijCodeCleaner.data
 
 import net.ntworld.codeCleaner.structure.Issue
 import net.ntworld.intellijCodeCleaner.*
-import net.ntworld.intellijCodeCleaner.data.internal.IssueNodeImpl
+import net.ntworld.intellijCodeCleaner.data.internal.IssueNodeDataImpl
 import java.io.File
 
-open class IssueNodeBuilder(root: IssueNode? = null) {
-    internal val rootNode: IssueNode = if (null !== root) root else {
-        IssueNodeImpl(
+open class IssueNodeBuilder(root: IssueNodeData? = null) {
+    internal val rootNodeData: IssueNodeData = if (null !== root) root else {
+        IssueNodeDataImpl(
             type = ISSUE_NODE_TYPE_ROOT,
             name = ""
         )
@@ -18,8 +18,8 @@ open class IssueNodeBuilder(root: IssueNode? = null) {
         appendIssueToTree(node, issue)
     }
 
-    open fun appendIssueToTree(parent: IssueNode, issue: Issue) {
-        val issueNode = IssueNodeImpl(
+    open fun appendIssueToTree(parent: IssueNodeData, issue: Issue) {
+        val issueNode = IssueNodeDataImpl(
             type = ISSUE_NODE_TYPE_ISSUE,
             name = issue.description,
             value = makeLinesText(issue.lines.begin, issue.lines.end),
@@ -27,10 +27,10 @@ open class IssueNodeBuilder(root: IssueNode? = null) {
         )
 
         for (location in issue.locations) {
-            issueNode add IssueNodeImpl(
+            issueNode add IssueNodeDataImpl(
                 type = ISSUE_NODE_TYPE_RELATED_ISSUE,
                 name = location.path,
-                value = makeLinesText(location.lines.begin, location.lines.end),
+                value = makeOnLinesText(location.lines.begin, location.lines.end),
                 id = issue.id
             )
         }
@@ -39,18 +39,24 @@ open class IssueNodeBuilder(root: IssueNode? = null) {
     }
 
     open fun makeLinesText(begin: Int, end: Int) = if (begin == end) {
+        "Line $begin"
+    } else {
+        "Lines $begin..$end"
+    }
+
+    open fun makeOnLinesText(begin: Int, end: Int) = if (begin == end) {
         "on line $begin"
     } else {
         "on lines $begin..$end"
     }
 
-    open fun appendPathComponentsToTree(components: List<String>): IssueNode {
-        var upper = rootNode
+    open fun appendPathComponentsToTree(components: List<String>): IssueNodeData {
+        var upper = rootNodeData
         components.forEachIndexed { index, name ->
             val node = if (index != components.lastIndex) {
-                IssueNodeImpl(type = ISSUE_NODE_TYPE_DIRECTORY, name = name)
+                IssueNodeDataImpl(type = ISSUE_NODE_TYPE_DIRECTORY, name = name)
             } else {
-                IssueNodeImpl(type = ISSUE_NODE_TYPE_FILE, name = name)
+                IssueNodeDataImpl(type = ISSUE_NODE_TYPE_FILE, name = name)
             }
 
             if (upper.children.isEmpty()) {
@@ -72,8 +78,8 @@ open class IssueNodeBuilder(root: IssueNode? = null) {
         return upper
     }
 
-    open fun build(): IssueNode {
-        return rootNode
+    open fun build(): IssueNodeData {
+        return rootNodeData
     }
 
 }

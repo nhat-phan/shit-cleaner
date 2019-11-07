@@ -1,6 +1,6 @@
 package net.ntworld.intellijCodeCleaner.data
 
-interface IssueNode {
+interface IssueNodeData {
     val id: String
 
     val type: String
@@ -9,11 +9,11 @@ interface IssueNode {
 
     val value: String
 
-    val children: List<IssueNode>
+    val children: List<IssueNodeData>
 
-    infix fun add(node: IssueNode)
+    infix fun add(nodeData: IssueNodeData)
 
-    infix fun remove(node: IssueNode)
+    infix fun remove(nodeData: IssueNodeData)
 
     fun clear()
 }
