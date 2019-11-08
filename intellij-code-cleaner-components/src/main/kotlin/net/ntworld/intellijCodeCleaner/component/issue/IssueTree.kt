@@ -10,6 +10,7 @@ import net.ntworld.intellijCodeCleaner.data.IssueNodeData
 import net.ntworld.intellijCodeCleaner.data.IssueNodeDataBuilder
 import java.awt.Component
 import javax.swing.JTree
+import javax.swing.event.TreeSelectionListener
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.tree.DefaultTreeModel
 import javax.swing.tree.TreeCellRenderer
@@ -29,17 +30,23 @@ open class IssueTree(
         tree.isRootVisible = false
     }
 
-    fun updateBy(data: Collection<Issue>) {
-        model.setRoot(makeRootTreeNode(data))
+    fun updateBy(data: Collection<Issue>, projectId: String, basePath: String) {
+        model.setRoot(makeRootTreeNode(data, projectId, basePath))
     }
 
-    protected open fun makeRootTreeNode(data: Collection<Issue>): DefaultMutableTreeNode {
+    fun addTreeSelectionListener(listener: TreeSelectionListener) {
+        tree.addTreeSelectionListener(listener)
+    }
+
+    protected open fun makeRootTreeNode(
+        data: Collection<Issue>, projectId: String, basePath: String
+    ): DefaultMutableTreeNode {
         if (data.isEmpty()) {
             return DefaultMutableTreeNode()
         }
 
         val builder = IssueNodeDataBuilder()
-        data.forEach { builder.add(it) }
+        data.forEach { builder.add(it, projectId, basePath) }
 
         return buildDefaultMutableTreeNode(builder.build())
     }

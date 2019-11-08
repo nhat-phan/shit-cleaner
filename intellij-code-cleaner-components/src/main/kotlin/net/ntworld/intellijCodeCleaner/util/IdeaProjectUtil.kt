@@ -5,7 +5,6 @@ import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.vcs.changes.ChangeListManager
 import com.intellij.openapi.vfs.LocalFileSystem
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.openapi.vfs.VirtualFileManager
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import net.ntworld.intellijCodeCleaner.data.ContentRootInfo
@@ -33,8 +32,7 @@ object IdeaProjectUtil {
             return psiFilesCache[path]
         }
 
-        // TODO: find another way to get rid of ideaProject if possible
-        val file = findVirtualFileByPath(ideaProject.basePath + File.separator + path)
+        val file = findVirtualFileByPath(path)
         if (null === file) {
             return null
         }
