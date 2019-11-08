@@ -7,7 +7,7 @@ import net.ntworld.codeCleaner.structure.Issue
 import net.ntworld.intellijCodeCleaner.*
 import net.ntworld.intellijCodeCleaner.component.issue.node.*
 import net.ntworld.intellijCodeCleaner.data.IssueNodeData
-import net.ntworld.intellijCodeCleaner.data.IssueNodeBuilder
+import net.ntworld.intellijCodeCleaner.data.IssueNodeDataBuilder
 import java.awt.Component
 import javax.swing.JTree
 import javax.swing.tree.DefaultMutableTreeNode
@@ -26,6 +26,7 @@ open class IssueTree(
     init {
         tree.model = model
         tree.cellRenderer = this
+        tree.isRootVisible = false
     }
 
     fun updateBy(data: Collection<Issue>) {
@@ -37,7 +38,7 @@ open class IssueTree(
             return DefaultMutableTreeNode()
         }
 
-        val builder = IssueNodeBuilder()
+        val builder = IssueNodeDataBuilder()
         data.forEach { builder.add(it) }
 
         return buildDefaultMutableTreeNode(builder.build())

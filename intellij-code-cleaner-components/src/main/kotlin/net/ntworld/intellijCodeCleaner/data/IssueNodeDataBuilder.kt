@@ -5,7 +5,7 @@ import net.ntworld.intellijCodeCleaner.*
 import net.ntworld.intellijCodeCleaner.data.internal.IssueNodeDataImpl
 import java.io.File
 
-open class IssueNodeBuilder(root: IssueNodeData? = null) {
+open class IssueNodeDataBuilder(root: IssueNodeData? = null) {
     internal val rootNodeData: IssueNodeData = if (null !== root) root else {
         IssueNodeDataImpl(
             type = ISSUE_NODE_TYPE_ROOT,
@@ -54,16 +54,12 @@ open class IssueNodeBuilder(root: IssueNodeData? = null) {
         "on lines $begin..$end"
     }
 
-    open fun appendPathComponentsToTree(
-        components: List<String>,
-        projectId: String,
-        basePath: String
-    ): IssueNodeData {
+    open fun appendPathComponentsToTree(components: List<String>, projectId: String, basePath: String): IssueNodeData {
         var upper = rootNodeData
         components.forEachIndexed { index, name ->
             val node = if (index != components.lastIndex) {
                 IssueNodeDataImpl(
-                    type = ISSUE_NODE_TYPE_DIRECTORY,name = name, projectId = projectId,
+                    type = ISSUE_NODE_TYPE_DIRECTORY, name = name, projectId = projectId,
                     value = findValueOfDirectoryOrFile(basePath, components, index)
                 )
             } else {
@@ -110,7 +106,35 @@ open class IssueNodeBuilder(root: IssueNodeData? = null) {
     }
 
     open fun build(): IssueNodeData {
-        return rootNodeData
+        val root = IssueNodeDataImpl(
+            type = rootNodeData.type,
+            name = rootNodeData.name,
+            value = rootNodeData.value,
+            issueId = rootNodeData.issueId,
+            projectId = rootNodeData.projectId
+        )
+        for (node in rootNodeData.children) {
+            root.add(shortenSingleItemInDirectoryNode(node))
+        }
+        return root
+    }
+
+    open fun shortenSingleItemInDirectoryNode(node: IssueNodeData): IssueNodeData {
+        if (node.type == ISSUE_NODE_TYPE_DIRECTORY &&
+            node.children.size == 1 && node.children[0].type == ISSUE_NODE_TYPE_DIRECTORY
+        ) {
+            val newNode = IssueNodeDataImpl(
+                type = ISSUE_NODE_TYPE_DIRECTORY,
+                name = node.name + File.separator + node.children[0].name,
+                projectId = node.projectId,
+                value = node.children[0].value
+            )
+            for (item in node.children[0].children) {
+                newNode.add(shortenSingleItemInDirectoryNode(item))
+            }
+            return shortenSingleItemInDirectoryNode(newNode)
+        }
+        return node
     }
 
 }

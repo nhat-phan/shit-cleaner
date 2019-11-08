@@ -11,7 +11,7 @@ import kotlin.test.assertSame
 class IssueNodeDataBuilderTest {
     @Test
     fun `test rootNote should be created automatically`() {
-        val builder = IssueNodeBuilder()
+        val builder = IssueNodeDataBuilder()
         assertEquals(ISSUE_NODE_TYPE_ROOT, builder.rootNodeData.type)
         assertEquals("", builder.rootNodeData.name)
     }
@@ -22,14 +22,14 @@ class IssueNodeDataBuilderTest {
             type = ISSUE_NODE_TYPE_ROOT,
             name = "~/test"
         )
-        val builder = IssueNodeBuilder(root)
+        val builder = IssueNodeDataBuilder(root)
         assertSame(root, builder.rootNodeData)
     }
 
     @Test
     fun `test appendPathComponentsToTree can create leap in Tree`() {
         val components = listOf("first", "second", "third", "File.kt")
-        val builder = IssueNodeBuilder()
+        val builder = IssueNodeDataBuilder()
         builder.appendPathComponentsToTree(components, "", "")
 
         expectDirectoryNode(findByPath(builder, 0), "first")
@@ -42,7 +42,7 @@ class IssueNodeDataBuilderTest {
     fun `test appendPathComponentsToTree can update leap in Tree`() {
         val componentsOne = listOf("first", "second", "third", "File.kt")
         val componentsTwo = listOf("first", "new", "Update.kt")
-        val builder = IssueNodeBuilder()
+        val builder = IssueNodeDataBuilder()
         builder.appendPathComponentsToTree(componentsOne, "", "")
         builder.appendPathComponentsToTree(componentsTwo, "", "")
 
@@ -61,7 +61,7 @@ class IssueNodeDataBuilderTest {
     fun `test appendPathComponentsToTree can create directory and file as the same name`() {
         val componentsOne = listOf("first", "second", "File.kt")
         val componentsTwo = listOf("first", "second")
-        val builder = IssueNodeBuilder()
+        val builder = IssueNodeDataBuilder()
         builder.appendPathComponentsToTree(componentsOne, "", "")
         builder.appendPathComponentsToTree(componentsTwo, "", "")
 
@@ -83,7 +83,7 @@ class IssueNodeDataBuilderTest {
         assertEquals(name, nodeData.name)
     }
 
-    private fun findByPath(builder: IssueNodeBuilder, vararg index: Int): IssueNodeData {
+    private fun findByPath(builder: IssueNodeDataBuilder, vararg index: Int): IssueNodeData {
         var node = builder.rootNodeData
         val indexes = index.toList()
         for (i in 0 until indexes.size) {
