@@ -7,6 +7,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiManager
 import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.ui.SimpleTextAttributes
+import net.ntworld.intellijCodeCleaner.ISSUE_NODE_VALUE_PATH
 import net.ntworld.intellijCodeCleaner.data.IssueNodeData
 import net.ntworld.intellijCodeCleaner.util.IdeaProjectUtil
 import javax.swing.Icon
@@ -17,7 +18,7 @@ class FileNode(
 ) : NodeBase(ideaProject, data) {
 
     private fun findIcon(): Icon {
-        val psiFile = IdeaProjectUtil.findPsiFile(ideaProject, data.value)
+        val psiFile = IdeaProjectUtil.findPsiFile(ideaProject, data.value[ISSUE_NODE_VALUE_PATH] as String)
         if (null === psiFile) {
             return AllIcons.FileTypes.Any_type
         }

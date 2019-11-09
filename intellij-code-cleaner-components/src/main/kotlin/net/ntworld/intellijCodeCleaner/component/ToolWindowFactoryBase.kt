@@ -9,11 +9,10 @@ import net.ntworld.codeCleaner.command.CreateProjectCommand
 import net.ntworld.codeCleaner.make
 import net.ntworld.intellijCodeCleaner.ComponentFactory
 import net.ntworld.intellijCodeCleaner.action.ProjectInitializedAction
-import net.ntworld.intellijCodeCleaner.component.annotation.AnnotationManager
 import net.ntworld.intellijCodeCleaner.component.annotation.EditorListener
 import net.ntworld.intellijCodeCleaner.component.toolbar.MainToolbar
 import net.ntworld.intellijCodeCleaner.util.IdeaProjectUtil
-import javax.swing.JPanel
+import javax.swing.JComponent
 
 abstract class ToolWindowFactoryBase : ToolWindowFactory {
 
@@ -58,7 +57,7 @@ abstract class ToolWindowFactoryBase : ToolWindowFactory {
         EditorListener(ideaProject, componentFactory.makeAnnotationManager(ideaProject))
     }
 
-    private fun makeContent(displayName: String, mainToolbar: MainToolbar, panel: JPanel): Content {
+    private fun makeContent(displayName: String, mainToolbar: MainToolbar, panel: JComponent): Content {
         return ContentFactory.SERVICE.getInstance().createContent(
             mainToolbar.apply(panel), displayName, false
         )

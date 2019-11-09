@@ -9,9 +9,15 @@ interface IssueNodeData {
 
     val name: String
 
-    val value: String
+    val value: Map<String, Any>
+
+    val text: Map<String, String>
 
     val children: List<IssueNodeData>
+
+    fun <T : Any> setValue(key: String, value: T)
+
+    fun setText(key: String, value: String)
 
     infix fun add(nodeData: IssueNodeData)
 

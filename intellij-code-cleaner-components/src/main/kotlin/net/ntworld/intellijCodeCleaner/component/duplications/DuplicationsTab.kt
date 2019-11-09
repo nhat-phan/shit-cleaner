@@ -13,6 +13,7 @@ open class DuplicationsTab(
     toolWindow: ToolWindow,
     private val componentFactory: ComponentFactory
 ): AbstractIssueTab(ideaProject, toolWindow, componentFactory) {
+    override val showUsagePreviewPanel: Boolean = true
     override val dividerKey: String = this::class.java.canonicalName
 
     override fun getIssues(store: AppStore): Collection<Issue> {

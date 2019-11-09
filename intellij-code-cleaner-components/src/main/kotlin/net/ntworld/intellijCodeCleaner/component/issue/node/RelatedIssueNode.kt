@@ -4,6 +4,7 @@ import com.intellij.icons.AllIcons
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.openapi.project.Project as IdeaProject
 import com.intellij.ui.SimpleTextAttributes
+import net.ntworld.intellijCodeCleaner.ISSUE_NODE_TEXT_LINE
 import net.ntworld.intellijCodeCleaner.data.IssueNodeData
 
 class RelatedIssueNode(
@@ -16,7 +17,7 @@ class RelatedIssueNode(
         presentation.setIcon(AllIcons.Nodes.WarningIntroduction)
         presentation.addText(data.name, SimpleTextAttributes.REGULAR_ATTRIBUTES)
         presentation.addText(" ", SimpleTextAttributes.REGULAR_ATTRIBUTES)
-        presentation.addText(data.value, SimpleTextAttributes.GRAYED_ATTRIBUTES)
+        presentation.addText(data.text[ISSUE_NODE_TEXT_LINE], SimpleTextAttributes.GRAYED_ATTRIBUTES)
 
         return presentation
     }

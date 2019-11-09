@@ -5,7 +5,7 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.ui.SimpleToolWindowPanel
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import net.ntworld.intellijCodeCleaner.ComponentFactory
-import javax.swing.JPanel
+import javax.swing.JComponent
 
 open class MainToolbar(componentFactory: ComponentFactory) {
     private val toolbar = DefaultActionGroup()
@@ -21,7 +21,7 @@ open class MainToolbar(componentFactory: ComponentFactory) {
         toolbar.add(componentFactory.makeAnnotationToggleButton())
     }
 
-    fun apply(content: JPanel): SimpleToolWindowPanel {
+    fun apply(content: JComponent): SimpleToolWindowPanel {
         val wrapper = SimpleToolWindowPanel(false, true)
         wrapper.toolbar = ActionManager.getInstance().createActionToolbar("toolbar", toolbar, false).component
         wrapper.setContent(content)

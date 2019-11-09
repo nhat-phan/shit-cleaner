@@ -19,24 +19,36 @@ open class IssueNodeDataBuilder(root: IssueNodeData? = null) {
             projectId,
             basePath
         )
-        appendIssueToTree(node, issue)
+        appendIssueToTree(node, issue, projectId, basePath)
     }
 
-    open fun appendIssueToTree(parent: IssueNodeData, issue: Issue) {
+    open fun appendIssueToTree(parent: IssueNodeData, issue: Issue, projectId: String, basePath: String) {
+        val base = if (basePath.isNotEmpty() && !basePath.endsWith(File.separatorChar)) {
+            basePath + File.separatorChar
+        } else {
+            basePath
+        }
         val issueNode = IssueNodeDataImpl(
             type = ISSUE_NODE_TYPE_ISSUE,
             name = issue.description,
-            value = makeLinesText(issue.lines.begin, issue.lines.end),
-            issueId = issue.id
+            issueId = issue.id,
+            projectId = projectId
         )
+        issueNode.setValue(ISSUE_NODE_VALUE_PATH, base + issue.path)
+        issueNode.setText(ISSUE_NODE_TEXT_LINE, makeLinesText(issue.lines.begin, issue.lines.end))
 
         for (location in issue.locations) {
-            issueNode add IssueNodeDataImpl(
+            val node = IssueNodeDataImpl(
                 type = ISSUE_NODE_TYPE_RELATED_ISSUE,
                 name = location.path,
-                value = makeOnLinesText(location.lines.begin, location.lines.end),
-                issueId = issue.id
+                issueId = issue.id,
+                projectId = projectId
             )
+            node.setValue(ISSUE_NODE_VALUE_PATH, base + location.path)
+            node.setValue(ISSUE_NODE_VALUE_LINE_BEGIN, location.lines.begin)
+            node.setValue(ISSUE_NODE_VALUE_LINE_END, location.lines.end)
+            node.setText(ISSUE_NODE_TEXT_LINE, makeOnLinesText(location.lines.begin, location.lines.end))
+            issueNode add node
         }
 
         parent add issueNode
@@ -58,16 +70,11 @@ open class IssueNodeDataBuilder(root: IssueNodeData? = null) {
         var upper = rootNodeData
         components.forEachIndexed { index, name ->
             val node = if (index != components.lastIndex) {
-                IssueNodeDataImpl(
-                    type = ISSUE_NODE_TYPE_DIRECTORY, name = name, projectId = projectId,
-                    value = findValueOfDirectoryOrFile(basePath, components, index)
-                )
+                IssueNodeDataImpl(type = ISSUE_NODE_TYPE_DIRECTORY, name = name, projectId = projectId)
             } else {
-                IssueNodeDataImpl(
-                    type = ISSUE_NODE_TYPE_FILE, name = name, projectId = projectId,
-                    value = findValueOfDirectoryOrFile(basePath, components, index)
-                )
+                IssueNodeDataImpl(type = ISSUE_NODE_TYPE_FILE, name = name, projectId = projectId)
             }
+            node.setValue(ISSUE_NODE_VALUE_PATH, findValueOfDirectoryOrFile(basePath, components, index))
 
             if (upper.children.isEmpty()) {
                 upper.add(node)
@@ -109,10 +116,15 @@ open class IssueNodeDataBuilder(root: IssueNodeData? = null) {
         val root = IssueNodeDataImpl(
             type = rootNodeData.type,
             name = rootNodeData.name,
-            value = rootNodeData.value,
             issueId = rootNodeData.issueId,
             projectId = rootNodeData.projectId
         )
+        for (item in rootNodeData.text) {
+            root.setText(item.key, item.value)
+        }
+        for (item in rootNodeData.value) {
+            root.setValue(item.key, item.value)
+        }
         for (node in rootNodeData.children) {
             root.add(shortenSingleItemInDirectoryNode(node))
         }
@@ -126,9 +138,11 @@ open class IssueNodeDataBuilder(root: IssueNodeData? = null) {
             val newNode = IssueNodeDataImpl(
                 type = ISSUE_NODE_TYPE_DIRECTORY,
                 name = node.name + File.separator + node.children[0].name,
-                projectId = node.projectId,
-                value = node.children[0].value
+                projectId = node.projectId
             )
+            for (item in node.value) {
+                newNode.setValue(item.key, item.value)
+            }
             for (item in node.children[0].children) {
                 newNode.add(shortenSingleItemInDirectoryNode(item))
             }
