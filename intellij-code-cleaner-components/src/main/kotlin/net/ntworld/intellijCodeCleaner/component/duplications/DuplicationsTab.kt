@@ -18,4 +18,8 @@ open class DuplicationsTab(
     override fun getIssues(store: AppStore): Collection<Issue> {
         return store.project.duplications.values
     }
+
+    override fun findIssue(store: AppStore, id: String): Issue? {
+        return store.project.duplications[id]
+    }
 }

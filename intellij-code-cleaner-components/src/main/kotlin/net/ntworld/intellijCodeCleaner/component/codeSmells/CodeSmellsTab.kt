@@ -18,4 +18,8 @@ open class CodeSmellsTab(
     override fun getIssues(store: AppStore): Collection<Issue> {
         return store.project.codeSmells.values
     }
+
+    override fun findIssue(store: AppStore, id: String): Issue? {
+        return store.project.codeSmells[id]
+    }
 }

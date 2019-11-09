@@ -3,6 +3,7 @@ package net.ntworld.intellijCodeCleaner.component.issue
 import com.intellij.find.FindModel
 import com.intellij.find.impl.FindInProjectUtil
 import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.ui.OnePixelSplitter
@@ -19,15 +20,20 @@ import javax.swing.JPanel
 import javax.swing.event.TreeSelectionEvent
 import javax.swing.event.TreeSelectionListener
 import javax.swing.tree.DefaultMutableTreeNode
+import javax.swing.tree.TreePath
 
 abstract class AbstractIssueTab(
     private val ideaProject: Project,
     private val toolWindow: ToolWindow,
     private val componentFactory: ComponentFactory
-): TreeSelectionListener {
+) : TreeSelectionListener {
     protected abstract val dividerKey: String
 
     protected abstract fun getIssues(store: AppStore): Collection<Issue>
+
+    protected abstract fun findIssue(store: AppStore, id: String): Issue?
+
+    protected val store = componentFactory.makeDispatcher().store
 
     private val splitter by lazy {
         OnePixelSplitter(false, dividerKey, 0.5f)
@@ -35,7 +41,6 @@ abstract class AbstractIssueTab(
     protected open val issueTree = IssueTree(ideaProject)
 
     fun createPanel(): JPanel {
-        val store = componentFactory.makeDispatcher().store
         val usagePreviewPanel = UsagePreviewPanel(
             ideaProject,
             FindInProjectUtil.setupViewPresentation(false, FindModel())
@@ -55,11 +60,11 @@ abstract class AbstractIssueTab(
             return
         }
 
-        when (val node = (e.path.lastPathComponent as DefaultMutableTreeNode).userObject) {
+        val path = e.path
+        when (val node = (path.lastPathComponent as DefaultMutableTreeNode).userObject) {
             is FileNode -> onFileNodeSelected(node)
-            is MainIssueNode -> onMainIssueNodeSelected(node)
-            is RelatedIssueNode -> onRelatedIssueNodeSelected(node)
-            else -> {}
+            is MainIssueNode -> onMainIssueNodeSelected(path, node)
+            is RelatedIssueNode -> onRelatedIssueNodeSelected(path, node)
         }
     }
 
@@ -70,14 +75,21 @@ abstract class AbstractIssueTab(
         }
     }
 
-    protected open fun onMainIssueNodeSelected(node: MainIssueNode) {
+    protected open fun onMainIssueNodeSelected(path: TreePath, node: MainIssueNode) {
+        val fileNode = (path.parentPath.lastPathComponent as DefaultMutableTreeNode).userObject as? FileNode ?: return
+        val file = IdeaProjectUtil.findVirtualFileByPath(fileNode.data.value)
+        val issue = findIssue(store, node.data.issueId)
+        if (null !== file && null !== issue) {
+            val descriptor = OpenFileDescriptor(ideaProject, file, issue.lines.begin - 1, 0, true)
+            FileEditorManager.getInstance(ideaProject).openEditor(descriptor, false)
+        }
     }
 
-    protected open fun onRelatedIssueNodeSelected(node: RelatedIssueNode) {
+    protected open fun onRelatedIssueNodeSelected(path: TreePath, node: RelatedIssueNode) {
+        println(node.data)
     }
 
     protected open fun updateComponents() {
-        val store = componentFactory.makeDispatcher().store
         if (!store.project.hasResult) {
             issueTree.updateBy(listOf(), store.project.id, store.project.basePath)
         } else {
