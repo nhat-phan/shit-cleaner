@@ -12,6 +12,7 @@ import com.intellij.ui.ScrollPaneFactory
 import com.intellij.usageView.UsageInfo
 import com.intellij.usages.impl.UsagePreviewPanel
 import net.ntworld.codeCleaner.structure.Issue
+import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import net.ntworld.intellijCodeCleaner.*
 import net.ntworld.intellijCodeCleaner.component.issue.node.FileNode
 import net.ntworld.intellijCodeCleaner.component.issue.node.MainIssueNode
@@ -37,6 +38,7 @@ abstract class AbstractIssueTab(
     protected abstract fun findIssue(store: AppStore, id: String): Issue?
 
     protected val store = componentFactory.makeDispatcher().store
+    private var currentFiltersFlag: Int = 0
 
     private val splitter by lazy {
         OnePixelSplitter(false, dividerKey, 0.5f)
@@ -48,6 +50,7 @@ abstract class AbstractIssueTab(
     )
 
     fun createPanel(): JComponent {
+        store.onChange("mainToolbar", this::updateComponents)
         store.onChange("project", this::updateComponents)
 
         issueTree.addTreeSelectionListener(this)
@@ -110,7 +113,35 @@ abstract class AbstractIssueTab(
         if (!store.project.hasResult) {
             issueTree.updateBy(listOf(), store.project.id, store.project.basePath)
         } else {
-            issueTree.updateBy(getIssues(store), store.project.id, store.project.basePath)
+            issueTree.updateBy(filterIssues(store, getIssues(store)), store.project.id, store.project.basePath)
         }
+    }
+
+    protected open fun filterIssues(store: AppStore, issues: Collection<Issue>): Collection<Issue> {
+        var filterFlags = 0
+        if (store.mainToolbar.filteringByBadIssues) {
+            filterFlags += 100
+        }
+        if (store.mainToolbar.filteringByModerateIssues) {
+            filterFlags += 10
+        }
+        if (store.mainToolbar.filteringByGoodIssues) {
+            filterFlags += 1
+        }
+        if (filterFlags != currentFiltersFlag) {
+            currentFiltersFlag = filterFlags
+            if (filterFlags == 0) {
+                return listOf()
+            }
+            if (filterFlags == 111) {
+                return issues
+            }
+            return issues.filter {
+                (store.mainToolbar.filteringByBadIssues && it.fileRate == MaintainabilityRate.Bad) ||
+                (store.mainToolbar.filteringByModerateIssues && it.fileRate == MaintainabilityRate.Moderate) ||
+                (store.mainToolbar.filteringByGoodIssues && it.fileRate == MaintainabilityRate.Good)
+            }
+        }
+        return issues
     }
 }

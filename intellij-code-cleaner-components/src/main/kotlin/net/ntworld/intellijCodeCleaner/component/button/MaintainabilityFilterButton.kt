@@ -5,6 +5,9 @@ import com.intellij.openapi.actionSystem.ToggleAction
 import net.ntworld.codeCleaner.structure.Issue
 import net.ntworld.codeCleaner.structure.MaintainabilityRate
 import net.ntworld.intellijCodeCleaner.Plugin
+import net.ntworld.intellijCodeCleaner.TOOLTIP_FILTER_BAD_ISSUE
+import net.ntworld.intellijCodeCleaner.TOOLTIP_FILTER_GOOD_ISSUE
+import net.ntworld.intellijCodeCleaner.TOOLTIP_FILTER_MODERATE_ISSUE
 import net.ntworld.intellijCodeCleaner.action.ToggleMaintainabilityFilterAction
 import javax.swing.Icon
 
@@ -12,7 +15,7 @@ open class MaintainabilityFilterButton(
     private val plugin: Plugin,
     val rate: MaintainabilityRate,
     icon: Icon?
-) : ToggleAction(null, null, icon) {
+) : ToggleAction(null, findTooltip(rate), icon) {
     override fun isSelected(e: AnActionEvent): Boolean {
         return hasData() && hasAnyIssue() && isFiltering()
     }
@@ -50,5 +53,15 @@ open class MaintainabilityFilterButton(
 
     protected open fun hasData(): Boolean {
         return plugin.store.project.hasResult
+    }
+
+    companion object {
+        fun findTooltip(rate: MaintainabilityRate): String {
+            return when (rate) {
+                MaintainabilityRate.Good -> TOOLTIP_FILTER_GOOD_ISSUE
+                MaintainabilityRate.Moderate -> TOOLTIP_FILTER_MODERATE_ISSUE
+                MaintainabilityRate.Bad -> TOOLTIP_FILTER_BAD_ISSUE
+            }
+        }
     }
 }

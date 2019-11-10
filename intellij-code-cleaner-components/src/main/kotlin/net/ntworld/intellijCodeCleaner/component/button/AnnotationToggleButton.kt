@@ -4,11 +4,12 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.ToggleAction
 import net.ntworld.intellijCodeCleaner.ComponentFactory
 import net.ntworld.intellijCodeCleaner.Plugin
+import net.ntworld.intellijCodeCleaner.TOOLTIP_ANNOTATION_BUTTON
 import net.ntworld.intellijCodeCleaner.action.ToggleAnnotationAction
 import net.ntworld.intellijCodeCleaner.component.util.Icons
 
 open class AnnotationToggleButton(private val componentFactory: ComponentFactory) :
-    ToggleAction(null, null, Icons.ShowAnnotation) {
+    ToggleAction(null, TOOLTIP_ANNOTATION_BUTTON, Icons.ShowAnnotation) {
     private val plugin = componentFactory.makeDispatcher()
 
     override fun isSelected(e: AnActionEvent): Boolean {
