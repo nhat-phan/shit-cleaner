@@ -1,10 +1,16 @@
 <idea-plugin>
-    <id>com.github.nhat-phan.intellij-codeclimate</id>
+    <id>com.github.nhat-phan.codecleaner</id>
     <name>Code Cleaner</name>
     <vendor email="nhat.phan@ntworld.net" url="https://github.com/nhat-phan">Nhat Phan</vendor>
 
     <description><![CDATA[
-Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah
+Code Cleaner uses Code Climate CLI to analyze your source code on local machine and display
+code smells, duplications in IDE.
+<br /><br />
+
+<img src="https://raw.githubusercontent.com/nhat-phan/shit-cleaner/master/resources/v2019.1.0.gif" alt="Shit Cleaner" />
+
+<br /><br />
 
 ]]></description>
 

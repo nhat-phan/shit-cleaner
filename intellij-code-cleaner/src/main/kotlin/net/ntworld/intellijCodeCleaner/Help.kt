@@ -1,13 +1,14 @@
 package net.ntworld.intellijCodeCleaner
 
 import com.intellij.ide.util.TipUIUtil
+import com.intellij.ui.ScrollPaneFactory
 import javax.swing.JComponent
 
-class AboutProVersion {
+class Help {
 
     fun createComponent(): JComponent {
         val webview = TipUIUtil.createBrowser() as TipUIUtil.Browser
-        webview.text = AboutProVersion::class.java.getResource("/about.html").readText()
-        return webview.component
+        webview.text = Help::class.java.getResource("/help.html").readText()
+        return ScrollPaneFactory.createScrollPane(webview.component)
     }
 }

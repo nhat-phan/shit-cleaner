@@ -12,7 +12,7 @@ class CodeCleanerToolWindowFactory : ToolWindowFactoryBase() {
         super.createToolWindowContent(ideaProject, toolWindow)
         toolWindow.contentManager.addContent(
             ContentFactory.SERVICE.getInstance().createContent(
-                AboutProVersion().createComponent(), "About", false
+                Help().createComponent(), "Help", false
             )
         )
     }

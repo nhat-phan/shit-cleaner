@@ -105,7 +105,6 @@ abstract class AbstractIssueTab(
                 infos.add(UsageInfo(psiFile, startOffset, endOffset))
             }
         }
-        println(node.data)
         usagePreviewPanel.updateLayout(infos)
     }
 
