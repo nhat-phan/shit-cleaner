@@ -6,7 +6,7 @@ import net.ntworld.intellijCodeCleaner.data.internal.IssueNodeDataImpl
 import java.io.File
 
 open class IssueNodeDataBuilder(root: IssueNodeData? = null) {
-    internal val rootNodeData: IssueNodeData = if (null !== root) root else {
+    val rootNodeData: IssueNodeData = if (null !== root) root else {
         IssueNodeDataImpl(
             type = ISSUE_NODE_TYPE_ROOT,
             name = ""

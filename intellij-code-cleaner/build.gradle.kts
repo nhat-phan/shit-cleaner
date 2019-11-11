@@ -26,6 +26,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = intellijVersion
+    updateSinceUntilBuild = false
 }
 
 val compileKotlin: KotlinCompile by tasks
@@ -39,8 +40,16 @@ compileTestKotlin.kotlinOptions {
     jvmTarget = jvmTarget
 }
 
-//patchPluginXml {
-//    changeNotes """
-//      Add change notes here.<br>
-//      <em>most HTML tags may be used</em>"""
-//}
+tasks {
+    named<org.jetbrains.intellij.tasks.PatchPluginXmlTask>("patchPluginXml") {
+        changeNotes(htmlFixer("intellij-code-cleaner/doc/release-notes.$artifactVersion.html"))
+        pluginDescription(htmlFixer("intellij-code-cleaner/doc/description.html"))
+    }
+}
+
+fun htmlFixer(filename: String): String {
+    if (!File(filename).exists()) {
+        throw Exception("File $filename not found.")
+    }
+    return File(filename).readText().replace("<html lang=\"en\">", "").replace("</html>", "")
+}

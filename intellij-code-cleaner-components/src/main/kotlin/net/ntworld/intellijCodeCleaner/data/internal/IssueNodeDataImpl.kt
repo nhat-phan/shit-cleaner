@@ -2,7 +2,7 @@ package net.ntworld.intellijCodeCleaner.data.internal
 
 import net.ntworld.intellijCodeCleaner.data.IssueNodeData
 
-internal data class IssueNodeDataImpl(
+data class IssueNodeDataImpl(
     override val type: String,
     override val name: String = "",
     override val projectId: String = "",
