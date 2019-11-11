@@ -1,23 +1,23 @@
 # Shit Cleaner (Code Cleaner)
 
-Shit Cleaner (or Code Cleaner for Intellij IDEA plugin - they don't allow the "Shit" in their plugin xD)
-is a IDE plugin which use Code Climate CLI to analyze your source code and displays Code Smells/Duplications
-right in the IDE.
+Shit Cleaner (or Code Cleaner for Intellij IDEA plugin - they don't allow the "Shit" in their plugin's name xD)
+is an IDE plugin which uses Code Climate CLI to analyze your source code and display Code Smells/Duplications
+right in your IDE.
 
-<img src="https://raw.githubusercontent.com/nhat-phan/shit-cleaner/master/resources/v2019.1.0.gif" alt="Shit Cleaner" />
+<img src="https://raw.githubusercontent.com/nhat-phan/shit-cleaner/master/resources/v2019.1.0.gif" alt="Shit Cleaner" style="width: 100%" />
 
 ## Installation
 
 You need Code Climate CLI in your machine to run the plugin. 
 Please follow this [document](https://github.com/codeclimate/codeclimate#installation) to install.
 
-After install Code Climate CLI you can download the plugin in the [Jetbrains plugin store](https://plugins.jetbrains.com/plugin/13306-code-cleaner/)
+After installing Code Climate CLI you can download the plugin in the [Jetbrains plugin store](https://plugins.jetbrains.com/plugin/13306-code-cleaner/)
 
 ## FAQs
 
-#### 1. Do I need Code Climate subscription to use this plugin?
+#### 1. Do I need Code Climate subscription to use the plugin?
 
-No, you don't need any subscription to use this plugin, all you need is the Code Climate CLI 
+No, you don't need any subscription to use the plugin, all you need is the Code Climate CLI 
 installed in your local machine.
 
 #### 2. Can I use it with my private repositories?
@@ -32,9 +32,9 @@ HELL NO, all processes run on your local machine only, the plugin does not send 
 
 Currently the plugin supports: Ruby, Python, PHP, JavaScript, Java, TypeScript, GoLang, Swift, Scala, Kotlin and C#
 
-## Contribute
+## Contribution
 
-PRs are welcomed to this project, and help is needed in order to keep up with the changes of Laravel Eloquent. If you want to improve the library, add functionality or improve the docs please feel free to submit a PR.
+PRs are welcomed to this project. If you want to improve the plugin, add functionality or improve the docs please feel free to submit a PR.
 
 ## Sponsors
 

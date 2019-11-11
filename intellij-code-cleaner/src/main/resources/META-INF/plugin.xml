@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>com.github.nhat-phan.codecleaner</id>
-    <name>Code Cleaner</name>
+    <name>Code Cleaner with Code Climate CLI</name>
     <vendor email="nhat.phan@ntworld.net" url="https://github.com/nhat-phan">Nhat Phan</vendor>
 
     <description><![CDATA[
@@ -8,7 +8,7 @@ Code Cleaner uses Code Climate CLI to analyze your source code on local machine 
 code smells, duplications in IDE.
 <br /><br />
 
-<img src="https://raw.githubusercontent.com/nhat-phan/shit-cleaner/master/resources/v2019.1.0.gif" alt="Shit Cleaner" />
+<img src="https://raw.githubusercontent.com/nhat-phan/shit-cleaner/master/resources/v2019.1.0.gif" alt="Code Cleaner" style="width: 100%" />
 
 <br /><br />
 
@@ -16,9 +16,8 @@ code smells, duplications in IDE.
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
-    <!-- uncomment to enable plugin in all products
     <depends>com.intellij.modules.lang</depends>
-    -->
+    <depends>com.intellij.modules.vcs</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Code Cleaner"
