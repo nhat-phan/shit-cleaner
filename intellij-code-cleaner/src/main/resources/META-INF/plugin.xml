@@ -8,14 +8,57 @@ Code Cleaner uses Code Climate CLI to analyze your source code on local machine 
 code smells, duplications in IDE.
 <br /><br />
 
-<img src="https://raw.githubusercontent.com/nhat-phan/shit-cleaner/master/resources/v2019.1.0.gif" alt="Code Cleaner" style="width: 100%" />
+<b>Currently the plugin does NOT support Windows, only for Mac OS or Linux.</b>
 
-<br /><br />
+<h3>FAQs</h3>
+<h4>1. Do I need Code Climate subscription to use this plugin?</h4>
+<p>
+    No, you don't need any subscription to use this plugin, all you need is the Code Climate CLI
+    installed in your local machine.
+</p>
 
+<h4>2. Can I use it with my private repositories?</h4>
+<p>
+    Yes, you can use it with public/private repositories
+</p>
+
+<h4>3. Does the plugin send my source code to anywhere?</h4>
+<p>
+    HELL NO, all processes run on your local machine only, the plugin does not send your
+    source-code/data to anywhere.
+    <br/>
+    You can checkout source code of the plugin in
+    <a target="_blank" href="https://github.com/nhat-phan/shit-cleaner">here</a>.
+</p>
+
+<h4>4. How many programing languages are supported?</h4>
+<p>
+    Currently the plugin supports:
+    Ruby,
+    Python,
+    PHP,
+    JavaScript,
+    Java,
+    TypeScript,
+    GoLang,
+    Swift,
+    Scala,
+    Kotlin and
+    C#
+</p>
+
+<h4>5. How to install Code Climate CLI locally</h4>
+<p>
+    Please follow
+    <a target="_blank" href="https://github.com/codeclimate/codeclimate#installation">this
+        document</a>
+    to install Code Climate CLI
+</p>
 ]]></description>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.vcs</depends>
 

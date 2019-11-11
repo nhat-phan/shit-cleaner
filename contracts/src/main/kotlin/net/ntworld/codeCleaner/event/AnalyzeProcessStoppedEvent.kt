@@ -7,5 +7,7 @@ interface AnalyzeProcessStoppedEvent : Event {
 
     val datetime: String
 
+    val error: String
+
     companion object
 }

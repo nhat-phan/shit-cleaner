@@ -28,7 +28,7 @@ class ExecuteRequestHandler : RequestHandler<ExecuteRequest, ExecuteResponse> {
 
         ExecuteWatchdogManager.assignWatchdogToExecutor(executor, request.watchdogId)
         try {
-            val code = executor.execute(makeCommandLine(request))
+            val code = executor.execute(makeCommandLine(request), makeEnv())
             ExecuteWatchdogManager.removeWatchdogWhenProcessExecuted(request.watchdogId)
             if (0 != code) {
                 return this.error(stderr.toString(), code)
@@ -36,7 +36,7 @@ class ExecuteRequestHandler : RequestHandler<ExecuteRequest, ExecuteResponse> {
             return this.success(stdout.toString())
         } catch (e: Exception) {
             ExecuteWatchdogManager.removeWatchdogWhenProcessExecuted(request.watchdogId)
-            return this.error(e.message.toString(), -1)
+            return this.error(stderr.toString(), -1)
         }
     }
 
@@ -52,6 +52,22 @@ class ExecuteRequestHandler : RequestHandler<ExecuteRequest, ExecuteResponse> {
             }
         }
         return commandLine
+    }
+
+    private fun makeEnv(): Map<String, String> {
+        val result = mutableMapOf<String, String>()
+        val env = System.getenv()
+        for (item in env) {
+            if (item.key == "PATH") {
+                val dirs = item.value.split(":")
+                if (!dirs.contains("/usr/local/bin")) {
+                    result[item.key] = item.value + ":/usr/local/bin"
+                    continue
+                }
+            }
+            result[item.key] = item.value
+        }
+        return result
     }
 
     private fun error(message: String, code: Int): ExecuteResponse {

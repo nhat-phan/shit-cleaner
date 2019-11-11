@@ -40,12 +40,12 @@ class CountLineOfCodeTask private constructor(
         )
     }
 
-    private fun skip(file: VirtualFile, rootManager: ProjectRootManager, changeList: ChangeListManager): Boolean {
-        return rootManager.fileIndex.isExcluded(file) || changeList.isVcsIgnoredFile(file)
+    private fun skip(file: VirtualFile, rootManager: ProjectRootManager): Boolean {
+        return rootManager.fileIndex.isExcluded(file)
     }
 
     private fun count(root: VirtualFile, rootManager: ProjectRootManager, changeListManager: ChangeListManager) {
-        if (skip(root, rootManager, changeListManager)) {
+        if (skip(root, rootManager)) {
             return
         }
 
@@ -56,7 +56,7 @@ class CountLineOfCodeTask private constructor(
             }
 
             val extension = file.extension
-            if (null !== extension && !skip(file, rootManager, changeListManager)) {
+            if (null !== extension && !skip(file, rootManager)) {
                 val language = SupportedLanguages.findLanguageByExtension(extension)
                 if (null !== language) {
                     statistic.collect(file.path, countLines(file), language)

@@ -28,7 +28,13 @@ class DeleteAnalyzeProcessCommandHandler(
             commandBus().process(
                 DestroyProcessCommand.make(id = command.projectId)
             )
-            eventBus().publish(AnalyzeProcessStoppedEvent.make(projectId = command.projectId, datetime = Util.utcNow()))
+            eventBus().publish(
+                AnalyzeProcessStoppedEvent.make(
+                    projectId = command.projectId,
+                    datetime = Util.utcNow(),
+                    error = ""
+                )
+            )
         }
     }
 

@@ -7,6 +7,7 @@ import net.ntworld.codeCleaner.CoreInfrastructure
 import net.ntworld.codeCleaner.Util
 import net.ntworld.codeCleaner.command.CreateCodeQualityCommand
 import net.ntworld.codeCleaner.event.AnalyzeProcessStartedEvent
+import net.ntworld.codeCleaner.event.AnalyzeProcessStoppedEvent
 import net.ntworld.codeCleaner.event.CodeAnalyzedEvent
 import net.ntworld.codeCleaner.make
 import net.ntworld.env.query.IsExecutingQuery
@@ -34,30 +35,40 @@ class CreateAnalyzeProcessCommandHandler(
             val start = Util.utcNow()
             eventBus().publish(AnalyzeProcessStartedEvent.make(projectId = command.projectId, datetime = start))
 
-            val response = serviceBus().process(
+            val serviceResponse = serviceBus().process(
                 ExecuteRequest.make(
                     project.path, project.id, CLI.codeClimateAnalyze, mapOf()
                 )
             )
-            // TODO check response error
-            val output = response.getResponse().output
 
             val end = Util.utcNow()
-            commandBus().process(
-                CreateCodeQualityCommand.make(
-                    id = command.projectId,
-                    projectId = command.projectId,
-                    analyzeProcessStartAt = start,
-                    analyzeProcessEndAt = end,
-                    analyzeRawOutput = output
+            val response = serviceResponse.getResponse()
+            if (null === response.error) {
+                val output = response.output
+                commandBus().process(
+                    CreateCodeQualityCommand.make(
+                        id = command.projectId,
+                        projectId = command.projectId,
+                        analyzeProcessStartAt = start,
+                        analyzeProcessEndAt = end,
+                        analyzeRawOutput = output
+                    )
                 )
-            )
-            eventBus().publish(
-                CodeAnalyzedEvent.make(
-                    projectId = command.projectId,
-                    codeQualityId = command.projectId
+                eventBus().publish(
+                    CodeAnalyzedEvent.make(
+                        projectId = command.projectId,
+                        codeQualityId = command.projectId
+                    )
                 )
-            )
+            } else {
+                eventBus().publish(
+                    AnalyzeProcessStoppedEvent.make(
+                        projectId = command.projectId,
+                        datetime = end,
+                        error = response.error!!.message
+                    )
+                )
+            }
         }
     }
 }

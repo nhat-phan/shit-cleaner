@@ -1,5 +1,7 @@
 package net.ntworld.intellijCodeCleaner.eventHandler
 
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.ui.Messages
 import net.ntworld.codeCleaner.event.AnalyzeProcessStoppedEvent
 import net.ntworld.foundation.EventHandler
 import net.ntworld.foundation.Handler
@@ -12,6 +14,11 @@ class AnalyzeProcessStoppedEventHandler(
 ) : EventHandler<AnalyzeProcessStoppedEvent> {
 
     override fun handle(event: AnalyzeProcessStoppedEvent) {
+        ApplicationManager.getApplication().invokeLater {
+            if (event.error.isNotEmpty()) {
+                Messages.showErrorDialog(event.error, "Error")
+            }
+        }
         componentFactory.makeDispatcher() dispatch RequestStopAnalyzeSuccessAction(event.projectId)
     }
 

@@ -49,7 +49,6 @@ object IdeaProjectUtil {
 
         return roots
             .map {
-
                 val path = it.path
                 val displayPath = path.replace(basePath, "~")
                 val relativePath = path.replace(basePath, "")
@@ -65,10 +64,9 @@ object IdeaProjectUtil {
 
     fun getAvailableContentRoots(ideaProject: IdeaProject): List<VirtualFile> {
         val rootManager = ProjectRootManager.getInstance(ideaProject)
-        val changeListManager = ChangeListManager.getInstance(ideaProject)
 
         return rootManager.contentSourceRoots.filter {
-            !rootManager.fileIndex.isExcluded(it) && !changeListManager.isVcsIgnoredFile(it)
+            !rootManager.fileIndex.isExcluded(it)
         }
     }
 
