@@ -2,7 +2,6 @@ package net.ntworld.intellijCodeCleaner.action
 
 import net.ntworld.intellijCodeCleaner.ComponentFactory
 import com.intellij.openapi.project.Project as IdeaProject
-import net.ntworld.intellijCodeCleaner.Plugin
 import net.ntworld.intellijCodeCleaner.REQUEST_ANALYZE
 import net.ntworld.intellijCodeCleaner.task.AnalyzeTask
 import net.ntworld.intellijCodeCleaner.task.CountLineOfCodeTask

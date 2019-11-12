@@ -9,22 +9,23 @@ import com.intellij.openapi.vcs.changes.ChangeListManager
 import com.intellij.openapi.vfs.VirtualFile
 import net.ntworld.codeCleaner.codeClimate.SupportedLanguages
 import net.ntworld.codeCleaner.statistic.CodeStatistic
-import net.ntworld.intellijCodeCleaner.Plugin
+import net.ntworld.intellijCodeCleaner.AppStore
 import net.ntworld.intellijCodeCleaner.action.CodeStatisticFinishedAction
 import net.ntworld.intellijCodeCleaner.action.CodeStatisticStartedAction
 import net.ntworld.intellijCodeCleaner.util.IdeaProjectUtil
+import net.ntworld.redux.Dispatcher
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 class CountLineOfCodeTask private constructor(
-    private val plugin: Plugin,
+    private val dispatcher: Dispatcher<AppStore>,
     private val projectId: String,
     ideaProject: IdeaProject
 ) : Task.Backgroundable(ideaProject, "Counting line of code...", false) {
     private val statistic = CodeStatistic()
 
     override fun run(indicator: ProgressIndicator) {
-        plugin dispatch CodeStatisticStartedAction(projectId)
+        dispatcher dispatch CodeStatisticStartedAction(projectId)
 
         val rootManager = ProjectRootManager.getInstance(project)
         val changeListManager = ChangeListManager.getInstance(project)
@@ -33,7 +34,7 @@ class CountLineOfCodeTask private constructor(
         }
 
         Thread.sleep(1500)
-        plugin dispatch CodeStatisticFinishedAction(
+        dispatcher dispatch CodeStatisticFinishedAction(
             projectId,
             statistic.buildData(),
             IdeaProjectUtil.getContentRootInfos(project)
@@ -79,8 +80,8 @@ class CountLineOfCodeTask private constructor(
     }
 
     companion object {
-        fun start(plugin: Plugin, projectId: String, ideaProject: IdeaProject) {
-            ProgressManager.getInstance().run(CountLineOfCodeTask(plugin, projectId, ideaProject))
+        fun start(dispatcher: Dispatcher<AppStore>, projectId: String, ideaProject: IdeaProject) {
+            ProgressManager.getInstance().run(CountLineOfCodeTask(dispatcher, projectId, ideaProject))
         }
     }
 

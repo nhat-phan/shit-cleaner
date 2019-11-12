@@ -5,12 +5,12 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.editor.TextAnnotationGutterProvider
 import com.intellij.openapi.editor.colors.ColorKey
 import com.intellij.openapi.editor.colors.EditorFontType
-import com.intellij.openapi.project.Project as IdeaProject
-import net.ntworld.intellijCodeCleaner.Plugin
+import net.ntworld.intellijCodeCleaner.AppStore
+import net.ntworld.redux.Dispatcher
 import java.awt.Color
 
 open class AnnotationGutterProvider(
-    private val plugin: Plugin,
+    private val dispatcher: Dispatcher<AppStore>,
     private val data: AnnotationGutterData,
     private val opacity: Int
 ) : TextAnnotationGutterProvider {
@@ -23,7 +23,7 @@ open class AnnotationGutterProvider(
     }
 
     override fun getLineText(line: Int, editor: Editor?): String? {
-        if (!this.plugin.store.mainToolbar.openingAnnotations) {
+        if (!this.dispatcher.store.mainToolbar.openingAnnotations) {
             return null
         }
 

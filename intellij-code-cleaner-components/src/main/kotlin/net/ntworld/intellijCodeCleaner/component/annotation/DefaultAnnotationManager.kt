@@ -7,13 +7,14 @@ import com.intellij.openapi.fileEditor.FileEditor
 import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.vfs.VirtualFile
-import net.ntworld.intellijCodeCleaner.Plugin
+import net.ntworld.intellijCodeCleaner.AppStore
 import net.ntworld.intellijCodeCleaner.component.annotation.internal.AnnotationGutterDataUtil
+import net.ntworld.redux.Dispatcher
 import com.intellij.openapi.project.Project as IdeaProject
 
 open class DefaultAnnotationManager(
     private val ideaProject: IdeaProject,
-    private val plugin: Plugin,
+    private val dispatcher: Dispatcher<AppStore>,
     private val factory: AnnotationGutterDataFactory
 ) : AnnotationManager {
     override fun show() {
@@ -69,7 +70,7 @@ open class DefaultAnnotationManager(
         val data = this.factory.make(file!!)
         data.forEachIndexed { index, item ->
             editor.gutter.registerTextAnnotation(
-                AnnotationGutterProvider(plugin, item, AnnotationGutterDataUtil.calcBackgroundOpacity(index, data.size))
+                AnnotationGutterProvider(dispatcher, item, AnnotationGutterDataUtil.calcBackgroundOpacity(index, data.size))
             )
         }
     }
