@@ -5,7 +5,7 @@ import net.ntworld.codeCleaner.structure.CodeQuality
 import net.ntworld.codeCleaner.structure.generated.CodeQualityImpl
 
 object CodeQualityManager {
-    private var data: CodeQuality? = null
+    private val data: MutableMap<String, CodeQuality> = mutableMapOf()
 
     fun create(
         id: String,
@@ -15,7 +15,7 @@ object CodeQualityManager {
         raw: String
     ) {
         val pair = CodeQualityParser.parse(raw)
-        data = CodeQualityImpl(
+        data[id] = CodeQualityImpl(
             id = id,
             projectId = projectId,
             codeSmells = pair.first,
@@ -27,6 +27,6 @@ object CodeQualityManager {
     }
 
     fun find(id: String): CodeQuality {
-        return data!!
+        return data[id]!!
     }
 }

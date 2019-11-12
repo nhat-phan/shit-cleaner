@@ -10,14 +10,17 @@ import net.ntworld.intellijCodeCleaner.component.util.Icons
 
 open class AnalyzeButton(private val componentFactory: ComponentFactory) :
     AnAction(null, TOOLTIP_ANALYZE_BUTTON, Icons.Analyze) {
-    protected val plugin: Plugin = componentFactory.makeDispatcher()
 
     override fun actionPerformed(e: AnActionEvent) {
-        plugin dispatch RequestAnalyzeAction.make(componentFactory, plugin.store.project.id, e.project!!)
+        componentFactory.useDispatcherOf(e.project) {
+            this dispatch RequestAnalyzeAction.make(componentFactory, this.store.project.id, e.project!!)
+        }
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = !plugin.store.mainToolbar.analyzing
+        componentFactory.useDispatcherOf(e.project) {
+            e.presentation.isEnabled = !this.store.mainToolbar.analyzing
+        }
     }
 
 }

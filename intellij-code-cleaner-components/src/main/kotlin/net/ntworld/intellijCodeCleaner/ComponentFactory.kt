@@ -20,7 +20,9 @@ interface ComponentFactory {
 
     fun makeInfrastructure(): Infrastructure
 
-    fun makeDispatcher(): Dispatcher<AppStore>
+    fun findDispatcher(projectId: String): Dispatcher<AppStore>
+
+    fun makeDispatcher(ideaProject: IdeaProject): Dispatcher<AppStore>
 
     fun makeAnalyzeButton(): AnalyzeButton
 
@@ -40,6 +42,11 @@ interface ComponentFactory {
 
     fun makeAnnotationManager(ideaProject: IdeaProject): AnnotationManager
 
-    fun makeAnnotationGutterDataFactory(): AnnotationGutterDataFactory
+    fun makeAnnotationGutterDataFactory(ideaProject: IdeaProject): AnnotationGutterDataFactory
 
+    fun useDispatcherOf(ideaProject: IdeaProject?, block: Dispatcher<AppStore>.() -> Unit) {
+        if (null !== ideaProject) {
+            block.invoke(this.makeDispatcher(ideaProject))
+        }
+    }
 }

@@ -37,7 +37,7 @@ abstract class AbstractIssueTab(
 
     protected abstract fun findIssue(store: AppStore, id: String): Issue?
 
-    protected val store = componentFactory.makeDispatcher().store
+    protected val store = componentFactory.makeDispatcher(ideaProject).store
     private var currentFiltersFlag: Int = 0
 
     private val splitter by lazy {

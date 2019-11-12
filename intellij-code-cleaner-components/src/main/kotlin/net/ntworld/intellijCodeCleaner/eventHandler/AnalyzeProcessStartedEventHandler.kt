@@ -12,7 +12,7 @@ class AnalyzeProcessStartedEventHandler(
 ) : EventHandler<AnalyzeProcessStartedEvent> {
 
     override fun handle(event: AnalyzeProcessStartedEvent) {
-        componentFactory.makeDispatcher() dispatch RequestAnalyzeSuccessAction(event.projectId)
+        componentFactory.findDispatcher(event.projectId) dispatch RequestAnalyzeSuccessAction(event.projectId)
     }
 
 }

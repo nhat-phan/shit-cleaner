@@ -12,9 +12,13 @@ open class RequestAnalyzeAction : Action.EmptyPayload {
     override val type: String = REQUEST_ANALYZE
 
     companion object {
-        fun make(componentFactory: ComponentFactory, projectId: String, ideaProject: IdeaProject): RequestAnalyzeAction {
+        fun make(
+            componentFactory: ComponentFactory,
+            projectId: String,
+            ideaProject: IdeaProject
+        ): RequestAnalyzeAction {
             AnalyzeTask.start(componentFactory, projectId, ideaProject)
-            CountLineOfCodeTask.start(componentFactory.makeDispatcher(), projectId, ideaProject)
+            CountLineOfCodeTask.start(componentFactory.makeDispatcher(ideaProject), projectId, ideaProject)
 
             return RequestAnalyzeAction()
         }

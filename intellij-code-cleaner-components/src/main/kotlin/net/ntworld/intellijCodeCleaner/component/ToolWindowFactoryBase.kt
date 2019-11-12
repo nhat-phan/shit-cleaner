@@ -28,7 +28,7 @@ abstract class ToolWindowFactoryBase : ToolWindowFactory {
                     path = path
                 )
             )
-            componentFactory.makeDispatcher().dispatch(
+            componentFactory.makeDispatcher(ideaProject).dispatch(
                 ProjectInitializedAction(id, path, IdeaProjectUtil.getContentRootInfos(ideaProject))
             )
         }

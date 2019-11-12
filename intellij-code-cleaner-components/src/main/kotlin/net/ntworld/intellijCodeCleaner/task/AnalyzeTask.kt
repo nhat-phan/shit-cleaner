@@ -13,7 +13,7 @@ import net.ntworld.intellijCodeCleaner.action.RequestStopAnalyzeAction
 class AnalyzeTask private constructor(
     private val componentFactory: ComponentFactory,
     private val projectId: String,
-    ideaProject: IdeaProject
+    private val ideaProject: IdeaProject
 ) : Task.Backgroundable(ideaProject, "Analyzing Code Smells and Duplications...", true) {
     private val indicator: ProgressIndicator = Indicator(this)
 
@@ -25,7 +25,7 @@ class AnalyzeTask private constructor(
     }
 
     private fun terminate() {
-        componentFactory.makeDispatcher() dispatch RequestStopAnalyzeAction.make(
+        componentFactory.makeDispatcher(ideaProject) dispatch RequestStopAnalyzeAction.make(
             componentFactory.makeInfrastructure(),
             projectId
         )

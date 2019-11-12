@@ -13,20 +13,22 @@ abstract class AnalyzeMenuActionBase : AnAction() {
 
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project
-        if (null !== project) {
-            val toolWindow = ToolWindowManager.getInstance(project).getToolWindow(TOOL_WINDOW_NAME)
-            toolWindow.show {
-                toolWindow.contentManager.setSelectedContent(
-                    toolWindow.contentManager.getContent(0)!!,
-                    true
-                )
-                val dispatcher = componentFactory.makeDispatcher()
-                dispatcher dispatch RequestAnalyzeAction.make(
-                    componentFactory,
-                    dispatcher.store.project.id,
-                    project
-                )
-            }
+        if (null === project) {
+            return
+        }
+
+        val toolWindow = ToolWindowManager.getInstance(project).getToolWindow(TOOL_WINDOW_NAME)
+        toolWindow.show {
+            toolWindow.contentManager.setSelectedContent(
+                toolWindow.contentManager.getContent(0)!!,
+                true
+            )
+            val dispatcher = componentFactory.makeDispatcher(project)
+            dispatcher dispatch RequestAnalyzeAction.make(
+                componentFactory,
+                dispatcher.store.project.id,
+                project
+            )
         }
     }
 

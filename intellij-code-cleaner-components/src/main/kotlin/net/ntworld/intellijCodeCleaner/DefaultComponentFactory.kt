@@ -21,7 +21,9 @@ object DefaultComponentFactory : ComponentFactory {
 
     override fun makeInfrastructure() = infrastructure
 
-    override fun makeDispatcher() = DefaultDispatcher
+    override fun findDispatcher(projectId: String) = DefaultDispatcher.findInstance(projectId)
+
+    override fun makeDispatcher(ideaProject: IdeaProject) = DefaultDispatcher.getInstance(ideaProject)
 
     override fun makeAnalyzeButton(): AnalyzeButton {
         return AnalyzeButton(this)
@@ -33,7 +35,7 @@ object DefaultComponentFactory : ComponentFactory {
 
     override fun makeMaintainabilityFilterButton(rate: MaintainabilityRate): MaintainabilityFilterButton {
         return MaintainabilityFilterButton(
-            makeDispatcher(),
+            this,
             rate,
             when (rate) {
                 MaintainabilityRate.Good -> Icons.MaintainabilityFilterGood
@@ -66,13 +68,13 @@ object DefaultComponentFactory : ComponentFactory {
     override fun makeAnnotationManager(ideaProject: IdeaProject): AnnotationManager {
         if (null === annotationManagers[ideaProject]) {
             annotationManagers[ideaProject] = DefaultAnnotationManager(
-                ideaProject, makeDispatcher(), makeAnnotationGutterDataFactory()
+                ideaProject, makeDispatcher(ideaProject), makeAnnotationGutterDataFactory(ideaProject)
             )
         }
         return annotationManagers[ideaProject]!!
     }
 
-    override fun makeAnnotationGutterDataFactory(): AnnotationGutterDataFactory {
-        return AnnotationGutterDataFactoryImpl(makeDispatcher().store)
+    override fun makeAnnotationGutterDataFactory(ideaProject: IdeaProject): AnnotationGutterDataFactory {
+        return AnnotationGutterDataFactoryImpl(makeDispatcher(ideaProject).store)
     }
 }

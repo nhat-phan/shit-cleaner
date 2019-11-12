@@ -13,11 +13,15 @@ open class OverviewTab(
     private val componentFactory: ComponentFactory
 ) {
     private val splitter = ThreeComponentsSplitter(false, true)
-    protected open val overviewProgress = OverviewProgress(ideaProject, componentFactory.makeDispatcher().store.project)
-    protected open val overviewTable = OverviewTable(componentFactory.makeDispatcher().store.project)
+    protected open val overviewProgress = OverviewProgress(
+        ideaProject, componentFactory.makeDispatcher(ideaProject).store.project
+    )
+    protected open val overviewTable = OverviewTable(
+        componentFactory.makeDispatcher(ideaProject).store.project
+    )
 
     open fun createPanel(): JPanel {
-        val dispatcher = componentFactory.makeDispatcher()
+        val dispatcher = componentFactory.makeDispatcher(ideaProject)
         val store = dispatcher.store
         store.onChange("project", this::updateComponents)
 
@@ -30,8 +34,8 @@ open class OverviewTab(
     }
 
     protected open fun updateComponents() {
-        overviewTable.updateBy(componentFactory.makeDispatcher().store.project)
-        overviewProgress.updateBy(componentFactory.makeDispatcher().store.project)
+        overviewTable.updateBy(componentFactory.makeDispatcher(ideaProject).store.project)
+        overviewProgress.updateBy(componentFactory.makeDispatcher(ideaProject).store.project)
     }
 
 }

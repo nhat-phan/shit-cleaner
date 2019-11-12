@@ -19,7 +19,7 @@ class AnalyzeProcessStoppedEventHandler(
                 Messages.showErrorDialog(event.error, "Error")
             }
         }
-        componentFactory.makeDispatcher() dispatch RequestStopAnalyzeSuccessAction(event.projectId)
+        componentFactory.findDispatcher(event.projectId) dispatch RequestStopAnalyzeSuccessAction(event.projectId)
     }
 
 }

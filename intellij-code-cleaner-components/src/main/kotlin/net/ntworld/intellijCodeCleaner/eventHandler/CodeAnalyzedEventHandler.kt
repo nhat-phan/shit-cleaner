@@ -14,12 +14,12 @@ class CodeAnalyzedEventHandler(
 ) : EventHandler<CodeAnalyzedEvent> {
 
     override fun handle(event: CodeAnalyzedEvent) {
-        val plugin = componentFactory.makeDispatcher()
+        val dispatcher = componentFactory.findDispatcher(event.projectId)
 
-        plugin dispatch CodeAnalyzedAction.make(
+        dispatcher dispatch CodeAnalyzedAction.make(
             componentFactory, event.projectId, event.codeQualityId
         )
-        if (plugin.store.mainToolbar.openingAnnotations) {
+        if (dispatcher.store.mainToolbar.openingAnnotations) {
             ApplicationManager.getApplication().invokeLater {
                 ProjectManager.getInstance().openProjects.forEach {
                     componentFactory.makeAnnotationManager(it).show()
