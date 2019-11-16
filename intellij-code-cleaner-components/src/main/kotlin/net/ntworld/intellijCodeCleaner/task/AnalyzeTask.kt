@@ -43,6 +43,7 @@ class AnalyzeTask private constructor(
 
     companion object {
         fun start(componentFactory: ComponentFactory, projectId: String, ideaProject: IdeaProject) {
+            componentFactory.makeAnnotationManager(ideaProject).hide()
             val task = AnalyzeTask(componentFactory, projectId, ideaProject)
             ProgressManager.getInstance().runProcessWithProgressAsynchronously(task, task.indicator)
         }
