@@ -51,10 +51,7 @@ open class DefaultAnnotationManager(
     }
 
     protected open fun attachProvidersToEditor(editor: Editor, file: VirtualFile?) {
-        if (editor.editorKind != EditorKind.MAIN_EDITOR &&
-            editor.editorKind != EditorKind.UNTYPED &&
-            null !== file
-        ) {
+        if ((editor.editorKind != EditorKind.MAIN_EDITOR && editor.editorKind != EditorKind.UNTYPED) || null === file) {
             return
         }
 
@@ -67,7 +64,7 @@ open class DefaultAnnotationManager(
             }
         }
 
-        val data = this.factory.make(file!!)
+        val data = this.factory.make(file)
         data.forEachIndexed { index, item ->
             editor.gutter.registerTextAnnotation(
                 AnnotationGutterProvider(dispatcher, item, AnnotationGutterDataUtil.calcBackgroundOpacity(index, data.size))
