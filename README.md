@@ -44,6 +44,6 @@ You can buy me a beer via [Paypal](https://paypal.me/beerfornhat) or [Patreon](h
 
 Thanks in advance!
 
-## License
+## Copyright
 
-MIT © [Nhat Phan](https://github.com/nhat-phan)
+See [LICENSE](LICENSE)

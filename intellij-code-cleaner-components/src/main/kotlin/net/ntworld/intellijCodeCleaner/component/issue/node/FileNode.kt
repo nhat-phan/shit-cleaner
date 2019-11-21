@@ -22,7 +22,11 @@ class FileNode(
         if (null === psiFile) {
             return AllIcons.FileTypes.Any_type
         }
-        return psiFile.getIcon(Iconable.ICON_FLAG_READ_STATUS)
+        return try {
+            psiFile.getIcon(Iconable.ICON_FLAG_READ_STATUS)
+        } catch (exception: Exception) {
+            AllIcons.FileTypes.Any_type
+        }
     }
 
     override fun createPresentation(): PresentationData {
