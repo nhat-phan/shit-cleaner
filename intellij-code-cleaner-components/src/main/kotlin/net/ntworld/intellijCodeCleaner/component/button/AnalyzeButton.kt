@@ -3,7 +3,6 @@ package net.ntworld.intellijCodeCleaner.component.button
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import net.ntworld.intellijCodeCleaner.ComponentFactory
-import net.ntworld.intellijCodeCleaner.Plugin
 import net.ntworld.intellijCodeCleaner.TOOLTIP_ANALYZE_BUTTON
 import net.ntworld.intellijCodeCleaner.action.RequestAnalyzeAction
 import net.ntworld.intellijCodeCleaner.component.util.Icons
