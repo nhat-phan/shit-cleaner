@@ -114,6 +114,11 @@ class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
 
     private fun buildIssueMap(contentRoots: List<ContentRootInfo>, data: Collection<Issue>): Map<String, Issue> {
         return data
+            // #3: https://github.com/nhat-phan/shit-cleaner/issues/3
+            // Unlike Kotlin/Intellij, some IDEs with other languages has no contentRoot so result will be filtered out.
+            // Temporary disable the contentRoot check, will be use added back after implementing multi-modules or an
+            // option which can be show/hide based on contentRoot on configuration/tool window
+            /*
             .filter {
                 for (contentRoot in contentRoots) {
                     if (it.path.startsWith(contentRoot.path)) {
@@ -122,6 +127,7 @@ class ProjectReducer : Reducer<ProjectState>(ProjectState.Default) {
                 }
                 false
             }
+            */
             .fold(mutableMapOf()) { acc, item ->
                 acc[item.id] = item
                 acc
