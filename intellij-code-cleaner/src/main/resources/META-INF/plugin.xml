@@ -21,7 +21,7 @@
                 class="net.ntworld.intellijCodeCleaner.AnalyzeMenuAction"
                 text="Analyze Code Smells and Duplications..."
         >
-            <add-to-group group-id="AnalyzeMenu" anchor="last"/>
+            <add-to-group group-id="CodeMenu" anchor="last"/>
         </action>
     </actions>
 
